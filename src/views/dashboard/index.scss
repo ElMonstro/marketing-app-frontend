@@ -1,6 +1,7 @@
 
 .mdl-layout__header .mdl-layout__header-row {
-    background: #ffffff;
+    // background: #ffffff;
+    color: #1B7EC2;
     height: 80px;
     box-shadow: none !important;
 }
@@ -13,29 +14,49 @@
     border: 0px;
 }
 
+.mdl-layout__header .mdl-layout__drawer-button{
+    color: black;
+}
+
 .mdl-navigation {
     position: relative;
-    top: 20%;
+    top: 15%;
 }
 .nav-item {
     height: 40px;
     line-height: 40px;
-    background-color: #ffffff;
     align-self: flex-end;
     margin-bottom: 5%;
     width: 75%;
+    color: #ffffff;
+    padding-left: 15%;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.nav-item-active {
+    height: 40px;
+    line-height: 40px;
+    align-self: flex-end;
+    margin-bottom: 5%;
+    width: 75%;
+    background-color: #ffffff;
+    color: #1B7EC2;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     padding-left: 15%;
     font-size: 15px;
     font-weight: 600;
+    cursor: pointer;
+}
 
-    .icon {
-        display: inline-block;
-        width: 40px;
+.icon {
+    display: inline-block;
+    width: 40px;
+    pointer-events: none;
 
-        i{
-            font-size: 130%;
-        }
+    i{
+        font-size: 130%;
+        margin-right: 100px;
     }
 }

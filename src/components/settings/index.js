@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class Homepage extends Component {
+export default class Settings extends Component {
 
     render() {
         return(

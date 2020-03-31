@@ -24,10 +24,9 @@ export const yupRegObj = Yup.object({
     })
 
 export const yupLoginObj = Yup.object({
-    loginEmail: Yup.string()
+    email: Yup.string()
         .email('* Invalid email address')
         .required('* Required'),
-    loginPassword: Yup.string()
-        .max(20, '* Must be 20 characters or less')
+    password: Yup.string()
         .required('* Required'),
     })

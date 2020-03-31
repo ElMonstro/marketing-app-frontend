@@ -7,7 +7,7 @@ import './index.scss';
 
 export default class Dashboard extends Component {
     state = {
-        activeNavItem:  'Dashboard',
+        activeNavItem: 'Dashboard',
     }
 
     handleClickedNavItem = (e) => {

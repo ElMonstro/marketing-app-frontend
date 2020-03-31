@@ -2,9 +2,12 @@ import React from 'react';
 import { useFormik } from 'formik';
 
 import { yupRegObj } from './validation';
+import './register.scss';
 
 
 const RegisterForm = (props) => {
+
+    const {changeAuthActiveState} = props;
 
     const formik = useFormik({
             initialValues: {
@@ -18,7 +21,7 @@ const RegisterForm = (props) => {
             },
             validationSchema: yupRegObj,
             onSubmit: values => {
-                alert(JSON.stringify(values, null, 2));
+                // alert(JSON.stringify(values, null, 2));
             },
         });
 
@@ -26,7 +29,12 @@ const RegisterForm = (props) => {
         <form className="form" autoComplete="off" onSubmit={formik.handleSubmit}>
 
         <div className="inputs-wrapper">
-            <span className="form-title">Register</span>
+            <span className="form-title">REGISTER</span>
+        </div>
+        <div className="inputs-wrapper">
+            <span className="form-tag">
+                Already have an account? <span className="form-link" onClick={() => changeAuthActiveState()}>Login here</span>
+            </span>
         </div>
 
             <div className="inputs-wrapper">
@@ -82,13 +90,13 @@ const RegisterForm = (props) => {
 
             <div className="inputs-wrapper">
                 <div className="input-container">
-                     <div className="input-label">
+                    <div className="input-label">
                     <span >password</span>
                         {formik.touched.password && formik.errors.password ? 
                             <span className="error-span">{formik.errors.password}</span>
                         : null}
                     </div>
-                    <input name="password" {...formik.getFieldProps('password')}>
+                    <input type="password" name="password" {...formik.getFieldProps('password')}>
                     </input>
                 </div>
                 <div className="input-container">
@@ -111,13 +119,13 @@ const RegisterForm = (props) => {
                             <span className="error-span">{formik.errors.confirmPassword}</span>
                         : null}
                 </div>
-                <input name="confirmPassword" {...formik.getFieldProps('confirmPassword')}>
+                <input type="password" name="confirmPassword" {...formik.getFieldProps('confirmPassword')}>
                 </input>
             </div>  
 
                 <div className="button-container">
                     <button type="submit" className="register-button">
-                        Register
+                        REGISTER
                     </button>
                 </div>      
             </div>     

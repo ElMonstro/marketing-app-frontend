@@ -1,0 +1,88 @@
+.bulk-sms {
+    background-size: 65%!important;
+}
+.main-section {
+    width: 100%;
+    height: 95%;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: right;
+    font-family: 'Roboto Slab', serif;
+
+    .msg-sect {
+        position: relative;
+        left: 10%;
+        top: 25%;
+        width: 30%;
+        color: rgb(41, 89, 121);
+        line-height: 190%;
+
+        .msg-title {
+            font-size: 2.8em;
+            font-weight: 900;
+            margin-bottom: 7%;
+        }
+        .msg-content {
+            font-size: 1.7em;
+            font-weight: 600;
+        }
+    }
+}
+.service-sect {
+    height: 110%;
+    width: 100%;
+    background: rgb(237, 243, 247);
+    font-family: 'Roboto Slab', serif;
+
+    .service-sect-title {
+        display: flex;
+        justify-content: center;
+        font-size: 2.2em;
+        font-weight: 900;
+        color: rgb(41, 89, 121);
+        margin-bottom: 5%;
+        padding-top: 5%;
+    }
+    .all-services-sect {
+        display: flex;
+        height: 70%;
+        width: 100%;
+        justify-content: space-evenly;
+
+        .service-opt {
+            width: 20%;
+            height: 90%;
+            background: #ffffff;
+            color: rgb(41, 89, 121);
+
+            .service-svg {
+                height: 55%;
+                background-size: 70%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            .service-title {
+                height: 10%;
+                text-align: center;
+                padding: 5%;
+                font-size: 2rem;
+                line-height: 110%;
+                font-weight: 700;
+            }
+            .service-content {
+                text-align: center;
+                padding: 6%;
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
+        }
+        .service-opt:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 17px rgb(194, 221, 240), 0 10px 5px rgb(194, 221, 240);
+            -webkit-transition: all .3s ease-in-out;
+            -moz-transition: all .2s ease-in-out;
+            -o-transition: all .2s ease-in-out;
+            -ms-transition: all .2s ease-in-out;
+        }
+    }
+}

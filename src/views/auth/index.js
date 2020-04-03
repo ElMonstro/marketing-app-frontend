@@ -18,27 +18,14 @@ export default class Auth extends Component {
     render () {
         const {loginActive} = this.state;
         return (
-            <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-            <header class="mdl-layout__header mdl-layout__header--transparent">
-                <div class="mdl-layout__header-row">
-                {/* <!-- Title --> */}
-                <span class="mdl-layout-title">Jambo SMS</span>
-                {/* <!-- Add spacer, to align navigation to the right --> */}
-                <div class="mdl-layout-spacer"></div>
-                {/* <!-- Navigation --> */}
-                <div></div>
+            <div className="auth-page">
+                <div className="auth-container">
+                    {loginActive ? 
+                        <LoginForm changeAuthActiveState={this.changeAuthActiveState} /> 
+                            : 
+                        <RegisterForm changeAuthActiveState={this.changeAuthActiveState} />}
                 </div>
-            </header>
-                    <main class="mdl-layout__content">
-
-                        <div className="auth-container">
-                            {loginActive ? 
-                                <LoginForm changeAuthActiveState={this.changeAuthActiveState} /> 
-                                    : 
-                                <RegisterForm changeAuthActiveState={this.changeAuthActiveState} />}
-                        </div>
-                    </main>
-                    </div>
+            </div>
             )
         };
 }

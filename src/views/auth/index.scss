@@ -1,13 +1,20 @@
-.mdl-layout__header .mdl-layout__header-row {
-    // background: #ffffff;
-    color: #1B7EC2;
-    height: 80px;
-    box-shadow: none !important;
+.auth-page {
+    height: 97%;
+    background: #edf3f7;
 }
 
 .auth-container {
         position: relative;
-        padding-top: 3%;
+        height: 70%;
         left: 40%;
         width: 50%;
+        background: #ffffff;
+        top: 45%;
+        transform: translate(0, -50%);
+        padding-top: 5%;
+
+        form{
+            position: relative;
+            width: 100%;
+        }
     }

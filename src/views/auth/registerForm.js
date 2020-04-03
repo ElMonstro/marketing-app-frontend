@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 
 import { yupRegObj } from './validation';
 import './register.scss';
+import AuthService from './../../services/authService';
 
 
 const RegisterForm = (props) => {
@@ -20,8 +21,11 @@ const RegisterForm = (props) => {
             confirmPassword: '',
             },
             validationSchema: yupRegObj,
-            onSubmit: values => {
-                // alert(JSON.stringify(values, null, 2));
+            onSubmit: async (values) => {
+                console.log('button clicked')
+                const response = await AuthService.registerUser(values);
+                console.log('+++++++response-data', response);
+                console.log('+++++++response', response.data);
             },
         });
 

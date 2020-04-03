@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 
 import UssdProductPage from './../../components/productsPages/ussd';
-import BulkSmsProductPage from './../../components/productsPages/bulksms.js'
+import BulkSmsProductPage from './../../components/productsPages/bulksms.js';
+import Auth from './../auth';
 
 export default class Homepage extends Component {
 
@@ -13,7 +14,7 @@ export default class Homepage extends Component {
             <header class="mdl-layout__header mdl-layout__header--transparent">
                 <div class="mdl-layout__header-row">
                 {/* <!-- Title --> */}
-                <span class="mdl-layout-title"><span style={{color: 'black', fontWeight: 700}}>Jambo SMS</span></span>
+                <span class="mdl-layout-title"><span style={{color: '#1B7EC2', fontWeight: 700}}>Jambo SMS</span></span>
                 {/* <!-- Add spacer, to align navigation to the right --> */}
                 <div class="mdl-layout-spacer"></div>
                 {/* <!-- Navigation --> */}
@@ -22,15 +23,15 @@ export default class Homepage extends Component {
                             <button id="demo-menu-lower-left" class="mdl-button mdl-js-button" style={{color: '#1B7EC2', fontWeight: 500, textTransform: 'lowercase'}} >Products</button>
                             <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
                                 for="demo-menu-lower-left">
-                                <li><Link to="/ussd"><span style={{color: '#1B7EC2',}} className="mdl-menu__item">USSD</span></Link></li>
-                                <li><Link to="/bulk-sms"><span style={{color: '#1B7EC2'}} className="mdl-menu__item">Bulk SMS</span></Link></li>
+                                <li><Link style={{textDecoration: 'none'}}  to="/ussd"><span style={{color: '#1B7EC2'}}  className="mdl-menu__item">USSD</span></Link></li>
+                                <li><Link style={{textDecoration: 'none'}}  to="/bulk-sms"><span  style={{color: '#1B7EC2'}} className="mdl-menu__item">Bulk SMS </span> </Link></li>
                             </ul>
                         </span>
                         <span style={{color: '#1B7EC2', fontWeight: 600}} className="nav-link mdl-navigation__link">pricing</span>
                         <span style={{color: '#1B7EC2', fontWeight: 600}} className="nav-link mdl-navigation__link">about us</span>
                         <span style={{color: '#B30059', fontWeight: 600}} className="nav-link mdl-navigation__link">reseller</span>
                         <span style={{color: '#1B7EC2', fontWeight: 600}} className="nav-link mdl-navigation__link">API's</span>
-                        <span style={{color: '#1B7EC2', fontWeight: 600}} className="nav-link mdl-navigation__link">login</span>
+                        <span style={{color: '#1B7EC2', fontWeight: 600}} className="nav-link mdl-navigation__link"><Link style={{textDecoration: 'none', color: '#1B7EC2'}} to="/auth">login</Link></span>
                     </nav>
                 <div></div>
                 </div>
@@ -42,6 +43,9 @@ export default class Homepage extends Component {
                         </Route>
                         <Route path="/bulk-sms">
                             <BulkSmsProductPage />
+                        </Route>
+                        <Route path="/auth">
+                            <Auth />
                         </Route>
                     </Switch>
 

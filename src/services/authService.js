@@ -1,7 +1,5 @@
 import axios from 'axios';
 import baseUrl from './baseURL';
-import cheers from 'cheers-alert';
-import 'cheers-alert/src/cheers-alert.css';
 
 export default class AuthService {
 
@@ -16,7 +14,23 @@ export default class AuthService {
             return response;
             
         } catch (error) {
-            console.log ('+++++++++kjhgfdfghuhgf', error.response.data);
+            return error.response.data
+        }
+
+    }
+
+    static async loginUser(userDetails) {
+        try {
+            const url = `${baseUrl()}/auth/login/`;
+            const { email, password } = userDetails;
+            const newUser = { email, password }
+            console.log('+++++++++', newUser);
+
+            const response = await axios.post(url, newUser);
+            return response;
+            
+        } catch (error) {
+            return error.response.data
         }
 
     }

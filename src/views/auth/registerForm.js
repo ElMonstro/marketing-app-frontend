@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import Swal from 'sweetalert2'
 
 import { yupRegObj } from './validation';
 import './register.scss';
@@ -24,8 +25,24 @@ const RegisterForm = (props) => {
             onSubmit: async (values) => {
                 console.log('button clicked')
                 const response = await AuthService.registerUser(values);
-                console.log('+++++++response-data', response);
-                console.log('+++++++response', response.data);
+                if (response.data) {
+                    return Swal.fire({
+                        title: 'Success!',
+                        text: response.data.message,
+                        icon: 'success',
+                        confirmButtonText: 'close'
+                    });
+                }
+                else if (response.non_field_errors) {
+                    console.log('ERROR', response.non_field_errors);
+                    return Swal.fire({
+                        title: 'Error!',
+                        text: response.non_field_errors[0],
+                        icon: 'error',
+                        confirmButtonText: 'close'
+                    })
+                }
+                
             },
         });
 

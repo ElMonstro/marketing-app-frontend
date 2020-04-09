@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
+import { useHistory } from "react-router-dom";
 
 import AuthService from './../../services/authService';
 import { yupLoginObj } from './validation';
@@ -10,6 +11,7 @@ import './login.scss';
 const LoginForm = (props) => {
 
     const {changeAuthActiveState} = props;
+    let history = useHistory();
 
     const formik = useFormik({
             initialValues: {
@@ -18,16 +20,16 @@ const LoginForm = (props) => {
             },
             validationSchema: yupLoginObj,
             onSubmit: async (values) => {
-                // alert(JSON.stringify(values, null, 2));
                 const response = await AuthService.loginUser(values);
                 console.log('LOGIN RESPONSE', response);
                 if (response.status === 200){
-                    return Swal.fire({
-                        title: 'Success!',
-                        text: 'Login Successful',
-                        icon: 'success',
-                        confirmButtonText: 'close',
-                    });
+                    return  Swal.fire({
+                                    title: 'Success!',
+                                    text: 'Login Successful',
+                                    icon: 'success',
+                                    confirmButtonText: 'close',
+                                    onClose: () => history.push('/dashboard')
+                                })
                 } else if (response.detail){
                     return Swal.fire({
                         title: 'Error!',

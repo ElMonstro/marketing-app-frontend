@@ -1,13 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
 import DashboardSection from '../../components/dashboardSection';
 import Settings from './../../components/settings';
 import Groups from './../../components/groups';
 import './index.scss';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
     state = {
         activeNavItem: 'Dashboard',
+    }
+
+    componentDidMount (){
+        // eslint-disable-next-line no-undef
+        componentHandler.upgradeDom()
     }
 
     handleClickedNavItem = (e) => {
@@ -86,3 +92,14 @@ export default class Dashboard extends Component {
         );
     }
 }
+
+const mapDispatchToProps = {
+}
+
+const mapStateToProps = (state) => ({
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Dashboard)

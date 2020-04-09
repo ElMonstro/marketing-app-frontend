@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import Loader from 'react-loader-spinner';
 
 import { yupRegObj } from './validation';
 import './register.scss';
@@ -8,8 +9,8 @@ import AuthService from './../../services/authService';
 
 
 const RegisterForm = (props) => {
-
     const {changeAuthActiveState} = props;
+    const [loaderVisibility, changeLoaderVisibility] = useState('hidden');
 
     const formik = useFormik({
             initialValues: {
@@ -23,8 +24,9 @@ const RegisterForm = (props) => {
             },
             validationSchema: yupRegObj,
             onSubmit: async (values) => {
-                console.log('button clicked')
+                changeLoaderVisibility('visible');
                 const response = await AuthService.registerUser(values);
+                changeLoaderVisibility('hidden');
                 if (response.data) {
                     return Swal.fire({
                         title: 'Success!',
@@ -149,7 +151,15 @@ const RegisterForm = (props) => {
                         REGISTER
                     </button>
                 </div>      
-            </div>     
+            </div>    
+            <div style={{visibility: loaderVisibility}} className="inputs-wrapper">
+            <Loader
+                    type="Bars"
+                    color="#1B7EC2"
+                    height={50}
+                    width={50}
+                />
+            </div>   
         </form>
     );
 }

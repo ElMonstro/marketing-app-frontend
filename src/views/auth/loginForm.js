@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import { useHistory } from "react-router-dom";
+import Loader from 'react-loader-spinner';
 
 import AuthService from './../../services/authService';
 import { yupLoginObj } from './validation';
@@ -11,6 +12,7 @@ import './login.scss';
 const LoginForm = (props) => {
 
     const {changeAuthActiveState} = props;
+    const [loaderVisibility, changeLoaderVisibility] = useState('hidden');
     let history = useHistory();
 
     const formik = useFormik({
@@ -20,8 +22,10 @@ const LoginForm = (props) => {
             },
             validationSchema: yupLoginObj,
             onSubmit: async (values) => {
+                changeLoaderVisibility('visible');
                 const response = await AuthService.loginUser(values);
                 console.log('LOGIN RESPONSE', response);
+                changeLoaderVisibility('hidden');
                 if (response.status === 200){
                     return  Swal.fire({
                                     title: 'Success!',
@@ -63,7 +67,6 @@ const LoginForm = (props) => {
                         </input>
                     </div>
                 </div>  
-
                 <div className="wrapper">
                     <div className="input-container">
                         <div className="input-label">
@@ -78,9 +81,17 @@ const LoginForm = (props) => {
                 </div> 
                 <div className="wrapper">
                     <div className="input-container">
-                        <button type="submit" >LOGIN</button>
+                        <button type="submit" >LOGIN </button>
                     </div>
-                </div>     
+                </div>    
+                <div style={{ position: 'relative', zIndex: '1', visibility: loaderVisibility }} className="wrapper">
+                <Loader
+                    type="Bars"
+                    color="#1B7EC2"
+                    height={50}
+                    width={50}
+                />
+                </div>
             </form>
     );
     }

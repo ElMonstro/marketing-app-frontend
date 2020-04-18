@@ -4,7 +4,6 @@ import AOS from 'aos';
 
 import Homepage from './views/homepage';
 import Dashboard from './views/dashboard';
-import Auth from './views/auth';
 import './App.css';
 import 'aos/dist/aos.css'; 
 
@@ -16,13 +15,12 @@ const App = () => {
         <div>
         <Switch>
             <Route exact path="/">
-                <Homepage />
-            </Route>
-            <Route path="/auth">
-                <Auth />
+                    <Homepage />
             </Route>
             <Route path="/dashboard">
-                <Dashboard />
+                <div>
+                    <Dashboard />
+                </div>
             </Route>
         </Switch>
         </div>

@@ -16,13 +16,15 @@ const App = () => {
         <div>
         <Switch>
             <Route exact path="/">
-                <Homepage />
+                    <Homepage />
             </Route>
             <Route path="/auth">
-                <Auth />
+                    <Auth />
             </Route>
             <Route path="/dashboard">
-                <Dashboard />
+                <div>
+                    <Dashboard />
+                </div>
             </Route>
         </Switch>
         </div>

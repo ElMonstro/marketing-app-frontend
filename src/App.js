@@ -1,17 +1,33 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
+import AOS from 'aos';
 
-import store from './redux/store/store';
 import Homepage from './views/homepage';
+import Dashboard from './views/dashboard';
 import Auth from './views/auth';
+import './App.css';
+import 'aos/dist/aos.css'; 
 
-const app = () => {
+const App = () => {
+    AOS.init();
+    
     return(
-        <Provider store={store}>
-            {/* <Auth/> */}
-            <Homepage />
-        </Provider>
+    <BrowserRouter>
+        <div>
+        <Switch>
+            <Route exact path="/">
+                <Homepage />
+            </Route>
+            <Route path="/auth">
+                <Auth />
+            </Route>
+            <Route path="/dashboard">
+                <Dashboard />
+            </Route>
+        </Switch>
+        </div>
+    </BrowserRouter>
     );
 }
 
-export default app;
+export default App;

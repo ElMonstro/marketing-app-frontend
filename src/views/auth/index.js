@@ -21,9 +21,9 @@ export default class Auth extends Component {
             <div className="auth-page">
                 <div className="auth-container">
                     {loginActive ? 
-                        <LoginForm changeAuthActiveState={this.changeAuthActiveState} /> 
+                        <div><LoginForm changeAuthActiveState={this.changeAuthActiveState} /></div> 
                             : 
-                        <RegisterForm changeAuthActiveState={this.changeAuthActiveState} />}
+                        <div><RegisterForm changeAuthActiveState={this.changeAuthActiveState}/></div>}
                 </div>
             </div>
             )

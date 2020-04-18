@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import Bounce from 'react-reveal/Bounce';
+import Zoom from 'react-reveal/Zoom';
+import Fade from 'react-reveal/Fade';
 
 import './index.scss';
 
@@ -29,12 +32,17 @@ const styles = {
 const ussdProductPage = () => {
     return (
         <>
-        <div style={styles.jamboWorldSvg} className="main-section">
-                        <div className="msg-sect">
-                            <div className="msg-title">USSD service codes</div>
-                            <div className="msg-content">Provide mobile financial services (MFS) on any phone, at low cost, without access to the SIM card or internet !</div>
-                        </div>
-                    </div>
+        <Fade top>
+                <div style={styles.jamboWorldSvg} className="main-section">
+                        <Bounce right>
+                            <div className="msg-sect">
+                                <div className="msg-title">USSD service codes</div>
+                                <div className="msg-content">Provide mobile financial services (MFS) on any phone, at low cost, without access to the SIM card or internet !</div>
+                            </div>
+                        </Bounce>
+                </div>
+            </Fade>
+            <Zoom>
                     <div className="service-sect">
                         <div className="service-sect-title">Our USSD Services enable you to:</div>
                         <div className="all-services-sect">
@@ -58,6 +66,34 @@ const ussdProductPage = () => {
                                 </div>
                                 <div className="service-title">create query systems</div>
                                 <div className="service-content">get important information within seconds i.e accounts data.</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </Zoom>
+                    <div className="features-sect">
+                        <div className="features-title">features</div>
+                        
+                        <div  className="features-row">
+
+                        <div  className="feature">
+                            <div className="feature-title">Customized Messages</div>
+                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
+                            </div>
+
+                            <div  className="feature">
+                            <div className="feature-title">Scalable Pricing</div>
+                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
+                            </div>
+
+                            <div className="feature">
+                            <div className="feature-title">SMS Surveys</div>
+                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
+                            </div>
+
+                            <div  className="feature">
+                            <div className="feature-title">Reporting</div>
+                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
                             </div>
 
                         </div>

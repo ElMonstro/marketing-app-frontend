@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import Swal from 'sweetalert2';
+import Loader from 'react-loader-spinner';
 
 import { yupRegObj } from './validation';
 import './register.scss';
@@ -7,8 +9,8 @@ import AuthService from './../../services/authService';
 
 
 const RegisterForm = (props) => {
-
     const {changeAuthActiveState} = props;
+    const [loaderVisibility, changeLoaderVisibility] = useState('hidden');
 
     const formik = useFormik({
             initialValues: {
@@ -22,10 +24,37 @@ const RegisterForm = (props) => {
             },
             validationSchema: yupRegObj,
             onSubmit: async (values) => {
-                console.log('button clicked')
+                changeLoaderVisibility('visible');
                 const response = await AuthService.registerUser(values);
-                console.log('+++++++response-data', response);
-                console.log('+++++++response', response.data);
+                changeLoaderVisibility('hidden');
+                if (response.data) {
+                    return Swal.fire({
+                        title: 'Success!',
+                        text: response.data.message,
+                        icon: 'success',
+                        confirmButtonText: 'close'
+                    });
+                }
+                else if (response.non_field_errors) {
+                    console.log('ERROR', response.non_field_errors);
+                    return Swal.fire({
+                        title: 'Error!',
+                        text: response.non_field_errors[0],
+                        icon: 'error',
+                        confirmButtonText: 'close'
+                    })
+                } else if(Object.keys(response).length > 0){
+                    console.log('ERRRRRRooor returned', response);
+                    const allErrors = Object.values(response);
+                    const concatErrorString = allErrors.join("");
+                    return Swal.fire({
+                        title: 'Error!',
+                        text: concatErrorString,
+                        icon: 'error',
+                        confirmButtonText: 'close'
+                    })
+                }
+                
             },
         });
 
@@ -132,7 +161,15 @@ const RegisterForm = (props) => {
                         REGISTER
                     </button>
                 </div>      
-            </div>     
+            </div>    
+            <div style={{visibility: loaderVisibility}} className="inputs-wrapper">
+            <Loader
+                    type="Bars"
+                    color="#1B7EC2"
+                    height={50}
+                    width={50}
+                />
+            </div>   
         </form>
     );
 }

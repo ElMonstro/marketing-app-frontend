@@ -41,6 +41,13 @@ const LoginForm = (props) => {
                         icon: 'error',
                         confirmButtonText: 'close'
                     })
+                } else {
+                    return Swal.fire({
+                        title: 'Error!',
+                        text: "Something unexpected happened.Please try again",
+                        icon: 'error',
+                        confirmButtonText: 'close'
+                    })
                 }
             },
         });

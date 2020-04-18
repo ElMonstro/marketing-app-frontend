@@ -2,7 +2,7 @@ import React from 'react';
 
 const footer = () => {
     return(
-    <footer class="mdl-mega-footer" style={{backgroundColor: 'rgb(20, 66, 97)'}}>
+    <footer class="mdl-mega-footer" style={{backgroundColor: 'rgb(7, 60, 95)'}}>
                             
     <div style={{width: '100%', height: '200px', display: 'flex', display: 'flex', justifyContent: 'space-around'}}>
 

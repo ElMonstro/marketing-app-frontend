@@ -8,8 +8,6 @@ export default class AuthService {
             const url = `${baseUrl()}/auth/register/`;
             const { email, phone, fullname: full_name, company, password, confirmPassword: confirmed_password, county } = userDetails;
             const newUser = { email, phone, full_name, company, password, confirmed_password, county }
-            console.log('+++++++++', newUser);
-
             const response = await axios.post(url, newUser);
             return response;
             
@@ -20,18 +18,25 @@ export default class AuthService {
     }
 
     static async loginUser(userDetails) {
-        try {
+        // try {
             const url = `${baseUrl()}/auth/login/`;
             const { email, password } = userDetails;
             const newUser = { email, password }
-            console.log('+++++++++', newUser);
+            const response = axios.post(url, newUser).
+                then(response =>{
+                    return response;
+                })
+                .catch(error => {
+                    console.log('EERRRROOORRR CATCH', error);
+                });
 
-            const response = await axios.post(url, newUser);
             return response;
             
-        } catch (error) {
-            return error.response.data
-        }
+        // } 
+        // catch (error) {
+        //     console.log("REGISTER FORM ERROR+++++++", error);
+        //     return error.response.data
+        // }
 
     }
 }

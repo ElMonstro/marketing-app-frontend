@@ -43,6 +43,16 @@ const RegisterForm = (props) => {
                         icon: 'error',
                         confirmButtonText: 'close'
                     })
+                } else if(Object.keys(response).length > 0){
+                    console.log('ERRRRRRooor returned', response);
+                    const allErrors = Object.values(response);
+                    const concatErrorString = allErrors.join("");
+                    return Swal.fire({
+                        title: 'Error!',
+                        text: concatErrorString,
+                        icon: 'error',
+                        confirmButtonText: 'close'
+                    })
                 }
                 
             },

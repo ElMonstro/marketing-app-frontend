@@ -12,6 +12,11 @@ export default class Homepage extends Component {
         activeComponent: null,
     }
 
+    componentDidMount() {
+        // eslint-disable-next-line no-undef
+        componentHandler.upgradeDom()
+    }
+    
     renderActiveComponent = () => {
         const { activeComponent } = this.state;
         switch (activeComponent) {

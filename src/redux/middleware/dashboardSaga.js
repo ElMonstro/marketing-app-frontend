@@ -1,8 +1,7 @@
 /* eslint-disable require-yield */
-import { takeLatest, put } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
 import { FETCH_DASHBOARD_DATA } from './../constant/actionTypes';
-import { fetchDashboardDataSuccessAction } from './../action-creator';
 
 export function* mountDashboardSagaWatcher() {
     yield takeLatest(FETCH_DASHBOARD_DATA, mountDashboardSaga)

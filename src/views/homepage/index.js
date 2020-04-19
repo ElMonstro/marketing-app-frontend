@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
 
 import Footer from './../../components/footer';
 import UssdProductPage from './../../components/productsPages/ussd';
 import BulkSmsProductPage from './../../components/productsPages/bulksms.js';
-import LandingPage from './../../components/homepage';
+import LandingPage from '../../components/landing-page';
 import Auth from '../auth';
 
 export default class Homepage extends Component {
@@ -45,6 +44,7 @@ export default class Homepage extends Component {
                 <div class="mdl-layout-spacer"></div>
                 {/* <!-- Navigation --> */}
                     <nav class="mdl-navigation">
+                    <span style={{color: '#1B7EC2', fontWeight: 600}} className="nav-link mdl-navigation__link" onClick={() => this.setState({activeComponent: 'landing-page'})}>home</span>
                         <span style={{color: '#1B7EC2', fontWeight: 600}} className="nav-link mdl-navigation__link "> 
                             <button id="demo-menu-lower-left" class="mdl-button mdl-js-button" style={{color: '#1B7EC2', fontWeight: 500, textTransform: 'lowercase'}} >Products</button>
                             <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"

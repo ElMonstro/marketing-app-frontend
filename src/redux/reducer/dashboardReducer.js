@@ -1,6 +1,8 @@
-import { FETCH_DASHBOARD_DATA_SUCCESS } from './../constant/actionTypes';
-import { DISPLAY_DASHBOARD_VIEW } from './../constant/actionTypes';
-import { LOGGED_IN } from './../constant/actionTypes';
+import { 
+    FETCH_DASHBOARD_DATA_SUCCESS,
+    DISPLAY_DASHBOARD_VIEW,
+    LOGGED_IN,
+} from './../constant/actionTypes';
 
 const initialState = {
     data: null,

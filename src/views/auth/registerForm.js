@@ -5,7 +5,7 @@ import Loader from 'react-loader-spinner';
 
 import { yupRegObj } from './validation';
 import './register.scss';
-import AuthService from './../../services/authService';
+import AuthService from './../../services/authServices';
 
 
 const RegisterForm = (props) => {

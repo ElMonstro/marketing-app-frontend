@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 
-import AuthService from './../../services/authService';
+import AuthService from '../../services/authServices';
 import { yupLoginObj } from './validation';
 import './login.scss';
 

@@ -1,0 +1,74 @@
+.groups-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+
+    .groups {
+        width: 35%;
+        height: 95%;
+        margin-right: 3%;
+
+        .group-toggle {
+            display: flex;
+            justify-content: space-evenly;
+            height: 5%;
+            font-size: 1.1em;
+
+            .group-toggle-item {
+                width: 45%;
+                text-align: center;
+                color: gray;
+                cursor: pointer;
+            }
+
+            .active-group {
+                color: #1B7EC2;
+                border-bottom: #1B7EC2 2px solid;
+            }
+        }
+
+        .all-groups {
+            margin-top: 2.5%;
+            margin-bottom: 2.5%;
+            height: 85%;
+        }
+
+        .new-group-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            left: 50%;
+            transform: translate(-50%, -0%);
+            width: 50%;
+            height: 6%;
+            align-self: center;
+            border: 2px solid #1B7EC2;
+            color: #1B7EC2;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            i{
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .group-members {
+        height: 95%;
+        width: 55%;
+        background: #eef4fa;
+        .members-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1B7EC2;
+            height: 8%;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+    }
+}

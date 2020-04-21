@@ -1,27 +1,19 @@
-import { 
-    FETCH_DASHBOARD_DATA_SUCCESS,
-    DISPLAY_DASHBOARD_VIEW,
-    LOGGED_IN,
+import {
+    FETCH_GROUPS_SUCCESS,
 } from './../constant/actionTypes';
 
 const initialState = {
-    data: null,
-    displayDashboard: false,
-    loggedIn: false,
+    groups: null,
 }
 
-const dashBoardReducer = (state = initialState, action) => {
-    const {data} = action;
+const dashBoardStoreState = (state = initialState, action) => {
     switch (action.type){
-        case FETCH_DASHBOARD_DATA_SUCCESS:
-            return {...state, data}
-        case DISPLAY_DASHBOARD_VIEW:
-            return {...state, displayDashboard: action.bool}
-        case LOGGED_IN:
-            return {...state, loggedIn: action.bool}
+        case FETCH_GROUPS_SUCCESS:
+            const {groups} = action;
+            return {...state, groups}
         default:
-            return {...state, data}
+            return null
     }
 }
 
-export default dashBoardReducer;
+export default dashBoardStoreState;

@@ -1,6 +1,7 @@
 /* eslint-disable require-yield */
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import groupsService from './../../services/dashboardServices';
+import { fetchGroupsSuccess } from './../action-creator';
 
 import { 
     FETCH_DASHBOARD_DATA,
@@ -26,8 +27,8 @@ export function* fetchGroupsWatcher() {
 }
 export function* fetchGroupsSaga() {
     try {
-        const groups = groupsService.fetchGroups();
-        console.log('GGGGGRRRRROUUPPPSS', groups);
+        const {data} = yield call(groupsService.fetchGroups);
+        yield put(fetchGroupsSuccess(data.results))
     } catch (error) {
         
     }

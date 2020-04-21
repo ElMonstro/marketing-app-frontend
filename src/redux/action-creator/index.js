@@ -4,6 +4,7 @@ import {
     DISPLAY_DASHBOARD_VIEW,
     LOGGED_IN,
     FETCH_GROUPS,
+    FETCH_GROUPS_SUCCESS,
 } from './../constant/actionTypes';
 
 export const fetchDashboardDataAction = () => {
@@ -29,5 +30,9 @@ export const loggedIn = (bool) => ({
 
 export const fetchGroups = () => ({
     type: FETCH_GROUPS,
+})
+export const fetchGroupsSuccess = (groups) => ({
+    type: FETCH_GROUPS_SUCCESS,
+    groups,
 })
 

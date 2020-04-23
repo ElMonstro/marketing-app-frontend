@@ -47,7 +47,7 @@ function HomeLayout(props) {
                       USSD
                     </span>
                   </Link>
-                  <Link to="/bulk/sms" className="homepage-link">
+                  <Link to="/bulk-sms" className="homepage-link">
                     <span
                       style={{ color: "#1B7EC2" }}
                       className="mdl-menu__item"

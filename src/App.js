@@ -1,31 +1,10 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
-import AOS from 'aos';
+import React from "react";
 
-import Homepage from './views/homepage';
-import Dashboard from './views/dashboard';
-import './App.css';
-import 'aos/dist/aos.css'; 
+import "./App.css";
+import Routes from "./Routes/Routes.js";
 
 const App = () => {
-    AOS.init();
-    
-    return(
-    <BrowserRouter>
-        <div>
-        <Switch>
-            <Route exact path="/">
-                    <Homepage />
-            </Route>
-            <Route path="/dashboard">
-                <div>
-                    <Dashboard />
-                </div>
-            </Route>
-        </Switch>
-        </div>
-    </BrowserRouter>
-    );
-}
+  return <Routes />;
+};
 
 export default App;

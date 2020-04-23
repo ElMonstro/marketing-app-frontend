@@ -3,11 +3,11 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import AOS from "aos";
 
 import RouteWithLayout from "./RouteWithLayout";
-import HomeLayout from "./views/layouts";
-import Dashboard from "./views/dashboard";
+import HomeLayout from "../views/layouts";
+import Dashboard from "../views/dashboard";
 import "aos/dist/aos.css";
-import { Homepage, UssdProductPage, BulkSmsProductPage } from "./components";
-import Auth from "./views/auth/index";
+import { Homepage, UssdProductPage, BulkSmsProductPage } from "../components";
+import Auth from "../views/auth/index";
 
 const Routes = () => {
   AOS.init();
@@ -30,7 +30,7 @@ const Routes = () => {
         />
         <RouteWithLayout
           exact
-          path="/bulk/sms"
+          path="/bulk-sms"
           layout={HomeLayout}
           component={BulkSmsProductPage}
         />

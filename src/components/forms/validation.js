@@ -1,5 +1,11 @@
 import * as Yup from 'yup';
 
+export const yupNewGroupObj = Yup.object({
+    groupName: Yup.string()
+        .required('* Required'),
+    description: Yup.string()
+        .required('* Required'),
+    })
 
 export const yupRegObj = Yup.object({
     fullname: Yup.string()

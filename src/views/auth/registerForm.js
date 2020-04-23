@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import Loader from 'react-loader-spinner';
 
-import { yupRegObj } from './validation';
+import { yupRegObj } from './../../components/forms/validation';
 import './register.scss';
 import AuthService from './../../services/authServices';
 

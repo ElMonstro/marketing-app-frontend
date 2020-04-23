@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 
 import AuthService from '../../services/authServices';
-import { yupLoginObj } from './validation';
+import { yupLoginObj } from './../../components/forms/validation';
 import './login.scss';
 
 

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import randomcolor from 'randomcolor';
 
 import { fetchGroups } from './../../redux/action-creator';
+import NewGroupForm from '../forms/newGroupForm/newGroupForm';
 import './index.scss';
 class Groups extends Component {
     state = {
@@ -52,6 +53,17 @@ class Groups extends Component {
         }
     }
 
+    changeModalState = () => {
+        var dialog = document.querySelector('dialog');
+        dialog.showModal();
+    }
+
+    renderAddForm = () => {
+        return( 
+            <NewGroupForm allEventsStateHandler={this.allEventsStateHandler}/>
+        );
+    }
+
     // filterGroups = (e) => {
     //     e.preventDefault();
     //     const {groups} = this.state;
@@ -67,6 +79,7 @@ class Groups extends Component {
         const {groups} = this.state;
         return(
             <div className="groups-container">
+                {this.renderAddForm()}
                 <div className="groups">
                     <div className="group-toggle">
                         <div className={`${groupActiveSms ? 'group-toggle-item active-group': 'group-toggle-item'}`} onClick={() => this.setState({groupActiveSms: true})}>Sms Groups</div>
@@ -81,7 +94,7 @@ class Groups extends Component {
                     <div className="all-groups">
                         {groups ? this.renderAllGroups(groups) : null}
                     </div>
-                    <div className="new-group-btn">
+                    <div className="new-group-btn" onClick={this.changeModalState}>
                         <i className="fa fa-plus" aria-hidden="true"></i>
                         add new group
                     </div>

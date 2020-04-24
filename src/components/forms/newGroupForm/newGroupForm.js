@@ -2,11 +2,14 @@ import React from 'react';
 import { useFormik } from 'formik';
 
 import { yupNewGroupObj } from '../validation';
+import Swal from 'sweetalert2';
 import './newGroupForm.scss';
+import GroupsService from './../../../services/groupsServices';
 
 const NewGroupForm = (props) => {
-    const { allEventsStateHandler } = props;
     var dialog = document.querySelector('dialog');
+    const {fetchGroups} = props;
+    console.log('dISPATCHER', fetchGroups);
 
     const formik = useFormik({
             initialValues: {
@@ -14,10 +17,20 @@ const NewGroupForm = (props) => {
                 description: '',
             },
             validationSchema: yupNewGroupObj,
-            onSubmit: values => {
+            onSubmit: async values => {
                 const {groupName, description} = values;
-                allEventsStateHandler();
+                const response = await GroupsService.postNewGroup({groupName, description});
                 dialog.close();
+                fetchGroups();
+
+                    if (response.status === 201){
+                        return Swal.fire({
+                            title: 'Success!',
+                            text: `${response.data.name} added successfully`,
+                            icon: 'success',
+                            confirmButtonText: 'close',
+                    })
+                }
             },
         });
 
@@ -51,7 +64,7 @@ const NewGroupForm = (props) => {
 
                         <div class="dialog-actions">
                             <button className="dialog-buttons" type="button" className="close" onClick={() => dialog.close()}>CANCEL</button>
-                            <button className="dialog-buttons" type="submit" >ADD EVENT</button>
+                            <button className="dialog-buttons" type="submit" >ADD GROUP</button>
                         </div>
                     </form>
             

@@ -1,6 +1,6 @@
 /* eslint-disable require-yield */
 import { takeLatest, put, call } from 'redux-saga/effects';
-import groupsService from './../../services/dashboardServices';
+import groupsService from './../../services/groupsServices';
 import { fetchGroupsSuccess } from './../action-creator';
 
 import { 

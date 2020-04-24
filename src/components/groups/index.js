@@ -20,6 +20,16 @@ class Groups extends Component {
         this.setState({groups});
     }
 
+    static getDerivedStateFromProps (nextProps, prevState) {
+        if (nextProps.groups !== prevState.groups){
+
+            return {groups: nextProps.groups};
+        }else {
+            
+            return null;
+        }
+    }
+
     renderAllGroups(groups) {
         const {activeGroupIndex} = this.state;
         return groups.map(
@@ -59,20 +69,21 @@ class Groups extends Component {
     }
 
     renderAddForm = () => {
+        const {fetchGroups} = this.props;
         return( 
-            <NewGroupForm allEventsStateHandler={this.allEventsStateHandler}/>
+            <NewGroupForm fetchGroups={this.props.fetchGroups}/>
         );
     }
 
-    // filterGroups = (e) => {
-    //     e.preventDefault();
-    //     const {groups} = this.state;
-    //     console.log('searchword', e.target.value);
-    //     const filteredGroups = groups.filter(
-    //         eachGroup => eachGroup.name.includes(e.target.value)
-    //     )
-    //     this.setState(() => ({groups: filteredGroups}));
-    // }
+    filterGroups = (e) => {
+        e.preventDefault();
+        const {groups} = this.state;
+        console.log('searchword', e.target.value);
+        const filteredGroups = groups.filter(
+            eachGroup => eachGroup.name.includes(e.target.value)
+        )
+        this.setState(() => ({groups: filteredGroups}));
+    }
 
     render() {
         const { groupActiveSms } = this.state;

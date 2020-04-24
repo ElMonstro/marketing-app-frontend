@@ -5,6 +5,7 @@ import {
     LOGGED_IN,
     FETCH_GROUPS,
     FETCH_GROUPS_SUCCESS,
+    POST_NEW_GROUP_SUCCESS,
 } from './../constant/actionTypes';
 
 export const fetchDashboardDataAction = () => {
@@ -31,8 +32,13 @@ export const loggedIn = (bool) => ({
 export const fetchGroups = () => ({
     type: FETCH_GROUPS,
 })
+
 export const fetchGroupsSuccess = (groups) => ({
     type: FETCH_GROUPS_SUCCESS,
     groups,
+})
+
+export const postNewGroupSuccess = () => ({
+    type: POST_NEW_GROUP_SUCCESS,
 })
 

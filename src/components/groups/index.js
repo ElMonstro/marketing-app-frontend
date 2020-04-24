@@ -8,6 +8,7 @@ import './index.scss';
 class Groups extends Component {
     state = {
         groups: null,
+        searching: false,
         groupActiveSms: true,
         activeGroupIndex: 0,
     }
@@ -21,11 +22,15 @@ class Groups extends Component {
     }
 
     static getDerivedStateFromProps (nextProps, prevState) {
+        const {searching} = prevState;
         if (nextProps.groups !== prevState.groups){
-
-            return {groups: nextProps.groups};
+            if (!searching){
+                return {groups: nextProps.groups};
+            } else {
+                return null;
+            }
         }else {
-            
+
             return null;
         }
     }
@@ -47,20 +52,22 @@ class Groups extends Component {
 
     renderGroupMembers(groups) {
         const {activeGroupIndex} = this.state;
-        const {members} = groups[activeGroupIndex];
-        if (members){
-            return members.map(
-                eachMember => (
-                    <div className="member-item">
-                        <div className="item-number">{members.indexOf(eachMember) + 1}.</div>
-                        <div className="item-name">{eachMember}</div>
-                        <div className="item-phone">+254703456654</div>
-                        <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
-                        <div className="delete-icon"> <i class="fa fa-trash"></i></div>
-                    </div>
+        if (groups.length > 0){
+            const {members} = groups[activeGroupIndex];
+            if (members){
+                return members.map(
+                    eachMember => (
+                        <div className="member-item">
+                            <div className="item-number">{members.indexOf(eachMember) + 1}.</div>
+                            <div className="item-name">{eachMember}</div>
+                            <div className="item-phone">+254703456654</div>
+                            <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
+                            <div className="delete-icon"> <i class="fa fa-trash"></i></div>
+                        </div>
                 )
             );
         }
+    }
     }
 
     changeModalState = () => {
@@ -69,7 +76,6 @@ class Groups extends Component {
     }
 
     renderAddForm = () => {
-        const {fetchGroups} = this.props;
         return( 
             <NewGroupForm fetchGroups={this.props.fetchGroups}/>
         );
@@ -77,12 +83,17 @@ class Groups extends Component {
 
     filterGroups = (e) => {
         e.preventDefault();
-        const {groups} = this.state;
+        const {groups} = this.props;
         console.log('searchword', e.target.value);
         const filteredGroups = groups.filter(
             eachGroup => eachGroup.name.includes(e.target.value)
         )
-        this.setState(() => ({groups: filteredGroups}));
+        if(e.target.value) {
+            this.setState(() => ({groups: filteredGroups, searching: true}));
+        }
+        else{
+            this.setState(() => ({groups: filteredGroups}));
+        }
     }
 
     render() {

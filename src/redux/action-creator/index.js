@@ -1,8 +1,12 @@
-import { FETCH_DASHBOARD_DATA } from './../constant/actionTypes';
-import { FETCH_DASHBOARD_DATA_SUCCESS } from './../constant/actionTypes';
-import { DISPLAY_DASHBOARD_VIEW } from './../constant/actionTypes';
-import { LOGGED_IN } from './../constant/actionTypes';
-
+import { 
+    FETCH_DASHBOARD_DATA,
+    FETCH_DASHBOARD_DATA_SUCCESS,
+    DISPLAY_DASHBOARD_VIEW,
+    LOGGED_IN,
+    FETCH_GROUPS,
+    FETCH_GROUPS_SUCCESS,
+    POST_NEW_GROUP_SUCCESS,
+} from './../constant/actionTypes';
 
 export const fetchDashboardDataAction = () => {
     return {
@@ -24,3 +28,17 @@ export const loggedIn = (bool) => ({
     type: LOGGED_IN,
     bool
 });
+
+export const fetchGroups = () => ({
+    type: FETCH_GROUPS,
+})
+
+export const fetchGroupsSuccess = (groups) => ({
+    type: FETCH_GROUPS_SUCCESS,
+    groups,
+})
+
+export const postNewGroupSuccess = () => ({
+    type: POST_NEW_GROUP_SUCCESS,
+})
+

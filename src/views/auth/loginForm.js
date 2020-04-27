@@ -4,8 +4,8 @@ import Swal from 'sweetalert2';
 import { useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 
-import AuthService from './../../services/authService';
-import { yupLoginObj } from './validation';
+import AuthService from '../../services/authServices';
+import { yupLoginObj } from './../../components/forms/validation';
 import './login.scss';
 
 
@@ -24,7 +24,11 @@ const LoginForm = (props) => {
             onSubmit: async (values) => {
                 changeLoaderVisibility('visible');
                 const response = await AuthService.loginUser(values);
-                console.log('LOGIN RESPONSE', response);
+                console.log('LOGIN RESPONSE', response.data);
+
+                // store access tokens in local storeage
+                
+                window.localStorage.setItem('tokens',JSON.stringify(response.data));
                 changeLoaderVisibility('hidden');
                 if (response.status === 200){
                     return  Swal.fire({

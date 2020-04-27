@@ -5,7 +5,6 @@ import { fetchDashboardDataAction } from './../../redux/action-creator';
 
 class DashboardSection extends Component {
 
-
     render() {
         console.log('state dashboard', this.state)
         return(

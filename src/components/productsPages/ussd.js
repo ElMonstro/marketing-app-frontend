@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Bounce from 'react-reveal/Bounce';
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';

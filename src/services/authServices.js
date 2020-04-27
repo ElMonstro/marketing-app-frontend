@@ -22,8 +22,8 @@ export default class AuthService {
             const url = `${baseUrl()}/auth/login/`;
             const { email, password } = userDetails;
             const newUser = { email, password }
-            const response = axios.post(url, newUser).
-                then(response =>{
+            const response = axios.post(url, newUser)
+                .then(response =>{
                     return response;
                 })
                 .catch(error => {

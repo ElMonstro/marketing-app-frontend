@@ -40,10 +40,11 @@ const Routes = () => {
           layout={HomeLayout}
           component={Auth}
         />
-
-        <Route exact path="/dashboard">
-          <Dashboard />
-        </Route>
+        <div>
+          <Route exact path="/dashboard">
+            <Dashboard />
+          </Route>
+        </div>
       </Switch>
     </BrowserRouter>
   );

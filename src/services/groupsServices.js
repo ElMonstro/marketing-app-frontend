@@ -1,5 +1,6 @@
 import axios from 'axios';
 import baseUrl from './baseURL';
+import NewMemberForm from '../components/forms/groupsForms/newMemberForm';
 
 const requestDetails = () => {
     const localStorage = window.localStorage;
@@ -18,7 +19,7 @@ export default class GroupsService {
             return groups;
 
         } catch (error) {
-            console.log('some error happened in posting groups', error);
+            console.log('some error happened in fetching groups', error);
         }
     }
 
@@ -33,4 +34,16 @@ export default class GroupsService {
             console.log('some error happened in posting groups', error);
         }
     }
+
+    static async postNewMember (newMember) {
+        try {
+            const {groupId:group, first_name, second_name, phone} = newMember;
+            const url = `${baseUrl()}/messages/groups/members`;
+            const groups = await axios.post(url, {group, first_name, second_name, phone},requestDetails());
+            return groups;
+        } catch (error) {
+            console.log('some error happened in posting new member', error);
+        }
+    }
+
 }

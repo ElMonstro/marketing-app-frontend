@@ -1,9 +1,15 @@
 import * as Yup from 'yup';
 
-export const yupNewGroupObj = Yup.object({
+export const yupGroupObj = Yup.object({
     groupName: Yup.string()
         .required('* Required'),
     description: Yup.string()
+        .required('* Required'),
+    firstName: Yup.string()
+        .required('* Required'),
+    secondName: Yup.string()
+        .required('* Required'),
+    phoneNumber: Yup.string()
         .required('* Required'),
     })
 

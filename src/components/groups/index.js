@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import randomcolor from 'randomcolor';
 
 import { fetchGroups } from './../../redux/action-creator';
-import NewGroupForm from '../forms/newGroupForm/newGroupForm';
+import NewGroupForm from '../forms/groupsForms/newGroupForm';
+import NewMemberForm from '../forms/groupsForms/newMemberForm';
 import './index.scss';
 class Groups extends Component {
     state = {
@@ -70,14 +71,20 @@ class Groups extends Component {
     }
     }
 
-    changeModalState = () => {
-        var dialog = document.querySelector('dialog');
+    changeModalState = (formId) => {
+        var dialog = document.querySelector(formId);
         dialog.showModal();
     }
 
-    renderAddForm = () => {
+    renderNewGroupForm = () => {
         return( 
             <NewGroupForm fetchGroups={this.props.fetchGroups}/>
+        );
+    }
+
+    renderNewMemberForm = () => {
+        return( 
+            <NewMemberForm fetchGroups={this.props.fetchGroups}/>
         );
     }
 
@@ -101,7 +108,7 @@ class Groups extends Component {
         const {groups} = this.state;
         return(
             <div className="groups-container">
-                {this.renderAddForm()}
+                {this.renderNewGroupForm()}
                 <div className="groups">
                     <div className="group-toggle">
                         <div className={`${groupActiveSms ? 'group-toggle-item active-group': 'group-toggle-item'}`} onClick={() => this.setState({groupActiveSms: true})}>Sms Groups</div>
@@ -116,15 +123,16 @@ class Groups extends Component {
                     <div className="all-groups">
                         {groups ? this.renderAllGroups(groups) : null}
                     </div>
-                    <div className="new-group-btn" onClick={this.changeModalState}>
+                    <div className="new-group-btn" onClick={() => this.changeModalState('#new-group-form')}>
                         <i className="fa fa-plus" aria-hidden="true"></i>
                         add new group
                     </div>
                 </div>
                 <div className="group-members">
+                    {this.renderNewMemberForm()}
                     <div className="members-title">Members</div>
                     <div className="utilities">
-                        <div className="new-member-utility"><i class="fa fa-plus"></i>add new member</div>
+                        <div className="new-member-utility" onClick={() => this.changeModalState('#new-member-form')}><i class="fa fa-plus"></i>add new member</div>
                         <div className="csv-utility"><i class="fa fa-plus"></i>add csv</div>
                     </div>
 

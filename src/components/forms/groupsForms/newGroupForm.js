@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 
-import { yupGroupObj } from '../validation';
+import { yupNewGroupObj } from '../validation';
 import Swal from 'sweetalert2';
 import './groupsForms.scss';
 import GroupsService from '../../../services/groupsServices';
@@ -15,7 +15,7 @@ const NewGroupForm = (props) => {
                 groupName: '',
                 description: '',
             },
-            validationSchema: yupGroupObj,
+            validationSchema: yupNewGroupObj,
             onSubmit: async values => {
                 alert(JSON.stringify(values, null, 2));
                 const {groupName, description} = values;

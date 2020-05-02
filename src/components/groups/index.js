@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import randomcolor from 'randomcolor';
 
-import { fetchGroups } from './../../redux/action-creator';
+import { fetchGroups, fetchGroupMembers } from './../../redux/action-creator';
 import NewGroupForm from '../forms/groupsForms/newGroupForm';
 import NewMemberForm from '../forms/groupsForms/newMemberForm';
+import GroupsService from '../../services/groupsServices';
 import './index.scss';
 class Groups extends Component {
     state = {
@@ -15,11 +16,12 @@ class Groups extends Component {
     }
 
     componentDidMount () {
-        // fetch the groups and their data
+        const {activeGroupIndex} = this.state;
         const {fetchGroups} = this.props;
         fetchGroups();
         const {groups} = this.props;
         this.setState({groups});
+        fetchGroupMembers(groups, activeGroupIndex);
     }
 
     static getDerivedStateFromProps (nextProps, prevState) {
@@ -51,6 +53,43 @@ class Groups extends Component {
         )
     }
 
+    fetchActiveGroupMembers() {
+        const {activeGroupIndex, groups} = this.state;
+        if (groups && groups.length > 0){
+            const {members} = groups[activeGroupIndex];
+            if (members) {
+                const allMembers = members.map(
+                    async eachMember => {
+                        const member = await GroupsService.fetchGroupMember(eachMember);
+                        console.log(member)
+                        return member;
+                }
+            );
+            this.setState(allMembers);
+        }
+    }
+    }
+
+    // renderGroupMembers(groups) {
+    //     const {activeGroupIndex} = this.state;
+    //     if (groups.length > 0){
+    //         const {members} = groups[activeGroupIndex];
+    //         if (members){
+    //             return members.map(
+    //                 eachMember => (
+    //                     <div className="member-item">
+    //                         <div className="item-number">{members.indexOf(eachMember) + 1}.</div>
+    //                         <div className="item-name">{eachMember}</div>
+    //                         <div className="item-phone">+254703456654</div>
+    //                         <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
+    //                         <div className="delete-icon"> <i class="fa fa-trash"></i></div>
+    //                     </div>
+    //             )
+    //         );
+    //     }
+    // }
+    // }
+
     renderGroupMembers(groups) {
         const {activeGroupIndex} = this.state;
         if (groups.length > 0){
@@ -64,8 +103,8 @@ class Groups extends Component {
                             <div className="item-phone">+254703456654</div>
                             <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
                             <div className="delete-icon"> <i class="fa fa-trash"></i></div>
-                        </div>
-                )
+                        </div>)
+                
             );
         }
     }
@@ -83,6 +122,14 @@ class Groups extends Component {
     }
 
     renderNewMemberForm = () => {
+
+        const {groups} = this.state;
+
+        if (groups) {
+            const {activeGroupIndex} = this.state
+            const activeGroupId = groups[activeGroupIndex].id;
+            return <NewMemberForm fetchGroups={this.props.fetchGroups} activeGroupId={activeGroupId}/>
+        }
         return( 
             <NewMemberForm fetchGroups={this.props.fetchGroups}/>
         );
@@ -154,6 +201,7 @@ class Groups extends Component {
 
 const mapDispatchToProps = {
     fetchGroups,
+    fetchGroupMembers,
 }
 
 const mapStateToProps = ({dashboardStoreState}) => ({

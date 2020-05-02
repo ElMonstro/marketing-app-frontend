@@ -1,17 +1,20 @@
 import * as Yup from 'yup';
 
-export const yupGroupObj = Yup.object({
+export const yupNewGroupObj = Yup.object({
     groupName: Yup.string()
         .required('* Required'),
     description: Yup.string()
         .required('* Required'),
-    firstName: Yup.string()
-        .required('* Required'),
-    secondName: Yup.string()
-        .required('* Required'),
-    phoneNumber: Yup.string()
-        .required('* Required'),
     })
+
+    export const yupNewMemberObj = Yup.object({
+        firstName: Yup.string()
+            .required('* Required'),
+        secondName: Yup.string()
+            .required('* Required'),
+        phoneNumber: Yup.string()
+            .required('* Required'),
+        })
 
 export const yupRegObj = Yup.object({
     fullname: Yup.string()

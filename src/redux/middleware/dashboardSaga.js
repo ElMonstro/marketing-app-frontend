@@ -3,32 +3,36 @@ import { takeLatest, put, call } from 'redux-saga/effects';
 import groupsService from './../../services/groupsServices';
 import { fetchGroupsSuccess } from './../action-creator';
 
-import { 
-    FETCH_DASHBOARD_DATA,
-    FETCH_GROUPS,
-} from './../constant/actionTypes';
+import {
+        FETCH_GROUPS,
+        FETCH_GROUP_MEMBERS,
+    } from './../constant/actionTypes';
 
-export function* mountDashboardSagaWatcher() {
-    yield takeLatest(FETCH_DASHBOARD_DATA, mountDashboardSaga)
+export function* fetchGroupsWatcher() {
+    yield takeLatest (FETCH_GROUPS, fetchGroupsSaga);
 }
 
-export function* mountDashboardSaga() {
-    // this saga will fetch data then run the success action creator to let the reducers know data has been fetched and to recieve it.
+export function* fetchGroupsSaga() {
     try {
-        //make an api call here
-        // yield put(fetchDashboardDataSuccessAction(data));
+        console.log('fetchGroupsSaga')
+        const {data} = yield call(groupsService.fetchGroups);
+        console.log('fetchGroupsSagadata', data)
+        yield put(fetchGroupsSuccess(data.results))
     } catch (error) {
         
     }
 }
 
-export function* fetchGroupsWatcher() {
-    yield takeLatest (FETCH_GROUPS, fetchGroupsSaga);
+export function* fetchGroupMembersSagaWatcher(action) {
+    // console.log('GROUP MEMBER WATCHER RUNS', action.groups)
+    // yield takeLatest(FETCH_GROUP_MEMBERS, fetchGroupMembersSaga)
 }
-export function* fetchGroupsSaga() {
+
+export function* fetchGroupMembersSaga(action) {
     try {
-        const {data} = yield call(groupsService.fetchGroups);
-        yield put(fetchGroupsSuccess(data.results))
+        // console.log('SAGAACTIONDATA', action.groups)
+        // yield call(groupsService.fetchGroupMembers)
+        
     } catch (error) {
         
     }

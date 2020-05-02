@@ -1,14 +1,14 @@
 import React from 'react';
 import { useFormik } from 'formik';
 
-import { yupGroupObj } from '../validation';
+import { yupNewMemberObj } from '../validation';
 import Swal from 'sweetalert2';
 import './groupsForms.scss';
 import GroupsService from '../../../services/groupsServices';
 
 const NewMemberForm = (props) => {
     var dialog = document.querySelector('#new-member-form');
-    console.log('dISPATCHER');
+    const {activeGroupId:group, fetchGroups} = props;
 
     const formik = useFormik({
             initialValues: {
@@ -16,22 +16,22 @@ const NewMemberForm = (props) => {
                 secondName: '',
                 phoneNumber: '',
             },
-            validationSchema: yupGroupObj,
+            validationSchema: yupNewMemberObj,
             onSubmit: async values => {
                 alert(JSON.stringify(values, null, 2));
-                // alert(values);
-                // const {firstName, secondName, phoneNumber} = values;
-                // const response = await GroupsService.postNewMember({firstName, secondName, phoneNumber});
-                // dialog.close();
+                const {firstName, secondName, phoneNumber} = values;
+                const response = await GroupsService.postNewMember({group, firstName, secondName, phoneNumber});
+                dialog.close();
+                fetchGroups();
 
-                //     if (response.status === 201){
-                //         return Swal.fire({
-                //             title: 'Success!',
-                //             text: `${response.data.name} added successfully`,
-                //             icon: 'success',
-                //             confirmButtonText: 'close',
-                //     })
-                // }
+                    if (response.status === 201){
+                        return Swal.fire({
+                            title: 'Success!',
+                            text: `added successfully`,
+                            icon: 'success',
+                            confirmButtonText: 'close',
+                    })
+                }
             },
         });
 

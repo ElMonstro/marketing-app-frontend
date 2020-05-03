@@ -8,7 +8,7 @@ const initialState = {
     activeGroupMembers: null,
 }
 
-const dashBoardStoreState = (state = initialState, action) => {
+const dashBoardStoreState = ( state=initialState, action ) => {
     switch (action.type){
         case FETCH_GROUPS_SUCCESS:
             const {groups} = action;
@@ -19,7 +19,7 @@ const dashBoardStoreState = (state = initialState, action) => {
             return {...state, activeGroupMembers}
             
         default:
-            return null
+            return state;
     }
 }
 

@@ -8,7 +8,7 @@ import GroupsService from '../../../services/groupsServices';
 
 const NewMemberForm = (props) => {
     var dialog = document.querySelector('#new-member-form');
-    const {activeGroupId:group, fetchGroups} = props;
+    const {activeGroupId:group, fetchGroups, activeGroupIndex, fetchGroupMembers, groups} = props;
 
     const formik = useFormik({
             initialValues: {
@@ -23,6 +23,7 @@ const NewMemberForm = (props) => {
                 const response = await GroupsService.postNewMember({group, firstName, secondName, phoneNumber});
                 dialog.close();
                 fetchGroups();
+                fetchGroupMembers(groups, activeGroupIndex)
 
                     if (response.status === 201){
                         return Swal.fire({

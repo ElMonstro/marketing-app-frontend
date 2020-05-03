@@ -5,110 +5,83 @@ import randomcolor from 'randomcolor';
 import { fetchGroups, fetchGroupMembers } from './../../redux/action-creator';
 import NewGroupForm from '../forms/groupsForms/newGroupForm';
 import NewMemberForm from '../forms/groupsForms/newMemberForm';
-import GroupsService from '../../services/groupsServices';
 import './index.scss';
+import { act } from 'react-dom/test-utils';
 class Groups extends Component {
     state = {
         groups: null,
         searching: false,
         groupActiveSms: true,
         activeGroupIndex: 0,
+        activeGroupMembers: []
     }
 
     componentDidMount () {
+        console.log('COMPONENT DID MOUNT RUNS')
         const {activeGroupIndex} = this.state;
         const {fetchGroups, fetchGroupMembers} = this.props;
         fetchGroups();
-        const {groups} = this.props;
-        this.setState({groups});
-        console.log('params on index didmount', groups, activeGroupIndex)
+        const {groups, activeGroupMembers} = this.props;
+        this.setState({groups, activeGroupMembers});
         fetchGroupMembers(groups, activeGroupIndex)
     }
 
     static getDerivedStateFromProps (nextProps, prevState) {
-        const {searching} = prevState;
+        console.log('getderivedstatefromprops', nextProps, prevState)
+        const {searching} = prevState; 
+        const {activeGroupIndex} = prevState;
+        const {fetchGroupMembers, groups} = nextProps;
         if (nextProps.groups !== prevState.groups){
             if (!searching){
+                fetchGroupMembers(groups, activeGroupIndex);
                 return {groups: nextProps.groups};
             } else {
                 return null;
             }
-        }else {
-
-            return null;
+        }else if (nextProps.activeGroupMembers !== prevState.activeGroupMembers) {
+            return {activeGroupMembers: nextProps.activeGroupMembers};
         }
     }
 
     renderAllGroups(groups) {
+        console.log('RENDER ALL GROUPS RUNS')
         const {activeGroupIndex} = this.state;
         return groups.map(
             eachGroup => (
-                <div className={`member-group ${activeGroupIndex === groups.indexOf(eachGroup) ? "active-member-group": null}`} onClick={() => this.setState({activeGroupIndex: groups.indexOf(eachGroup) })}>
-                    <div style={{background: randomcolor({luminosity: 'dark',format: 'rgba'})}} className="first-letter">{eachGroup.name.charAt(0)}</div>
-                    <div className="group-content">
-                        <div className="group-name">{eachGroup.name}</div>
-                        <div className="members-amount">{eachGroup.members.length} &nbsp; members</div>
-                    </div>
+                <div className={`member-group ${activeGroupIndex === groups.indexOf(eachGroup) ? "active-member-group": null}`} 
+                    onClick={() => this.updateActiveGroupMembersInStore(groups.indexOf(eachGroup))}>
+                        <div style={{background: randomcolor({luminosity: 'dark',format: 'rgba'})}} className="first-letter">{eachGroup.name.charAt(0)}</div>
+                        <div className="group-content">
+                            <div className="group-name">{eachGroup.name}</div>
+                            <div className="members-amount">{eachGroup.members.length} &nbsp; members</div>
+                        </div>
                 </div>
             )
         )
     }
 
-    fetchActiveGroupMembers() {
-        const {activeGroupIndex, groups} = this.state;
-        if (groups && groups.length > 0){
-            const {members} = groups[activeGroupIndex];
-            if (members) {
-                const allMembers = members.map(
-                    async eachMember => {
-                        const member = await GroupsService.fetchGroupMember(eachMember);
-                        console.log(member)
-                        return member;
-                }
-            );
-            this.setState(allMembers);
-        }
-    }
+    updateActiveGroupMembersInStore (groupIndex) {
+        const {fetchGroupMembers} = this.props;
+        this.setState({activeGroupIndex: groupIndex});
+        const {groups} = this.state;
+        fetchGroupMembers(groups, groupIndex)
     }
 
-    // renderGroupMembers(groups) {
-    //     const {activeGroupIndex} = this.state;
-    //     if (groups.length > 0){
-    //         const {members} = groups[activeGroupIndex];
-    //         if (members){
-    //             return members.map(
-    //                 eachMember => (
-    //                     <div className="member-item">
-    //                         <div className="item-number">{members.indexOf(eachMember) + 1}.</div>
-    //                         <div className="item-name">{eachMember}</div>
-    //                         <div className="item-phone">+254703456654</div>
-    //                         <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
-    //                         <div className="delete-icon"> <i class="fa fa-trash"></i></div>
-    //                     </div>
-    //             )
-    //         );
-    //     }
-    // }
-    // }
-
-    renderGroupMembers(groups) {
-        const {activeGroupIndex} = this.state;
-        if (groups.length > 0){
-            const {members} = groups[activeGroupIndex];
-            if (members){
-                return members.map(
+    renderGroupMembers(activeGroupMembers) {
+        console.log('renderGROUPMEMBERSFUNC', activeGroupMembers)
+            if (activeGroupMembers){
+                return activeGroupMembers.map(
                     eachMember => (
                         <div className="member-item">
-                            <div className="item-number">{members.indexOf(eachMember) + 1}.</div>
-                            <div className="item-name">{eachMember}</div>
-                            <div className="item-phone">+254703456654</div>
+                            <div className="item-number">{activeGroupMembers.indexOf(eachMember) + 1}.</div>
+                            <div className="item-name">{eachMember.first_name}</div>
+                            <div className="item-phone">{eachMember.phone}</div>
                             <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
                             <div className="delete-icon"> <i class="fa fa-trash"></i></div>
-                        </div>)
-                
+                        </div>
+                )
             );
         }
-    }
     }
 
     changeModalState = (formId) => {
@@ -129,10 +102,17 @@ class Groups extends Component {
         if (groups) {
             const {activeGroupIndex} = this.state
             const activeGroupId = groups[activeGroupIndex].id;
-            return <NewMemberForm fetchGroups={this.props.fetchGroups} activeGroupId={activeGroupId}/>
+            return <NewMemberForm 
+                        fetchGroups={this.props.fetchGroups} 
+                        activeGroupId={activeGroupId}
+                        activeGroupMembers={this.props.activeGroupMembers} 
+                        groups={groups} 
+                        activeGroupIndex={activeGroupIndex}
+                        fetchGroupMembers={fetchGroupMembers}
+                    />
         }
         return( 
-            <NewMemberForm fetchGroups={this.props.fetchGroups}/>
+            <NewMemberForm fetchGroups={this.props.fetchGroups} />
         );
     }
 
@@ -153,7 +133,7 @@ class Groups extends Component {
 
     render() {
         const { groupActiveSms } = this.state;
-        const {groups} = this.state;
+        const {groups, activeGroupMembers} = this.state;
         return(
             <div className="groups-container">
                 {this.renderNewGroupForm()}
@@ -192,7 +172,8 @@ class Groups extends Component {
                         <div className="edit-icon">-</div>
                         <div className="delete-icon">-</div>
                     </div>
-                    {   groups ? this.renderGroupMembers(groups) : null}
+                    {/* {   groups ? this.renderGroupMembers(groups) : null} */}
+                    {   groups ? this.renderGroupMembers(activeGroupMembers) : null}
                     </div>
                 </div>
             </div>

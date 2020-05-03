@@ -37,7 +37,6 @@ export const fetchGroups = () => ({
 })
 
 export const fetchGroupsSuccess = (groups) => {
-    console.log('fetch group success', groups)
     return {
     type: FETCH_GROUPS_SUCCESS,
     groups,

@@ -46,11 +46,10 @@ export default class GroupsService {
         }
     }
 
-    static async fetchAllGroupMembers (params) {
+    static async fetchAllGroupMembers (params){
         try {
             const {groups, activeGroupIndex} = params;
             const {members} = groups[activeGroupIndex];
-
             if(members){
                 const groupMembers = await members.map(
                     async eachMember => {
@@ -63,9 +62,17 @@ export default class GroupsService {
                 const groupMembersResolved = await Promise.all(groupMembers)
                 return groupMembersResolved;
             }
-
             return null;
+        } catch (error) {
+            console.log('error in fetching member', error);
+        }
+    }
 
+    static async deleteGroupMember(id){
+        try {     
+            const url = `${baseUrl()}/messages/group-members/${id}/`;
+            const groupMember = await axios.delete(url, requestDetails());
+            return groupMember;
         } catch (error) {
             console.log('error in fetching member', error);
         }

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import randomcolor from 'randomcolor';
+import Swal from 'sweetalert2';
 
+import GroupService from '../../services/groupsServices';
 import { fetchGroups, fetchGroupMembers } from './../../redux/action-creator';
 import NewGroupForm from '../forms/groupsForms/newGroupForm';
 import NewMemberForm from '../forms/groupsForms/newMemberForm';
 import './index.scss';
-import { act } from 'react-dom/test-utils';
+
 class Groups extends Component {
     state = {
         groups: null,
@@ -74,14 +76,45 @@ class Groups extends Component {
                     eachMember => (
                         <div className="member-item">
                             <div className="item-number">{activeGroupMembers.indexOf(eachMember) + 1}.</div>
-                            <div className="item-name">{eachMember.first_name}</div>
+                            <div className="item-name">{(eachMember.first_name)+" "+ (eachMember.last_name)}</div>
                             <div className="item-phone">{eachMember.phone}</div>
                             <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
-                            <div className="delete-icon"> <i class="fa fa-trash"></i></div>
+                            <div className="delete-icon" onClick={() => this.deleteGroupMember(eachMember)}> <i class="fa fa-trash"></i></div>
                         </div>
                 )
             );
         }
+    }
+
+    deleteGroupMember(groupMember) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `you're about to delete ${(groupMember.first_name)+' '+(groupMember.last_name)}.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#808080',
+            confirmButtonText: 'Yes, delete it!'
+          }).then(async (result) => {
+              if(result.value){
+                    const deletedMember = await GroupService.deleteGroupMember(groupMember.id)
+                if (deletedMember.status === 204) {
+                        const {fetchGroups} = this.props;
+                        fetchGroups();
+                    Swal.fire(
+                        'Deleted!',
+                        `${(groupMember.first_name)+' '+(groupMember.last_name)} has been deleted successfully.`,
+                        'success'
+                    )
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Delete was not successfull.Please try again',
+                    })
+                }
+              }
+          })
     }
 
     changeModalState = (formId) => {
@@ -172,7 +205,6 @@ class Groups extends Component {
                         <div className="edit-icon">-</div>
                         <div className="delete-icon">-</div>
                     </div>
-                    {/* {   groups ? this.renderGroupMembers(groups) : null} */}
                     {   groups ? this.renderGroupMembers(activeGroupMembers) : null}
                     </div>
                 </div>

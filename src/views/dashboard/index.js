@@ -48,19 +48,19 @@ class Dashboard extends Component {
         ];
 
         return(
-            <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-                <header class="mdl-layout__header mdl-layout__header--transparent">
-                    <div class="mdl-layout__header-row">
+            <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+                <header className="mdl-layout__header mdl-layout__header--transparent">
+                    <div className="mdl-layout__header-row">
                     {/* <!-- Title --> */}
-                    <span class="mdl-layout-title">Jambo SMS</span>
+                    <span className="mdl-layout-title">Jambo SMS</span>
                     {/* <!-- Add spacer, to align navigation to the right --> */}
-                    <div class="mdl-layout-spacer"></div>
+                    <div className="mdl-layout-spacer"></div>
                     {/* <!-- Navigation --> */}
                     <div></div>
                     </div>
                 </header>
-                <div class="mdl-layout__drawer">
-                    <nav class="mdl-navigation">
+                <div className="mdl-layout__drawer">
+                    <nav className="mdl-navigation">
                         {
                         navItems.map((item) => (
                             activeNavItem === item.title ?
@@ -83,8 +83,8 @@ class Dashboard extends Component {
                     
                 </div>
 
-                <main class="mdl-layout__content">
-                    <div class="page-content">
+                <main className="mdl-layout__content">
+                    <div className="page-content">
                         {this.returnDynamicSection(this.state.activeNavItem)}
                     </div>
                 </main>

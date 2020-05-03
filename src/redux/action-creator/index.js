@@ -47,13 +47,17 @@ export const postNewGroupSuccess = () => ({
     type: POST_NEW_GROUP_SUCCESS,
 })
 
-export const fetchGroupMembers = (groups, activeGroupIndex) => ({
-    type: FETCH_GROUP_MEMBERS,
-    groups,
-    activeGroupIndex
-})
+export const fetchGroupMembers = (groups, activeGroupIndex) => {
+    const params = {groups, activeGroupIndex};
+    console.log('fetch Groups Member Act. creator', groups, activeGroupIndex)
+    return {
+        type: FETCH_GROUP_MEMBERS,
+        params,
+    }
+}
 
-export const fetchGroupMembersSuccess = () => ({
-    type: FETCH_GROUP_MEMBERS_SUCCESS
+export const fetchGroupMembersSuccess = (activeGroupMembers) => ({
+    type: FETCH_GROUP_MEMBERS_SUCCESS,
+    activeGroupMembers
 })
 

@@ -17,11 +17,12 @@ class Groups extends Component {
 
     componentDidMount () {
         const {activeGroupIndex} = this.state;
-        const {fetchGroups} = this.props;
+        const {fetchGroups, fetchGroupMembers} = this.props;
         fetchGroups();
         const {groups} = this.props;
         this.setState({groups});
-        fetchGroupMembers(groups, activeGroupIndex);
+        console.log('params on index didmount', groups, activeGroupIndex)
+        fetchGroupMembers(groups, activeGroupIndex)
     }
 
     static getDerivedStateFromProps (nextProps, prevState) {

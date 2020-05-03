@@ -1,6 +1,5 @@
 import axios from 'axios';
 import baseUrl from './baseURL';
-import NewMemberForm from '../components/forms/groupsForms/newMemberForm';
 
 const requestDetails = () => {
     const localStorage = window.localStorage;
@@ -16,7 +15,6 @@ export default class GroupsService {
         try {
             const url = `${baseUrl()}/messages/groups/`;
             const groups = await axios.get(url, requestDetails());
-            console.log('GROUPS SERVICE RESPONSE', groups)
             return groups;
 
         } catch (error) {
@@ -40,9 +38,7 @@ export default class GroupsService {
         try {
             const {group, firstName:first_name, secondName:last_name, phoneNumber:phone} = newMember;
             const url = `${baseUrl()}/messages/groups/members/`;
-            console.log('ADDING NEW MEMBER', {group, first_name, last_name, phone})
             const groups = await axios.post(url, {group, first_name, last_name, phone}, requestDetails());
-            console.log('ADDING NEW MEMBER response', groups)
             return groups;
 
         } catch (error) {
@@ -50,11 +46,25 @@ export default class GroupsService {
         }
     }
 
-    static fetchGroupMembers (id) {
+    static async fetchAllGroupMembers (params) {
         try {
-            const url = `${baseUrl()}/messages/group-members/${id}/`;
-            const groupMember = axios.get(url, requestDetails());
-            return groupMember;
+            const {groups, activeGroupIndex} = params;
+            const {members} = groups[activeGroupIndex];
+
+            if(members){
+                const groupMembers = await members.map(
+                    async eachMember => {
+                        const url = `${baseUrl()}/messages/group-members/${eachMember}/`;
+                        const groupMember = await axios.get(url, requestDetails());
+                        console.log(groupMember.data)
+                        return groupMember.data;
+                    }
+                )
+                const groupMembersResolved = await Promise.all(groupMembers)
+                return groupMembersResolved;
+            }
+
+            return null;
 
         } catch (error) {
             console.log('error in fetching member', error);

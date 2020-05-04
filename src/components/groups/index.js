@@ -7,6 +7,7 @@ import GroupService from '../../services/groupsServices';
 import { fetchGroups, fetchGroupMembers } from './../../redux/action-creator';
 import NewGroupForm from '../forms/groupsForms/newGroupForm';
 import NewMemberForm from '../forms/groupsForms/newMemberForm';
+import EditMemberForm from '../forms/groupsForms/editForm';
 import './index.scss';
 
 class Groups extends Component {
@@ -15,7 +16,8 @@ class Groups extends Component {
         searching: false,
         groupActiveSms: true,
         activeGroupIndex: 0,
-        activeGroupMembers: []
+        activeGroupMembers: [],
+        memberToBeEditted: ""
     }
 
     componentDidMount () {
@@ -70,7 +72,6 @@ class Groups extends Component {
     }
 
     renderGroupMembers(activeGroupMembers) {
-        console.log('renderGROUPMEMBERSFUNC', activeGroupMembers)
             if (activeGroupMembers){
                 return activeGroupMembers.map(
                     eachMember => (
@@ -78,7 +79,7 @@ class Groups extends Component {
                             <div className="item-number">{activeGroupMembers.indexOf(eachMember) + 1}.</div>
                             <div className="item-name">{(eachMember.first_name)+" "+ (eachMember.last_name)}</div>
                             <div className="item-phone">{eachMember.phone}</div>
-                            <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
+                            <div className="edit-icon" onClick={() => this.showEditDialogAndForm(true, eachMember, )}> <i class="fa fa-edit"></i> </div>
                             <div className="delete-icon" onClick={() => this.deleteGroupMember(eachMember)}> <i class="fa fa-trash"></i></div>
                         </div>
                 )
@@ -122,16 +123,23 @@ class Groups extends Component {
         dialog.showModal();
     }
 
+    showEditDialogAndForm = (editFormVisible, memberToBeEditted) => {
+        this.setState({editFormVisible, memberToBeEditted}, this.changeModalState("#edit-member-form"));
+        
+    }
+
     renderNewGroupForm = () => {
-        return( 
-            <NewGroupForm fetchGroups={this.props.fetchGroups}/>
-        );
+        return <NewGroupForm fetchGroups={this.props.fetchGroups}/>;
+    }
+
+    renderEditMemberForm = () => {
+        const {memberToBeEditted, groups} = this.state;
+        console.log('member to be edited', memberToBeEditted)
+        return <EditMemberForm memberToBeEditted={memberToBeEditted} groups={groups} fetchGroups={this.props.fetchGroups}/>;
     }
 
     renderNewMemberForm = () => {
-
         const {groups} = this.state;
-
         if (groups) {
             const {activeGroupIndex} = this.state
             const activeGroupId = groups[activeGroupIndex].id;
@@ -165,11 +173,13 @@ class Groups extends Component {
     }
 
     render() {
-        const { groupActiveSms } = this.state;
+        const { groupActiveSms, editFormVisible } = this.state;
         const {groups, activeGroupMembers} = this.state;
         return(
             <div className="groups-container">
                 {this.renderNewGroupForm()}
+                {/* {editFormVisible ? this.renderEditMemberForm() : null} */}
+                {this.renderEditMemberForm()}
                 <div className="groups">
                     <div className="group-toggle">
                         <div className={`${groupActiveSms ? 'group-toggle-item active-group': 'group-toggle-item'}`} onClick={() => this.setState({groupActiveSms: true})}>Sms Groups</div>

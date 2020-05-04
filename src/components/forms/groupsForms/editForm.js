@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 
 import { yupNewMemberObj } from '../validation';
@@ -7,38 +7,52 @@ import './groupsForms.scss';
 import GroupsService from '../../../services/groupsServices';
 
 const NewMemberForm = (props) => {
-    var dialog = document.querySelector('#new-member-form');
-    const {activeGroupId:group, fetchGroups, activeGroupIndex, fetchGroupMembers, groups} = props;
+    var dialog = document.querySelector('#edit-member-form');
+    const {fetchGroups} = props;
+    const [member, updateMember] = useState(props.memberToBeEditted);
+    const [groups, updateAllGroups] = useState(props.groups);
+    console.log('MEMBER TO BE EDITTED', member);
+
+    useEffect(() => {
+        updateMember(props.memberToBeEditted);
+      }, [props]);
+
+      useEffect(() => {
+        updateAllGroups(props.groups);
+      }, [props]);
 
     const formik = useFormik({
+            enableReinitialize: true,
             initialValues: {
-                firstName: '',
-                secondName: '',
-                phoneNumber: '',
+                firstName: `${member.first_name}`,
+                secondName: `${member.last_name}`,
+                phoneNumber: `${member.phone}`,
             },
             validationSchema: yupNewMemberObj,
             onSubmit: async values => {
-                alert(JSON.stringify(values, null, 2));
-                const {firstName, secondName, phoneNumber} = values;
-                const response = await GroupsService.postNewMember({group, firstName, secondName, phoneNumber});
+                    //get group member belong to
+                    const groupMemberBelongsTo = groups.filter(
+                        eachGroup => eachGroup.members.includes(member.id)
+                    )
+                const edittedMember = await GroupsService.editGroupMember(member.id, values, groupMemberBelongsTo[0])
+                console.log('EDIT GROUP MEMBER BELONGS TO', edittedMember);
                 dialog.close();
-                fetchGroups();
-                fetchGroupMembers(groups, activeGroupIndex)
-
-                    if (response.status === 201){
-                        return Swal.fire({
-                            title: 'Success!',
-                            text: `added successfully`,
-                            icon: 'success',
-                            confirmButtonText: 'close',
-                    })
+                if (edittedMember.status === 200){
+                    fetchGroups()
+                    return Swal.fire({
+                        title: 'Success!',
+                        text: 'group member editted successfully',
+                        icon: 'success',
+                        confirmButtonText: 'close',
+                })
                 }
+                dialog.close()
             },
         });
 
     return(
         <dialog id="edit-member-form" class="mdl-dialog">
-            <span class="mdl-dialog__title" style={{fontSize: '24px', color: '#1B7EC2'}}>ADD NEW MEMBER</span>
+            <span class="mdl-dialog__title" style={{fontSize: '24px', color: '#1B7EC2'}}>EDIT MEMBER</span>
             <div class="mdl-dialog__content"></div>
                     <form className="form" autoComplete="off" onSubmit={formik.handleSubmit}>
                             
@@ -77,7 +91,7 @@ const NewMemberForm = (props) => {
 
                         <div class="dialog-actions">
                             <button className="dialog-buttons" type="button" className="close" onClick={() => dialog.close()}>CANCEL</button>
-                            <button className="dialog-buttons" type="submit">ADD MEMBER</button>
+                            <button className="dialog-buttons" type="submit">SUBMIT</button>
                         </div>
                     </form>
             

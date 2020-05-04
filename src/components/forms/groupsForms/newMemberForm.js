@@ -18,7 +18,6 @@ const NewMemberForm = (props) => {
             },
             validationSchema: yupNewMemberObj,
             onSubmit: async values => {
-                alert(JSON.stringify(values, null, 2));
                 const {firstName, secondName, phoneNumber} = values;
                 const response = await GroupsService.postNewMember({group, firstName, secondName, phoneNumber});
                 dialog.close();

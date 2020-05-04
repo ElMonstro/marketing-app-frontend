@@ -78,4 +78,17 @@ export default class GroupsService {
         }
     }
 
+    static async editGroupMember (id, member, group) {
+        try {
+            const url = `${baseUrl()}/messages/group-members/${id}/`;
+            const {firstName:first_name, secondName:last_name, phoneNumber:phone} = member;
+            const edittedMember = await axios.put(url, {group:group.id, first_name, last_name, phone}, requestDetails());
+            console.log('EDITTED MEMBER IN SERVICE', edittedMember, group)
+            return edittedMember;
+            
+        } catch (error) {
+            console.log('error in fetching member', error);
+        }
+    }
+
 }

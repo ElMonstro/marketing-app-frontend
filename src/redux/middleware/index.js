@@ -1,17 +1,17 @@
 import { all } from 'redux-saga/effects';
 import {
-    mountDashboardSagaWatcher,
-    mountDashboardSaga,
-    fetchGroupsWatcher,
-    fetchGroupsSaga,
+        fetchGroupsWatcher,
+        fetchGroupsSaga,
+        fetchGroupMembersSagaWatcher,
+        fetchGroupMembersSaga,
     } from './../middleware/dashboardSaga';
 
 function* rootSaga(){
     yield all([
-        mountDashboardSagaWatcher(),
-        mountDashboardSaga(),
         fetchGroupsWatcher(),
         fetchGroupsSaga(),
+        fetchGroupMembersSagaWatcher(),
+        fetchGroupMembersSaga(),
     ]);
 }
 

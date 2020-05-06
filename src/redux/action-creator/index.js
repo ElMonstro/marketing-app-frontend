@@ -6,6 +6,9 @@ import {
     FETCH_GROUPS,
     FETCH_GROUPS_SUCCESS,
     POST_NEW_GROUP_SUCCESS,
+    FETCH_GROUP_MEMBERS,
+    FETCH_GROUP_MEMBERS_SUCCESS,
+    
 } from './../constant/actionTypes';
 
 export const fetchDashboardDataAction = () => {
@@ -33,12 +36,27 @@ export const fetchGroups = () => ({
     type: FETCH_GROUPS,
 })
 
-export const fetchGroupsSuccess = (groups) => ({
+export const fetchGroupsSuccess = (groups) => {
+    return {
     type: FETCH_GROUPS_SUCCESS,
     groups,
-})
+}}
 
 export const postNewGroupSuccess = () => ({
     type: POST_NEW_GROUP_SUCCESS,
+})
+
+export const fetchGroupMembers = (groups, activeGroupIndex) => {
+    const params = {groups, activeGroupIndex};
+    console.log('fetch Groups Member Act. creator', groups, activeGroupIndex)
+    return {
+        type: FETCH_GROUP_MEMBERS,
+        params,
+    }
+}
+
+export const fetchGroupMembersSuccess = (activeGroupMembers) => ({
+    type: FETCH_GROUP_MEMBERS_SUCCESS,
+    activeGroupMembers
 })
 

@@ -3,13 +3,12 @@ import { useFormik } from 'formik';
 
 import { yupNewGroupObj } from '../validation';
 import Swal from 'sweetalert2';
-import './newGroupForm.scss';
-import GroupsService from './../../../services/groupsServices';
+import './groupsForms.scss';
+import GroupsService from '../../../services/groupsServices';
 
 const NewGroupForm = (props) => {
-    var dialog = document.querySelector('dialog');
+    var dialog = document.querySelector('#new-group-form');
     const {fetchGroups} = props;
-    console.log('dISPATCHER', fetchGroups);
 
     const formik = useFormik({
             initialValues: {
@@ -18,6 +17,7 @@ const NewGroupForm = (props) => {
             },
             validationSchema: yupNewGroupObj,
             onSubmit: async values => {
+                alert(JSON.stringify(values, null, 2));
                 const {groupName, description} = values;
                 const response = await GroupsService.postNewGroup({groupName, description});
                 dialog.close();
@@ -35,8 +35,8 @@ const NewGroupForm = (props) => {
         });
 
     return(
-        <dialog class="mdl-dialog">
-            <span class="mdl-dialog__title" style={{fontSize: '24px', color: '#1B7EC2'}}>New Group</span>
+        <dialog id="new-group-form" class="mdl-dialog">
+            <span class="mdl-dialog__title" style={{fontSize: '24px', color: '#1B7EC2'}}>ADD NEW GROUP</span>
             <div class="mdl-dialog__content"></div>
                     <form className="form" autoComplete="off" onSubmit={formik.handleSubmit}>
                             

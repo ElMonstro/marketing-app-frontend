@@ -7,6 +7,15 @@ export const yupNewGroupObj = Yup.object({
         .required('* Required'),
     })
 
+    export const yupNewMemberObj = Yup.object({
+        firstName: Yup.string()
+            .required('* Required'),
+        secondName: Yup.string()
+            .required('* Required'),
+        phoneNumber: Yup.string()
+            .required('* Required'),
+        })
+
 export const yupRegObj = Yup.object({
     fullname: Yup.string()
         .max(20, '* Must be 15 characters or less')

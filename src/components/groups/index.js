@@ -1,83 +1,159 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import randomcolor from 'randomcolor';
+import Swal from 'sweetalert2';
 
-import { fetchGroups } from './../../redux/action-creator';
-import NewGroupForm from '../forms/newGroupForm/newGroupForm';
+import GroupService from '../../services/groupsServices';
+import { fetchGroups, fetchGroupMembers } from './../../redux/action-creator';
+import NewGroupForm from '../forms/groupsForms/newGroupForm';
+import NewMemberForm from '../forms/groupsForms/newMemberForm';
+import EditMemberForm from '../forms/groupsForms/editForm';
 import './index.scss';
+
 class Groups extends Component {
     state = {
         groups: null,
         searching: false,
         groupActiveSms: true,
         activeGroupIndex: 0,
+        activeGroupMembers: [],
+        memberToBeEditted: ""
     }
 
     componentDidMount () {
-        // fetch the groups and their data
-        const {fetchGroups} = this.props;
+        console.log('COMPONENT DID MOUNT RUNS')
+        const {activeGroupIndex} = this.state;
+        const {fetchGroups, fetchGroupMembers} = this.props;
         fetchGroups();
-        const {groups} = this.props;
-        this.setState({groups});
+        const {groups, activeGroupMembers} = this.props;
+        this.setState({groups, activeGroupMembers});
+        fetchGroupMembers(groups, activeGroupIndex)
     }
 
     static getDerivedStateFromProps (nextProps, prevState) {
-        const {searching} = prevState;
+        console.log('getderivedstatefromprops', nextProps, prevState)
+        const {searching} = prevState; 
+        const {activeGroupIndex} = prevState;
+        const {fetchGroupMembers, groups} = nextProps;
         if (nextProps.groups !== prevState.groups){
             if (!searching){
+                fetchGroupMembers(groups, activeGroupIndex);
                 return {groups: nextProps.groups};
             } else {
                 return null;
             }
-        }else {
-
-            return null;
+        }else if (nextProps.activeGroupMembers !== prevState.activeGroupMembers) {
+            return {activeGroupMembers: nextProps.activeGroupMembers};
         }
     }
 
     renderAllGroups(groups) {
+        console.log('RENDER ALL GROUPS RUNS')
         const {activeGroupIndex} = this.state;
         return groups.map(
             eachGroup => (
-                <div className={`member-group ${activeGroupIndex === groups.indexOf(eachGroup) ? "active-member-group": null}`} onClick={() => this.setState({activeGroupIndex: groups.indexOf(eachGroup) })}>
-                    <div style={{background: randomcolor({luminosity: 'dark',format: 'rgba'})}} className="first-letter">{eachGroup.name.charAt(0)}</div>
-                    <div className="group-content">
-                        <div className="group-name">{eachGroup.name}</div>
-                        <div className="members-amount">{eachGroup.members.length} &nbsp; members</div>
-                    </div>
+                <div className={`member-group ${activeGroupIndex === groups.indexOf(eachGroup) ? "active-member-group": null}`} 
+                    onClick={() => this.updateActiveGroupMembersInStore(groups.indexOf(eachGroup))}>
+                        <div style={{background: randomcolor({luminosity: 'dark',format: 'rgba'})}} className="first-letter">{eachGroup.name.charAt(0)}</div>
+                        <div className="group-content">
+                            <div className="group-name">{eachGroup.name}</div>
+                            <div className="members-amount">{eachGroup.members.length} &nbsp; members</div>
+                        </div>
                 </div>
             )
         )
     }
 
-    renderGroupMembers(groups) {
-        const {activeGroupIndex} = this.state;
-        if (groups.length > 0){
-            const {members} = groups[activeGroupIndex];
-            if (members){
-                return members.map(
+    updateActiveGroupMembersInStore (groupIndex) {
+        const {fetchGroupMembers} = this.props;
+        this.setState({activeGroupIndex: groupIndex});
+        const {groups} = this.state;
+        fetchGroupMembers(groups, groupIndex)
+    }
+
+    renderGroupMembers(activeGroupMembers) {
+            if (activeGroupMembers){
+                return activeGroupMembers.map(
                     eachMember => (
                         <div className="member-item">
-                            <div className="item-number">{members.indexOf(eachMember) + 1}.</div>
-                            <div className="item-name">{eachMember}</div>
-                            <div className="item-phone">+254703456654</div>
-                            <div className="edit-icon"> <i class="fa fa-edit"></i> </div>
-                            <div className="delete-icon"> <i class="fa fa-trash"></i></div>
+                            <div className="item-number">{activeGroupMembers.indexOf(eachMember) + 1}.</div>
+                            <div className="item-name">{(eachMember.first_name)+" "+ (eachMember.last_name)}</div>
+                            <div className="item-phone">{eachMember.phone}</div>
+                            <div className="edit-icon" onClick={() => this.showEditDialogAndForm(true, eachMember, )}> <i class="fa fa-edit"></i> </div>
+                            <div className="delete-icon" onClick={() => this.deleteGroupMember(eachMember)}> <i class="fa fa-trash"></i></div>
                         </div>
                 )
             );
         }
     }
+
+    deleteGroupMember(groupMember) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `you're about to delete ${(groupMember.first_name)+' '+(groupMember.last_name)}.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#808080',
+            confirmButtonText: 'Yes, delete it!'
+          }).then(async (result) => {
+              if(result.value){
+                    const deletedMember = await GroupService.deleteGroupMember(groupMember.id)
+                if (deletedMember.status === 204) {
+                        const {fetchGroups} = this.props;
+                        fetchGroups();
+                    Swal.fire(
+                        'Deleted!',
+                        `${(groupMember.first_name)+' '+(groupMember.last_name)} has been deleted successfully.`,
+                        'success'
+                    )
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Delete was not successfull.Please try again',
+                    })
+                }
+              }
+          })
     }
 
-    changeModalState = () => {
-        var dialog = document.querySelector('dialog');
+    changeModalState = (formId) => {
+        var dialog = document.querySelector(formId);
         dialog.showModal();
     }
 
-    renderAddForm = () => {
+    showEditDialogAndForm = (editFormVisible, memberToBeEditted) => {
+        this.setState({editFormVisible, memberToBeEditted}, this.changeModalState("#edit-member-form"));
+        
+    }
+
+    renderNewGroupForm = () => {
+        return <NewGroupForm fetchGroups={this.props.fetchGroups}/>;
+    }
+
+    renderEditMemberForm = () => {
+        const {memberToBeEditted, groups} = this.state;
+        console.log('member to be edited', memberToBeEditted)
+        return <EditMemberForm memberToBeEditted={memberToBeEditted} groups={groups} fetchGroups={this.props.fetchGroups}/>;
+    }
+
+    renderNewMemberForm = () => {
+        const {groups} = this.state;
+        if (groups) {
+            const {activeGroupIndex} = this.state
+            const activeGroupId = groups[activeGroupIndex].id;
+            return <NewMemberForm 
+                        fetchGroups={this.props.fetchGroups} 
+                        activeGroupId={activeGroupId}
+                        activeGroupMembers={this.props.activeGroupMembers} 
+                        groups={groups} 
+                        activeGroupIndex={activeGroupIndex}
+                        fetchGroupMembers={fetchGroupMembers}
+                    />
+        }
         return( 
-            <NewGroupForm fetchGroups={this.props.fetchGroups}/>
+            <NewMemberForm fetchGroups={this.props.fetchGroups} />
         );
     }
 
@@ -97,11 +173,13 @@ class Groups extends Component {
     }
 
     render() {
-        const { groupActiveSms } = this.state;
-        const {groups} = this.state;
+        const { groupActiveSms, editFormVisible } = this.state;
+        const {groups, activeGroupMembers} = this.state;
         return(
             <div className="groups-container">
-                {this.renderAddForm()}
+                {this.renderNewGroupForm()}
+                {/* {editFormVisible ? this.renderEditMemberForm() : null} */}
+                {this.renderEditMemberForm()}
                 <div className="groups">
                     <div className="group-toggle">
                         <div className={`${groupActiveSms ? 'group-toggle-item active-group': 'group-toggle-item'}`} onClick={() => this.setState({groupActiveSms: true})}>Sms Groups</div>
@@ -116,15 +194,16 @@ class Groups extends Component {
                     <div className="all-groups">
                         {groups ? this.renderAllGroups(groups) : null}
                     </div>
-                    <div className="new-group-btn" onClick={this.changeModalState}>
+                    <div className="new-group-btn" onClick={() => this.changeModalState('#new-group-form')}>
                         <i className="fa fa-plus" aria-hidden="true"></i>
                         add new group
                     </div>
                 </div>
                 <div className="group-members">
+                    {this.renderNewMemberForm()}
                     <div className="members-title">Members</div>
                     <div className="utilities">
-                        <div className="new-member-utility"><i class="fa fa-plus"></i>add new member</div>
+                        <div className="new-member-utility" onClick={() => this.changeModalState('#new-member-form')}><i class="fa fa-plus"></i>add new member</div>
                         <div className="csv-utility"><i class="fa fa-plus"></i>add csv</div>
                     </div>
 
@@ -136,7 +215,7 @@ class Groups extends Component {
                         <div className="edit-icon">-</div>
                         <div className="delete-icon">-</div>
                     </div>
-                    {   groups ? this.renderGroupMembers(groups) : null}
+                    {   groups ? this.renderGroupMembers(activeGroupMembers) : null}
                     </div>
                 </div>
             </div>
@@ -146,6 +225,7 @@ class Groups extends Component {
 
 const mapDispatchToProps = {
     fetchGroups,
+    fetchGroupMembers,
 }
 
 const mapStateToProps = ({dashboardStoreState}) => ({

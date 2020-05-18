@@ -3,6 +3,9 @@ import {connect} from 'react-redux';
 import randomcolor from 'randomcolor';
 import Swal from 'sweetalert2';
 
+import { Layout, Menu, PageHeader, Row, Col, Avatar, Tabs, Table, Tag, Space} from 'antd';
+import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+
 import GroupService from '../../services/groupsServices';
 import { fetchGroups, fetchGroupMembers } from './../../redux/action-creator';
 import NewGroupForm from '../forms/groupsForms/newGroupForm';
@@ -10,6 +13,9 @@ import NewMemberForm from '../forms/groupsForms/newMemberForm';
 import EditMemberForm from '../forms/groupsForms/editForm';
 import './index.scss';
 
+
+const { Header, Content, Footer, Sider } = Layout;
+const { TabPane } = Tabs;
 class Groups extends Component {
     state = {
         groups: null,
@@ -173,52 +179,122 @@ class Groups extends Component {
     }
 
     render() {
+
         const { groupActiveSms, editFormVisible } = this.state;
         const {groups, activeGroupMembers} = this.state;
-        return(
-            <div className="groups-container">
-                {this.renderNewGroupForm()}
-                {/* {editFormVisible ? this.renderEditMemberForm() : null} */}
-                {this.renderEditMemberForm()}
-                <div className="groups">
-                    <div className="group-toggle">
-                        <div className={`${groupActiveSms ? 'group-toggle-item active-group': 'group-toggle-item'}`} onClick={() => this.setState({groupActiveSms: true})}>Sms Groups</div>
-                        <div className={`${!groupActiveSms ? 'group-toggle-item active-group': 'group-toggle-item'}`} onClick={() => this.setState({groupActiveSms: false})}>Email Groups</div>
-                    </div>
-                    <div className="search-section">
-                        <div className="search-bar">
-                            <input placeholder="search" onChange={this.filterGroups}></input>
-                            <div className="search-icon"><i class="fa fa-search"></i></div>
-                        </div>
-                    </div>
-                    <div className="all-groups">
-                        {groups ? this.renderAllGroups(groups) : null}
-                    </div>
-                    <div className="new-group-btn" onClick={() => this.changeModalState('#new-group-form')}>
-                        <i className="fa fa-plus" aria-hidden="true"></i>
-                        add new group
-                    </div>
-                </div>
-                <div className="group-members">
-                    {this.renderNewMemberForm()}
-                    <div className="members-title">Members</div>
-                    <div className="utilities">
-                        <div className="new-member-utility" onClick={() => this.changeModalState('#new-member-form')}><i class="fa fa-plus"></i>add new member</div>
-                        <div className="csv-utility"><i class="fa fa-plus"></i>add csv</div>
-                    </div>
+          
+          const data = groups;
+          const columns = [{
+            title: 'First Name',
+            dataIndex: 'name',
+            key: 'name',
+            width: 150,
+          },{
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+            width: 150,
+          }];
 
-                    <div className="all-group-members">
-                    <div  className="member-item table-header">
-                    <div className="item-number">-</div>
-                        <div className="item-name" style={{color: 'gray', fontWeight: 400}}>name</div>
-                        <div className="item-phone" style={{color: 'gray', fontWeight: 400}}>phone no</div>
-                        <div className="edit-icon">-</div>
-                        <div className="delete-icon">-</div>
-                    </div>
-                    {   groups ? this.renderGroupMembers(activeGroupMembers) : null}
-                    </div>
-                </div>
-            </div>
+          const activeUserColumns = [{
+            title: 'First Name',
+            dataIndex: 'first_name',
+            key: 'first_name',
+            // width: 150,
+          },{
+          title: 'Last Name',
+          dataIndex: 'last_name',
+          key: 'last_name',
+        //   width: 150
+        },
+        {
+            title: 'Phone ',
+            dataIndex: 'phone',
+            key: 'phone',
+            // width: 150
+          }] 
+
+        return(
+            <Row gutter={[16, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <Tabs defaultActiveKey="2">
+                <TabPane
+                  tab={
+                    <span style={{marginLeft: '30px'}}>
+                      <i class="fa fa-comments-o" aria-hidden="true"></i>
+                        <span style={{marginLeft: '15px'}}>SMS</span>
+                    </span>
+                  }
+                  key="1">
+                  <Row>
+                      <Col span={24}>
+                        <Table columns={columns} dataSource={groups} />
+                      </Col>
+                  </Row>
+                </TabPane>
+                <TabPane
+                  tab={
+                    <span style={{marginLeft: '30px'}}>
+                      <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        <span style={{marginLeft: '15px'}}>EMAIL</span>
+                    </span>
+                  }
+                  key="2"
+                >
+                  Email Stuff
+                </TabPane>
+              </Tabs>
+
+            </Col>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Table columns={activeUserColumns} dataSource={activeGroupMembers} />
+            </Col>
+          </Row>
+
+
+            // <div className="groups-container">
+            //     {this.renderNewGroupForm()}
+            //     {/* {editFormVisible ? this.renderEditMemberForm() : null} */}
+            //     {this.renderEditMemberForm()}
+            //     <div className="groups">
+            //         <div className="group-toggle">
+            //             <div className={`${groupActiveSms ? 'group-toggle-item active-group': 'group-toggle-item'}`} onClick={() => this.setState({groupActiveSms: true})}>Sms Groups</div>
+            //             <div className={`${!groupActiveSms ? 'group-toggle-item active-group': 'group-toggle-item'}`} onClick={() => this.setState({groupActiveSms: false})}>Email Groups</div>
+            //         </div>
+            //         <div className="search-section">
+            //             <div className="search-bar">
+            //                 <input placeholder="search" onChange={this.filterGroups}></input>
+            //                 <div className="search-icon"><i class="fa fa-search"></i></div>
+            //             </div>
+            //         </div>
+            //         <div className="all-groups">
+            //             {groups ? this.renderAllGroups(groups) : null}
+            //         </div>
+            //         <div className="new-group-btn" onClick={() => this.changeModalState('#new-group-form')}>
+            //             <i className="fa fa-plus" aria-hidden="true"></i>
+            //             add new group
+            //         </div>
+            //     </div>
+            //     <div className="group-members">
+            //         {this.renderNewMemberForm()}
+            //         <div className="members-title">Members</div>
+            //         <div className="utilities">
+            //             <div className="new-member-utility" onClick={() => this.changeModalState('#new-member-form')}><i class="fa fa-plus"></i>add new member</div>
+            //             <div className="csv-utility"><i class="fa fa-plus"></i>add csv</div>
+            //         </div>
+
+            //         <div className="all-group-members">
+            //         <div  className="member-item table-header">
+            //         <div className="item-number">-</div>
+            //             <div className="item-name" style={{color: 'gray', fontWeight: 400}}>name</div>
+            //             <div className="item-phone" style={{color: 'gray', fontWeight: 400}}>phone no</div>
+            //             <div className="edit-icon">-</div>
+            //             <div className="delete-icon">-</div>
+            //         </div>
+            //         {   groups ? this.renderGroupMembers(activeGroupMembers) : null}
+            //         </div>
+            //     </div>
+            // </div>
         );
     }
 }

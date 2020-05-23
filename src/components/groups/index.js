@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import randomcolor from 'randomcolor';
 import Swal from 'sweetalert2';
 
-import { Layout, Menu, PageHeader, Row, Col, Avatar, Tabs, Table, Tag, Space} from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { Layout, Menu, PageHeader, Row, Col, Alert , Tabs, Table, Button, Modal, Form, Input, Typography} from 'antd';
+import { UploadOutlined, UserOutlined, VideoCameraOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 
 import GroupService from '../../services/groupsServices';
 import { fetchGroups, fetchGroupMembers } from './../../redux/action-creator';
@@ -16,6 +16,7 @@ import './index.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { TabPane } = Tabs;
+const { Title } = Typography;
 class Groups extends Component {
     state = {
         groups: null,
@@ -23,11 +24,11 @@ class Groups extends Component {
         groupActiveSms: true,
         activeGroupIndex: 0,
         activeGroupMembers: [],
-        memberToBeEditted: ""
+        memberToBeEditted: "",
+        visible: false,
     }
 
     componentDidMount () {
-        console.log('COMPONENT DID MOUNT RUNS')
         const {activeGroupIndex} = this.state;
         const {fetchGroups, fetchGroupMembers} = this.props;
         fetchGroups();
@@ -124,6 +125,39 @@ class Groups extends Component {
           })
     }
 
+    showModal = () => {
+        this.setState({
+          visible: true,
+        });
+      };
+
+      handleCancel = e => {
+        console.log(e);
+        this.setState({
+          visible: false,
+        });
+      };
+
+      onFinish = async (values) => {
+        console.log('Success:', values);
+        alert(JSON.stringify(values, null, 2));
+        const response = await GroupService.postNewGroup(values);
+        console.log('response add group++++++++++++++', response);
+        fetchGroups();
+        // this.setState({
+        //     visible: false,
+        //   });
+      };
+    
+      onFinishFailed = errorInfo => {
+        console.log('Failed:', errorInfo);
+        
+        // this.setState({
+        //     visible: false,
+        //   });
+      };
+    
+
     changeModalState = (formId) => {
         var dialog = document.querySelector(formId);
         dialog.showModal();
@@ -177,8 +211,16 @@ class Groups extends Component {
             this.setState(() => ({groups: filteredGroups}));
         }
     }
+    
 
     render() {
+        const layout = {
+            labelCol: { span: 8 },
+            wrapperCol: { span: 16 },
+          };
+          const tailLayout = {
+            wrapperCol: { offset: 8, span: 16 },
+          };
 
         const { groupActiveSms, editFormVisible } = this.state;
         const {groups, activeGroupMembers} = this.state;
@@ -217,6 +259,11 @@ class Groups extends Component {
         return(
             <Row gutter={[16, 16]}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Row>
+                    <Col span={24}>
+                        <Title level={4}>Groups</Title>
+                    </Col>
+                </Row>
               <Tabs defaultActiveKey="2">
                 <TabPane
                   tab={
@@ -226,8 +273,50 @@ class Groups extends Component {
                     </span>
                   }
                   key="1">
+                    <Row gutter={[16, 16]}>
+                      <Col span={24}>
+                        <Button type="primary" icon={<UsergroupAddOutlined />} size={'large'} block onClick={this.showModal}>Add New Group</Button>
+                      </Col>
+                  </Row>
                   <Row>
                       <Col span={24}>
+                      <Modal
+                        title="Create New Group"
+                        visible={this.state.visible}
+                        onOk={this.handleOk}
+                        onCancel={this.handleCancel}
+                        footer={null}
+                        >
+                            <Form
+                                {...layout}
+                                name="basic"
+                                initialValues={{ remember: false }}
+                                onFinish={this.onFinish}
+                                onFinishFailed={this.onFinishFailed}
+                                >
+                                <Form.Item
+                                    label="Group Name"
+                                    name="groupName"
+                                    rules={[{ required: true, message: 'Please input your group name!' }]}
+                                >
+                                    <Input />
+                                </Form.Item>
+
+                                <Form.Item
+                                    label="Description"
+                                    name="description"
+                                    rules={[{ required: true, message: 'Please input your group description!' }]}
+                                >
+                                    <Input />
+                                </Form.Item>
+
+                                <Form.Item {...tailLayout}>
+                                    <Button type="primary" htmlType="submit">
+                                    Submit
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </Modal>
                         <Table columns={columns} dataSource={groups} />
                       </Col>
                   </Row>
@@ -246,8 +335,17 @@ class Groups extends Component {
               </Tabs>
 
             </Col>
-            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Table columns={activeUserColumns} dataSource={activeGroupMembers} />
+            <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{background: '#f5f5f5'}}>
+                 <Row gutter={[16, 16]}>
+                      <Col span={24}>
+                      <Title level={4}>Members</Title>
+                      </Col>
+                  </Row>
+                  <Row>
+                      <Col span={24}>
+                            <Table columns={activeUserColumns} dataSource={activeGroupMembers} />
+                      </Col>
+                  </Row>
             </Col>
           </Row>
 

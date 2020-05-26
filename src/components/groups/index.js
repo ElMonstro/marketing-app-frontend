@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import randomcolor from 'randomcolor';
 import Swal from 'sweetalert2';
 
-import { Layout, Menu, PageHeader, Row, Col, Alert , Tabs, Table, Button, Modal, Form, Input, Typography} from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { Layout, Menu, PageHeader, Row, Col, notification, Tabs, Table, Button, Modal, Form, Input, Typography} from 'antd';
+import { UploadOutlined, UserOutlined, VideoCameraOutlined, UsergroupAddOutlined, UserAddOutlined } from '@ant-design/icons';
 
 import GroupService from '../../services/groupsServices';
 import { fetchGroups, fetchGroupMembers } from './../../redux/action-creator';
@@ -25,7 +25,8 @@ class Groups extends Component {
         activeGroupIndex: 0,
         activeGroupMembers: [],
         memberToBeEditted: "",
-        visible: false,
+        newGroupModalVisible: false,
+        newGroupMemberModalVisible: false,
     }
 
     componentDidMount () {
@@ -54,107 +55,130 @@ class Groups extends Component {
         }
     }
 
-    renderAllGroups(groups) {
-        console.log('RENDER ALL GROUPS RUNS')
-        const {activeGroupIndex} = this.state;
-        return groups.map(
-            eachGroup => (
-                <div className={`member-group ${activeGroupIndex === groups.indexOf(eachGroup) ? "active-member-group": null}`} 
-                    onClick={() => this.updateActiveGroupMembersInStore(groups.indexOf(eachGroup))}>
-                        <div style={{background: randomcolor({luminosity: 'dark',format: 'rgba'})}} className="first-letter">{eachGroup.name.charAt(0)}</div>
-                        <div className="group-content">
-                            <div className="group-name">{eachGroup.name}</div>
-                            <div className="members-amount">{eachGroup.members.length} &nbsp; members</div>
-                        </div>
-                </div>
-            )
-        )
-    }
+    // renderAllGroups(groups) {
+    //     console.log('RENDER ALL GROUPS RUNS')
+    //     const {activeGroupIndex} = this.state;
+    //     return groups.map(
+    //         eachGroup => (
+    //             <div className={`member-group ${activeGroupIndex === groups.indexOf(eachGroup) ? "active-member-group": null}`} 
+    //                 onClick={() => this.updateActiveGroupMembersInStore(groups.indexOf(eachGroup))}>
+    //                     <div style={{background: randomcolor({luminosity: 'dark',format: 'rgba'})}} className="first-letter">{eachGroup.name.charAt(0)}</div>
+    //                     <div className="group-content">
+    //                         <div className="group-name">{eachGroup.name}</div>
+    //                         <div className="members-amount">{eachGroup.members.length} &nbsp; members</div>
+    //                     </div>
+    //             </div>
+    //         )
+    //     )
+    // }
 
-    updateActiveGroupMembersInStore (groupIndex) {
-        const {fetchGroupMembers} = this.props;
-        this.setState({activeGroupIndex: groupIndex});
-        const {groups} = this.state;
-        fetchGroupMembers(groups, groupIndex)
-    }
+    // updateActiveGroupMembersInStore (groupIndex) {
+    //     const {fetchGroupMembers} = this.props;
+    //     this.setState({activeGroupIndex: groupIndex});
+    //     const {groups} = this.state;
+    //     fetchGroupMembers(groups, groupIndex)
+    // }
 
-    renderGroupMembers(activeGroupMembers) {
-            if (activeGroupMembers){
-                return activeGroupMembers.map(
-                    eachMember => (
-                        <div className="member-item">
-                            <div className="item-number">{activeGroupMembers.indexOf(eachMember) + 1}.</div>
-                            <div className="item-name">{(eachMember.first_name)+" "+ (eachMember.last_name)}</div>
-                            <div className="item-phone">{eachMember.phone}</div>
-                            <div className="edit-icon" onClick={() => this.showEditDialogAndForm(true, eachMember, )}> <i class="fa fa-edit"></i> </div>
-                            <div className="delete-icon" onClick={() => this.deleteGroupMember(eachMember)}> <i class="fa fa-trash"></i></div>
-                        </div>
-                )
-            );
-        }
-    }
+    // renderGroupMembers(activeGroupMembers) {
+    //         if (activeGroupMembers){
+    //             return activeGroupMembers.map(
+    //                 eachMember => (
+    //                     <div className="member-item">
+    //                         <div className="item-number">{activeGroupMembers.indexOf(eachMember) + 1}.</div>
+    //                         <div className="item-name">{(eachMember.first_name)+" "+ (eachMember.last_name)}</div>
+    //                         <div className="item-phone">{eachMember.phone}</div>
+    //                         <div className="edit-icon" onClick={() => this.showEditDialogAndForm(true, eachMember, )}> <i class="fa fa-edit"></i> </div>
+    //                         <div className="delete-icon" onClick={() => this.deleteGroupMember(eachMember)}> <i class="fa fa-trash"></i></div>
+    //                     </div>
+    //             )
+    //         );
+    //     }
+    // }
 
-    deleteGroupMember(groupMember) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: `you're about to delete ${(groupMember.first_name)+' '+(groupMember.last_name)}.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#808080',
-            confirmButtonText: 'Yes, delete it!'
-          }).then(async (result) => {
-              if(result.value){
-                    const deletedMember = await GroupService.deleteGroupMember(groupMember.id)
-                if (deletedMember.status === 204) {
-                        const {fetchGroups} = this.props;
-                        fetchGroups();
-                    Swal.fire(
-                        'Deleted!',
-                        `${(groupMember.first_name)+' '+(groupMember.last_name)} has been deleted successfully.`,
-                        'success'
-                    )
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Delete was not successfull.Please try again',
-                    })
-                }
-              }
-          })
-    }
+    // deleteGroupMember(groupMember) {
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: `you're about to delete ${(groupMember.first_name)+' '+(groupMember.last_name)}.`,
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#808080',
+    //         confirmButtonText: 'Yes, delete it!'
+    //       }).then(async (result) => {
+    //           if(result.value){
+    //                 const deletedMember = await GroupService.deleteGroupMember(groupMember.id)
+    //             if (deletedMember.status === 204) {
+    //                     const {fetchGroups} = this.props;
+    //                     fetchGroups();
+    //                 Swal.fire(
+    //                     'Deleted!',
+    //                     `${(groupMember.first_name)+' '+(groupMember.last_name)} has been deleted successfully.`,
+    //                     'success'
+    //                 )
+    //             } else {
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: 'Oops...',
+    //                     text: 'Delete was not successfull.Please try again',
+    //                 })
+    //             }
+    //           }
+    //       })
+    // }
 
     showModal = () => {
         this.setState({
-          visible: true,
-        });
-      };
-
-      handleCancel = e => {
-        console.log(e);
-        this.setState({
-          visible: false,
+            newGroupModalVisible: true,
         });
       };
 
       onFinish = async (values) => {
-        console.log('Success:', values);
-        alert(JSON.stringify(values, null, 2));
         const response = await GroupService.postNewGroup(values);
-        console.log('response add group++++++++++++++', response);
-        fetchGroups();
-        // this.setState({
-        //     visible: false,
-        //   });
+        this.props.fetchGroups();
+        if (response.status === 201){
+            this.openNotificationWithIcon('success', 'Groups', 'Group added successfully!');
+            this.setState({
+                    visible: false,
+                  });
+        }
+        
       };
     
       onFinishFailed = errorInfo => {
         console.log('Failed:', errorInfo);
+        this.openNotificationWithIcon('error', 'Groups', 'Error occurred try to add group again.');
+        this.setState({
+                visible: false,
+              });
+      };
+
+      onFinishGroupMember = async (values) => {
+        const response = await GroupService.postNewMember({group: this.state.groups[this.state.activeGroupIndex].id, ...values});
+        this.props.fetchGroups();
+        fetchGroupMembers(this.state.groups, this.state.activeGroupIndex);
+        if (response.status === 201){
+            this.openNotificationWithIcon('success', 'Group members', 'Group added successfully!');
+            this.setState({
+                    visible: false,
+                  });
+        }
         
-        // this.setState({
-        //     visible: false,
-        //   });
+      };
+    
+      onFinishGroupMemberFailed = errorInfo => {
+        console.log('Failed:', errorInfo);
+        this.openNotificationWithIcon('error', 'Groups', 'Error occurred try to add group member again.');
+        this.setState({
+                visible: false,
+              });
+      };
+
+      openNotificationWithIcon = (type, message, description) => {
+        notification[type]({
+          message: message,
+          description:
+            description,
+        });
       };
     
 
@@ -163,39 +187,39 @@ class Groups extends Component {
         dialog.showModal();
     }
 
-    showEditDialogAndForm = (editFormVisible, memberToBeEditted) => {
-        this.setState({editFormVisible, memberToBeEditted}, this.changeModalState("#edit-member-form"));
+    // showEditDialogAndForm = (editFormVisible, memberToBeEditted) => {
+    //     this.setState({editFormVisible, memberToBeEditted}, this.changeModalState("#edit-member-form"));
         
-    }
+    // }
 
-    renderNewGroupForm = () => {
-        return <NewGroupForm fetchGroups={this.props.fetchGroups}/>;
-    }
+    // renderNewGroupForm = () => {
+    //     return <NewGroupForm fetchGroups={this.props.fetchGroups}/>;
+    // }
 
-    renderEditMemberForm = () => {
-        const {memberToBeEditted, groups} = this.state;
-        console.log('member to be edited', memberToBeEditted)
-        return <EditMemberForm memberToBeEditted={memberToBeEditted} groups={groups} fetchGroups={this.props.fetchGroups}/>;
-    }
+    // renderEditMemberForm = () => {
+    //     const {memberToBeEditted, groups} = this.state;
+    //     console.log('member to be edited', memberToBeEditted)
+    //     return <EditMemberForm memberToBeEditted={memberToBeEditted} groups={groups} fetchGroups={this.props.fetchGroups}/>;
+    // }
 
-    renderNewMemberForm = () => {
-        const {groups} = this.state;
-        if (groups) {
-            const {activeGroupIndex} = this.state
-            const activeGroupId = groups[activeGroupIndex].id;
-            return <NewMemberForm 
-                        fetchGroups={this.props.fetchGroups} 
-                        activeGroupId={activeGroupId}
-                        activeGroupMembers={this.props.activeGroupMembers} 
-                        groups={groups} 
-                        activeGroupIndex={activeGroupIndex}
-                        fetchGroupMembers={fetchGroupMembers}
-                    />
-        }
-        return( 
-            <NewMemberForm fetchGroups={this.props.fetchGroups} />
-        );
-    }
+    // renderNewMemberForm = () => {
+    //     const {groups} = this.state;
+    //     if (groups) {
+    //         const {activeGroupIndex} = this.state
+    //         const activeGroupId = groups[activeGroupIndex].id;
+    //         return <NewMemberForm 
+    //                     fetchGroups={this.props.fetchGroups} 
+    //                     activeGroupId={activeGroupId}
+    //                     activeGroupMembers={this.props.activeGroupMembers} 
+    //                     groups={groups} 
+    //                     activeGroupIndex={activeGroupIndex}
+    //                     fetchGroupMembers={fetchGroupMembers}
+    //                 />
+    //     }
+    //     return( 
+    //         <NewMemberForm fetchGroups={this.props.fetchGroups} />
+    //     );
+    // }
 
     filterGroups = (e) => {
         e.preventDefault();
@@ -242,18 +266,15 @@ class Groups extends Component {
             title: 'First Name',
             dataIndex: 'first_name',
             key: 'first_name',
-            // width: 150,
           },{
           title: 'Last Name',
           dataIndex: 'last_name',
           key: 'last_name',
-        //   width: 150
         },
         {
             title: 'Phone ',
             dataIndex: 'phone',
             key: 'phone',
-            // width: 150
           }] 
 
         return(
@@ -280,44 +301,56 @@ class Groups extends Component {
                   </Row>
                   <Row>
                       <Col span={24}>
-                      <Modal
-                        title="Create New Group"
-                        visible={this.state.visible}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
-                        footer={null}
-                        >
-                            <Form
-                                {...layout}
-                                name="basic"
-                                initialValues={{ remember: false }}
-                                onFinish={this.onFinish}
-                                onFinishFailed={this.onFinishFailed}
+                            <Modal
+                                title="Add New Group"
+                                visible={this.state.newGroupModalVisible}
+                                onOk={this.handleOk}
+                                onCancel={() => this.setState({newGroupModalVisible: false})}
+                                footer={null}
                                 >
-                                <Form.Item
-                                    label="Group Name"
-                                    name="groupName"
-                                    rules={[{ required: true, message: 'Please input your group name!' }]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                                    <Form
+                                        {...layout}
+                                        name="basic"
+                                        initialValues={{ remember: false }}
+                                        onFinish={this.onFinish}
+                                        onFinishFailed={this.onFinishFailed}
+                                        >
+                                        <Form.Item
+                                            label="Group Name"
+                                            name="groupName"
+                                            rules={[{ required: true, message: 'Please input your group name!' }]}
+                                        >
+                                            <Input />
+                                        </Form.Item>
 
-                                <Form.Item
-                                    label="Description"
-                                    name="description"
-                                    rules={[{ required: true, message: 'Please input your group description!' }]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                                        <Form.Item
+                                            label="Description"
+                                            name="description"
+                                            rules={[{ required: true, message: 'Please input your group description!' }]}
+                                        >
+                                            <Input />
+                                        </Form.Item>
 
-                                <Form.Item {...tailLayout}>
-                                    <Button type="primary" htmlType="submit">
-                                    Submit
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                        </Modal>
-                        <Table columns={columns} dataSource={groups} />
+                                        <Form.Item {...tailLayout}>
+                                            <Button type="primary" htmlType="submit">
+                                            Submit
+                                            </Button>
+                                        </Form.Item>
+                                    </Form>
+                                </Modal>
+                        <Table columns={columns} dataSource={groups} 
+                            rowClassName={(record, index) => index === this.state.activeGroupIndex ? 'active-group-row' : null}
+                            onRow={(record, rowIndex) => {
+                                return {
+                                  onClick: event => {
+                                    const {fetchGroupMembers} = this.props;
+                                    this.setState({activeGroupIndex: rowIndex});
+                                    const {groups} = this.state;
+                                    fetchGroupMembers(groups, rowIndex)
+                                  },
+                                };
+                              }}
+                        />
                       </Col>
                   </Row>
                 </TabPane>
@@ -336,13 +369,68 @@ class Groups extends Component {
 
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{background: '#f5f5f5'}}>
-                 <Row gutter={[16, 16]}>
+                 <Row>
                       <Col span={24}>
                       <Title level={4}>Members</Title>
                       </Col>
                   </Row>
                   <Row>
+                      <Col span={12}>
+                        <Button type="link" icon={<UserAddOutlined />}  size={'large'} block onClick={() => this.setState({newGroupMemberModalVisible: true})}>add new member</Button>
+                      </Col>
+                      <Col span={12}>
+                        <Button type="link" icon={<UserAddOutlined />}  size={'large'} block>add csv</Button>
+                      </Col>
+                  </Row>
+                  <Row>
                       <Col span={24}>
+                      <Modal
+                        title="Create New Group Member"
+                        visible={this.state.newGroupMemberModalVisible}
+                        onOk={this.handleOk}
+                        onCancel={() => this.setState({newGroupMemberModalVisible: false})}
+                        footer={null}
+                        >
+                            <Form
+                                {...layout}
+                                name="basic"
+                                initialValues={{ remember: false }}
+                                onFinish={this.onFinishGroupMember}
+                                onFinishFailed={this.onFinishGroupMemberFailed}
+                                >
+                                <Form.Item
+                                    label="First Name"
+                                    name="firstName"
+                                    rules={[{ required: true, message: "Please input member's first name!" }]}
+                                >
+                                    <Input />
+                                </Form.Item>
+
+                                <Form.Item
+                                    label="Second Name"
+                                    name="secondName"
+                                    rules={[{ required: true, message: "Please input member's second name!" }]}
+                                >
+                                    <Input />
+                                </Form.Item>
+
+                                <Form.Item
+                                    label="Phone Number"
+                                    name="phoneNumber"
+                                    rules={[
+                                      { required: true, message: "Please member's phone number!" },
+                                    {type: 'number', message: "phone number should only contain numbers!"}]}
+                                >
+                                    <Input />
+                                </Form.Item>
+
+                                <Form.Item {...tailLayout}>
+                                    <Button type="primary" htmlType="submit">
+                                    Submit
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </Modal>
                             <Table columns={activeUserColumns} dataSource={activeGroupMembers} />
                       </Col>
                   </Row>

@@ -36,6 +36,7 @@ export default class GroupsService {
 
     static async postNewMember (newMember) {
         try {
+            console.log('+++++++++++++NEW MEMBER DETAILS', newMember);
             const {group, firstName:first_name, secondName:last_name, phoneNumber:phone} = newMember;
             const url = `${baseUrl()}/messages/groups/members/`;
             const groups = await axios.post(url, {group, first_name, last_name, phone}, requestDetails());

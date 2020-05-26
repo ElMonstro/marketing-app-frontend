@@ -18,7 +18,7 @@ export default class AuthService {
     }
 
     static async loginUser(userDetails) {
-        // try {
+        try{
             const url = `${baseUrl()}/auth/login/`;
             const { email, password } = userDetails;
             const newUser = { email, password }
@@ -27,16 +27,13 @@ export default class AuthService {
                     return response;
                 })
                 .catch(error => {
-                    console.log('EERRRROOORRR CATCH', error);
                 });
 
             return response;
             
-        // } 
-        // catch (error) {
-        //     console.log("REGISTER FORM ERROR+++++++", error);
-        //     return error.response.data
-        // }
-
+        }catch (error) {
+            return error.response.data
+        }
+            
     }
 }

@@ -1,0 +1,59 @@
+form {
+
+    .form-container{
+        padding: 3% 4% 1% 4%;
+
+        
+        }
+    #email-container {
+        padding: 1% 0% 1.5% 4%;
+    }
+
+    
+    .form-header{
+
+        padding: 3% 4% 1% 4%;
+    }
+
+    .submit-button{
+        height: 30px;
+        width: 10%;
+        background: #1B7EC2;
+        border: none;
+        outline: none;
+        color: #ffffff;
+        cursor: pointer;
+    }
+
+    .ant-select-selection-item{
+        background-color: rgb(150, 206, 248)!important;
+    }
+
+}
+
+#send-mail {
+
+    .form-header {
+        padding: 2% 4% 0% 4%;
+    }
+
+    .ant-form-item {
+        margin-bottom: 12px !important;
+    }
+}
+
+#template-btns {
+    #select-template{
+        position: static;
+        left: 0%;
+        right: 53.77%;
+        top: 0%;
+        bottom: 0%;
+        background-color: blue !important;
+        padding: 50px;
+    }
+}
+
+#send-mail, #send-sms {
+    background-color: whitesmoke;
+}

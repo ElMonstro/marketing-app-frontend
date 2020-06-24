@@ -45,3 +45,11 @@ export const yupLoginObj = Yup.object({
     password: Yup.string()
         .required('* Required'),
     })
+
+export const yupSendSMSObj = Yup.object({
+    receipients: Yup.array(),
+    groups: Yup.array(),
+    message: Yup.string()
+        .required('* Required'),
+    })
+    

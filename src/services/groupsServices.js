@@ -1,5 +1,6 @@
 import axios from 'axios';
 import baseUrl from './baseURL';
+import { groupsUrlMappingObject } from './urls';
 
 const requestDetails = () => {
     const localStorage = window.localStorage;
@@ -11,9 +12,10 @@ const requestDetails = () => {
 }
 
 export default class GroupsService {
-    static async fetchGroups () {
+    static async fetchGroups (mode="sms") {
+        
         try {
-            const url = `${baseUrl()}/messages/groups/`;
+            const url = groupsUrlMappingObject[mode];
             const groups = await axios.get(url, requestDetails());
             return groups;
 

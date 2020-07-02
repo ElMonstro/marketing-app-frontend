@@ -8,6 +8,7 @@ import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
 import DashboardSection from '../../components/dashboardSection';
 import Settings from './../../components/settings';
 import Groups from './../../components/groups';
+import Send from './../../components/send';
 import './index.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -15,7 +16,7 @@ const { TabPane } = Tabs;
 
 class Dashboard extends Component {
     state = {
-        activeNavItem: 'Dashboard',
+        activeNavItem: 'Send',
     }
 
     componentDidMount (){
@@ -38,6 +39,8 @@ class Dashboard extends Component {
                 return <Groups />
             case 'Settings':
                 return <Settings />
+            case 'Send':
+                return <Send />
             default:
                 return <DashboardSection />
         }
@@ -105,7 +108,7 @@ class Dashboard extends Component {
                 </PageHeader>
 
                 <Content style={{ margin: '24px 16px 0', overflow: 'scroll', background: 'white', padding: '20px' }}>
-                    <Groups />
+                    <Send />
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Jambo SMS ©2020 Created by Softsearch Limited.</Footer>
               </Layout>

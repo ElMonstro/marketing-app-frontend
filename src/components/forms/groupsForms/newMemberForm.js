@@ -1,86 +1,112 @@
 import React from 'react';
-import { useFormik } from 'formik';
+import { Form, Button, Input, Col, Row } from 'antd';
+import { phoneNumberIsValid } from '../validation'
+import { number } from 'yup';
 
-import { yupNewMemberObj } from '../validation';
-import Swal from 'sweetalert2';
-import './groupsForms.scss';
-import GroupsService from '../../../services/groupsServices';
+const layout = {
+    labelCol: { span: 6 },
+    wrapperCol: { offset: 2, span: 15 },
+  };
+const tailLayout = {
+    wrapperCol: { offset: 19, span: 16 },
+  };
+
+
+const SMSContactItem = () => {
+
+
+    return (
+        <Form.Item
+                label="Phone Number"
+                name="phoneNumber"
+                rules={[
+                    { required: true, message: "Please enter member's phone number!",
+                    },
+                    () => ({
+                        validator(rule, value) {
+                        if (value.match(/^\d{9}$/g)) {
+                            return Promise.resolve();
+                        }
+                        return Promise.reject('Enter correct format(9 digits): e.g 723456897');
+                        },
+                    })
+                
+                ]}
+            >
+            
+                    <Input addonBefore="254" placeholder="724568924" />
+        
+            
+            </Form.Item>
+    );
+
+}
+
+
+const EmailContactItem = () => {
+
+
+    return (
+        <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                    { required: true, message: "Please enter member's email!",
+                    type: 'email'
+                    }
+                ]}
+            >
+            
+                    <Input placeholder="terrio.gmail.com" />
+        
+            
+            </Form.Item>
+    );
+
+};
+
+
 
 const NewMemberForm = (props) => {
-    var dialog = document.querySelector('#new-member-form');
-    const {activeGroupId:group, fetchGroups, activeGroupIndex, fetchGroupMembers, groups} = props;
+    const [form]  = Form.useForm();
 
-    const formik = useFormik({
-            initialValues: {
-                firstName: '',
-                secondName: '',
-                phoneNumber: '',
-            },
-            validationSchema: yupNewMemberObj,
-            onSubmit: async values => {
-                const {firstName, secondName, phoneNumber} = values;
-                const response = await GroupsService.postNewMember({group, firstName, secondName, phoneNumber});
-                dialog.close();
-                fetchGroups();
-                fetchGroupMembers(groups, activeGroupIndex)
-
-                    if (response.status === 201){
-                        return Swal.fire({
-                            title: 'Success!',
-                            text: `added successfully`,
-                            icon: 'success',
-                            confirmButtonText: 'close',
-                    })
-                }
-            },
-        });
-
+    const { onFinish,  onFinishFailed, mode } = props;
     return(
-        <dialog id="new-member-form" class="mdl-dialog">
-            <span class="mdl-dialog__title" style={{fontSize: '24px', color: '#1B7EC2'}}>ADD NEW MEMBER</span>
-            <div class="mdl-dialog__content"></div>
-                    <form className="form" autoComplete="off" onSubmit={formik.handleSubmit}>
-                            
-                            <div className="group-input-container">
-                                <div className="group-input-label">
-                                <span >first name</span>
-                                    {formik.touched.firstName && formik.errors.firstName ? 
-                                        <span className="error-span">{formik.errors.firstName}</span>
-                                    : null}
-                                </div>
-                                <input name="firstName" {...formik.getFieldProps('firstName')}>
-                                </input>
-                            </div> 
+        <Form
+            {...layout}
+            name="basic"
+            initialValues={{ remember: false }}
+            onFinish={async values => {
+                await onFinish(values);
+                form.resetFields();
+            }}
+            onFinishFailed={onFinishFailed}
+            form={form}
+            >
+            <Form.Item
+                label="First Name"
+                name="firstName"
+                rules={[{ required: true, message: "Please input member's first name!" }]}
+            >
+                <Input />
+            </Form.Item>
 
-                            <div className="group-input-container">
-                                <div className="group-input-label">
-                                <span >second name</span>
-                                    {formik.touched.secondName && formik.errors.secondName ? 
-                                        <span className="error-span">{formik.errors.secondName}</span>
-                                    : null}
-                                </div>
-                                <input name="secondName" {...formik.getFieldProps('secondName')}>
-                                </input>
-                            </div> 
+            <Form.Item
+                label="Second Name"
+                name="secondName"
+                rules={[{ required: true, message: "Please input member's second name!" }]}
+            >
+                <Input />
+            </Form.Item>
 
-                            <div className="group-input-container">
-                                <div className="group-input-label">
-                                <span >phone number</span>
-                                    {formik.touched.phoneNumber && formik.errors.phoneNumber ? 
-                                        <span className="error-span">{formik.errors.phoneNumber}</span>
-                                    : null}
-                                </div>
-                                <input name="phoneNumber" {...formik.getFieldProps('phoneNumber')}>
-                                </input>
-                            </div> 
+            {mode==='sms'?<SMSContactItem />: <EmailContactItem />}
 
-                        <div class="dialog-actions">
-                            <button className="dialog-buttons" type="button" className="close" onClick={() => dialog.close()}>CANCEL</button>
-                            <button className="dialog-buttons" type="submit">ADD MEMBER</button>
-                        </div>
-                    </form>
-            
-    </dialog>
+            <Form.Item {...tailLayout}>
+                <Button type="primary" htmlType="submit">
+                Submit
+                </Button>
+            </Form.Item>
+        </Form>
     );
 }
 

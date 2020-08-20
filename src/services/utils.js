@@ -1,5 +1,5 @@
-import Swal from 'sweetalert2';
-export const requestDetails = () => {
+import { notification } from 'antd';
+export const requestHeaderDetails = () => {
     const localStorage = window.localStorage;
     const accessToken = JSON.parse(localStorage.getItem('tokens')).access;
     const config = {
@@ -8,33 +8,37 @@ export const requestDetails = () => {
     return config;
 }
 
-export const fireNotification = (title='Success!', icon='success', text='Action succcessful', confirmButtonText='close') => {
-    return Swal.fire({
-        title,
-        text,
-        icon,
-        confirmButtonText,
-      })
-}
+export const fireNotification = (type, message, description) => {
+    notification[type]({
+      message,
+      description,
+    });
+  };
 
 
 export const notificationHandler = (response, message) => {
     switch (response.status){
         case 200:
-            fireNotification('Success', 'success', message);
+            fireNotification('success', 'Success', message);
             break;
         case 201:
-            fireNotification('Success', 'success', message);
+            fireNotification('success', 'Success', message);
+            break;
+        case 204:
+            fireNotification('success', 'Success', message);
             break;
         case 400:
-            fireNotification('Error', 'error', response.data.detail)
+            fireNotification('error', 'Error', message?message:response.data.detail)
             break;      
         case 401:
-            fireNotification('Error', 'error', 'Authentication Error');
+            fireNotification('error', 'Error', 'Authentication Error');
             break;
         case 403:
-            fireNotification('Error', 'error', 'Authentication Error');
+        fireNotification('error', 'Error', 'Authentication Error');
             break;
+        case 404:
+                fireNotification('error', 'Error', message);
+                break;
         default:
             
 
@@ -48,3 +52,13 @@ export function truncate( str, n, useWordBoundary ){
       ? subString.substr(0, subString.lastIndexOf(" ")) 
       : subString) + "...";
   };
+
+
+  String.format = function() {
+    var s = arguments[0];
+    for (var i = 0; i < arguments.length - 1; i++) {       
+        var reg = new RegExp("\\{" + i + "\\}", "gm");             
+        s = s.replace(reg, arguments[i + 1]);
+    }
+    return s;
+}

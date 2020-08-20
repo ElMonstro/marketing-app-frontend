@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {requestDetails, notificationHandler} from './utils';
+import {requestHeaderDetails, notificationHandler} from './utils';
 import { messageUrlMappingObject, templatesURL } from './urls';
 
 
@@ -10,7 +10,7 @@ export default class MessageService {
             let mode;
             subject? mode = 'email': mode = 'sms';
             const url = messageUrlMappingObject[mode]
-            const sent = await axios.post(url, {groups, recepients, message, subject}, requestDetails());
+            const sent = await axios.post(url, {groups, recepients, message, subject}, requestHeaderDetails());
             notificationHandler(sent, "The message has been sent");
 
         } catch (error) {
@@ -24,7 +24,7 @@ export default class MessageService {
 
     static async fetchTemplates(){
         try {
-            const templates = await axios.get(templatesURL, requestDetails());
+            const templates = await axios.get(templatesURL, requestHeaderDetails());
             return templates;
 
         } catch (error) {
@@ -34,7 +34,7 @@ export default class MessageService {
 
     static async createTemplate(templateData){
         try {
-            const sent = await axios.post(templatesURL,  templateData, requestDetails());
+            const sent = await axios.post(templatesURL,  templateData, requestHeaderDetails());
             console.log(sent)
             notificationHandler(sent, 'The template has been created');
             return true;
@@ -47,7 +47,7 @@ export default class MessageService {
         
         try {
             const url = messageUrlMappingObject[mode];
-            const messages = await axios.get(url, requestDetails());
+            const messages = await axios.get(url, requestHeaderDetails());
             return messages;
 
         } catch (error) {

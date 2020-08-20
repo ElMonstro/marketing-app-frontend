@@ -1,7 +1,9 @@
 import { all } from 'redux-saga/effects';
 import {
-        fetchGroupsWatcher,
-        fetchGroupsSaga,
+        fetchSMSGroupsWatcher,
+        fetchEmailGroupsWatcher,
+        fetchEmailGroupsSaga,
+        fetchSMSGroupsSaga,
         fetchGroupMembersSagaWatcher,
         fetchGroupMembersSaga,
     } from './../middleware/dashboardSaga';
@@ -15,8 +17,10 @@ import {
 
 function* rootSaga(){
     yield all([
-        fetchGroupsWatcher(),
-        fetchGroupsSaga(),
+        fetchSMSGroupsWatcher(),
+        fetchSMSGroupsSaga(),
+        fetchEmailGroupsWatcher(),
+        fetchEmailGroupsSaga(),
         fetchGroupMembersSagaWatcher(),
         fetchGroupMembersSaga(),
         fetchSMSHistoryWatcher(),

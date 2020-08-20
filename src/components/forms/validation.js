@@ -52,4 +52,17 @@ export const yupSendSMSObj = Yup.object({
     message: Yup.string()
         .required('* Required'),
     })
-    
+
+    export const phoneNumberIsValid = (rule, value, callback) => {
+    if (!value) {
+      callback();
+    } else {
+       
+        if (!value.match(/^\d{9}$/g)) {
+            callback(new Error("Enter correct format(9 digits): e.g 723456897"));
+        }
+      
+    }
+   
+  
+}

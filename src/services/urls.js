@@ -1,6 +1,7 @@
 import baseUrl from './baseURL';
 
-const mediumQueryParam = '?medium=email'
+const mediumQueryParam = '?medium=email';
+
 
 function createUrlMappingObject(defaultUrl){
     return { sms: defaultUrl,
@@ -8,10 +9,20 @@ function createUrlMappingObject(defaultUrl){
             return this.sms + mediumQueryParam;
         }
     
-    }
+    };
 }
 
+function createSingleObjectActionUrlFunction(baseURL) {
+
+    return (id) => {
+        const url = baseURL + id + '/';
+        return createUrlMappingObject(url);
+    };
+}
 
 export const groupsUrlMappingObject = createUrlMappingObject(`${baseUrl()}/messages/groups/`);
 export const messageUrlMappingObject = createUrlMappingObject(`${baseUrl()}/messages/`);
 export const templatesURL = `${baseUrl()}/messages/template/`;
+export const singleGroupURL = createSingleObjectActionUrlFunction(`${baseUrl()}/messages/groups/`);
+export const groupMembersCsvUrlMappingObject = createUrlMappingObject(`${baseUrl()}/messages/group-members/upload/`);
+export const newgroupMemberMappingObject = createUrlMappingObject(`${baseUrl()}/messages/groups/members/`);

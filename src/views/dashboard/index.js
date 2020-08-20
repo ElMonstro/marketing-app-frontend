@@ -108,52 +108,10 @@ class Dashboard extends Component {
                 </PageHeader>
 
                 <Content style={{ margin: '24px 16px 0', overflow: 'scroll', background: 'white', padding: '20px' }}>
-                    <Send />
+                    <Groups />
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Jambo SMS ©2020 Created by Softsearch Limited.</Footer>
               </Layout>
           </Layout>
-            // <div className="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-            //     <header className="mdl-layout__header mdl-layout__header--transparent">
-            //         <div className="mdl-layout__header-row">
-            //         {/* <!-- Title --> */}
-            //         <span className="mdl-layout-title">Jambo SMS</span>
-            //         {/* <!-- Add spacer, to align navigation to the right --> */}
-            //         <div className="mdl-layout-spacer"></div>
-            //         {/* <!-- Navigation --> */}
-            //         <div></div>
-            //         </div>
-            //     </header>
-            //     <div className="mdl-layout__drawer">
-            //         <nav className="mdl-navigation">
-            //             {
-            //             navItems.map((item) => (
-            //                 activeNavItem === item.title ?
-            //                 <div className="nav-item-active" id={item.title} onClick={this.handleClickedNavItem}>
-            //                 <div className="icon">
-            //                         <i className={item.icon} aria-hidden="true"></i>
-            //                     </div>
-            //                         {item.title}
-            //                 </div>
-            //                     : 
-            //                 <div className="nav-item" id={item.title} onClick={this.handleClickedNavItem}>
-            //                     <div className="icon">
-            //                         <i className={item.icon} aria-hidden="true"></i>
-            //                     </div>
-            //                         {item.title}
-            //                 </div>
-            //             ))
-            //         }
-            //         </nav>
-                    
-            //     </div>
-
-            //     <main className="mdl-layout__content">
-            //         <div className="page-content">
-            //             {this.returnDynamicSection(this.state.activeNavItem)}
-            //         </div>
-            //     </main>
-            // </div>
         );
     }
 }

@@ -26,3 +26,5 @@ export const templatesURL = `${baseUrl()}/messages/template/`;
 export const singleGroupURL = createSingleObjectActionUrlFunction(`${baseUrl()}/messages/groups/`);
 export const groupMembersCsvUrlMappingObject = createUrlMappingObject(`${baseUrl()}/messages/group-members/upload/`);
 export const newgroupMemberMappingObject = createUrlMappingObject(`${baseUrl()}/messages/groups/members/`);
+export const ratesUrl = `${baseUrl()}/payments/rates/`
+export const payMpesaUrl =  `${baseUrl()}/payments/pay/`;

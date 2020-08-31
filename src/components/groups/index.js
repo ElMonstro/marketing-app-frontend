@@ -159,7 +159,7 @@ class Groups extends Component {
 
       }) 
 
-      if (!activeGroupMembers && this.getCurrentGroup) {
+      if (!activeGroupMembers && this.getCurrentGroup()) {
         fetchGroupMembers(this.getCurrentGroup(), this.state.mode)
       }
       const deleteButtonStyle = {

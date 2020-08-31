@@ -53,9 +53,11 @@ const SendForm = (props) => {
         if (!fieldErrors){ 
             form.resetFields()
         } else {
-            
-            const errors = fieldErrors.recepients.join('; ');
-            fireNotification('Error', 'error', `Receipient: ${errors}`)
+            let errors;
+            errors = fieldErrors.detail;
+            !errors? errors = fieldErrors.recepients:
+
+            fireNotification('error', 'Error', `${errors}`)
             
         }
         

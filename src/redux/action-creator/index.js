@@ -68,7 +68,6 @@ export const postNewGroupSuccess = () => ({
 
 export const fetchGroupMembers = (group, mode) => {
     const params = {group, mode};
-    console.log(group, 'members')
     return {
         type: FETCH_GROUP_MEMBERS,
         params,

@@ -22,7 +22,7 @@ export default class GroupsService {
         try {
             const url = groupsUrlMappingObject[mode];
             const groups = await axios.post(url, {name, description}, requestHeaderDetails());
-            notificationHandler(groups, 'Group created successfully')
+            notificationHandler(groups, 'Group created successfully');
             return groups;
 
         } catch (error) {

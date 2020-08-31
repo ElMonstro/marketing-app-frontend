@@ -28,6 +28,24 @@ const deleteIconStyle = {
   cursor: 'pointer'
 }
 
+
+const GroupsTable = props => {
+  const { filteredGroups, groups, mode, columns, parentComponentObject } = props;
+  return (
+    <Table columns={columns} dataSource={filteredGroups? filteredGroups: groups} 
+                rowClassName={(record, index) => index === parentComponentObject.state.activeGroupIndex ? 'active-group-row' : null}
+                onRow={(record, rowIndex) => {
+                    return {
+                      onClick: event => {
+                        parentComponentObject.setState({activeGroupIndex: rowIndex});
+                        props.fetchGroupMembers(groups[rowIndex].id, mode);
+                      }
+                    };
+                  }}
+            />
+  )
+}
+
 export const DeleteButton = props => {
 
   const { mode, itemId, deleteIconStyle, deleteFunction, updateGroups } = props;
@@ -44,10 +62,8 @@ export const DeleteButton = props => {
 
 const GroupSection = props => {
 
-    const { parentComponentObject, emailGroups, smsGroups, mode } = props;
-    const [ form ] = Form.useForm()
-    let groups;
-    mode === 'sms'?groups = smsGroups: groups = emailGroups;
+    const { parentComponentObject, groups, mode } = props;
+    const [ form ] = Form.useForm();
     groups && groups.map(group => {group.memberNo = group.members.length});
 
     const [filteredGroups, setGroups] = useState(groups);
@@ -136,17 +152,9 @@ const GroupSection = props => {
                     >
                         <NewGroupForm onFinish={onFinish} form={form}/>
                     </Modal>
-            <Table columns={columns} dataSource={filteredGroups? filteredGroups: groups} 
-                rowClassName={(record, index) => index === parentComponentObject.state.activeGroupIndex ? 'active-group-row' : null}
-                onRow={(record, rowIndex) => {
-                    return {
-                      onClick: event => {
-                        parentComponentObject.setState({activeGroupIndex: rowIndex});
-                        props.fetchGroupMembers(groups[rowIndex], mode);
-                      }
-                    };
-                  }}
-            />
+            <GroupsTable columns={columns} groups={groups}
+             filterGroups={filteredGroups} fetchGroupMembers={props.fetchGroupMembers}
+              parentComponentObject={parentComponentObject} mode={mode} />
           </Col>
       </Row>
       </>

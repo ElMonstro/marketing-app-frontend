@@ -9,6 +9,7 @@ import DashboardSection from '../../components/dashboardSection';
 import Settings from './../../components/settings';
 import Groups from './../../components/groups';
 import Send from './../../components/send';
+import Recharge from '../../components/recharge';
 import './index.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -41,6 +42,8 @@ class Dashboard extends Component {
                 return <Settings />
             case 'Send':
                 return <Send />
+            case 'Recharge':
+                return <Recharge />
             default:
                 return <DashboardSection />
         }
@@ -108,7 +111,7 @@ class Dashboard extends Component {
                 </PageHeader>
 
                 <Content style={{ margin: '24px 16px 0', overflow: 'scroll', background: 'white', padding: '20px' }}>
-                    <Groups />
+                    <Recharge />
                 </Content>
               </Layout>
           </Layout>

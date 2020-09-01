@@ -41,7 +41,7 @@ const NewGroupForm = (props) => {
             </Form.Item>
 
             <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button style={{ backgroundColor: '#00A0D3', color: 'white'}} type="primary" htmlType="submit">
                 Submit
                 </Button>
             </Form.Item>

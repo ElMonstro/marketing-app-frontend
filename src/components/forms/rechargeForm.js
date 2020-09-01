@@ -49,7 +49,7 @@ const RechargeForm = (props) => {
             </Form.Item>
 
             <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{ backgroundColor: '#00A0D3', color: 'white'}}>
                 Purchase SMS
                 </Button>
             </Form.Item>

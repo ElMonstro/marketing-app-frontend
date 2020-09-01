@@ -53,7 +53,7 @@ export const yupSendSMSObj = Yup.object({
         .required('* Required'),
     })
 
-    export const phoneNumberIsValid = (rule, value, callback) => {
+export const phoneNumberIsValid = (rule, value, callback) => {
     if (!value) {
       callback();
     } else {

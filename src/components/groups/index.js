@@ -110,6 +110,9 @@ class Groups extends Component {
       let mode;
       let groups;
       const { smsGroups, emailGroups } = this.props;
+
+      this.setState({activeGroupIndex: []});
+      
         if (activeKey === "1") {
           mode = 'sms';
           groups = smsGroups;
@@ -128,8 +131,7 @@ class Groups extends Component {
           activeGroupIndex: 0
         })
         const { fetchGroupMembers } = this.props;
-        console.log(groups, mode);
-        if (groups.length > 0) { fetchGroupMembers(groups[0].id, mode); console.log(groups, 'ndani') }
+        if (groups.length > 0) { fetchGroupMembers(groups[0].id, mode) }
     }
 
     onCheckboxChange = (selectedRowKeys) => {
@@ -239,7 +241,7 @@ class Groups extends Component {
                         <Button type="link" icon={<UserAddOutlined />}  size={'large'} block onClick={() => this.setState({visible: true})}><span style={{paddingTop: '5px'}}>add</span></Button>
                       </Col>
                       <Col span={8}>
-                        <UploadGroupsCsv getCurrentGroup={this.getCurrentGroup} fetchGroups={this.getCurrentGroupsFunc()} fetchGroupMembers={this.props.fetchEmailGroups} mode={mode}/>
+                        <UploadGroupsCsv getCurrentGroup={this.getCurrentGroup} fetchGroups={this.getCurrentGroupsFunc()} fetchGroupMembers={this.props.fetchGroupMembers} mode={mode}/>
                       </Col>
                   </Row>
                   <Row>

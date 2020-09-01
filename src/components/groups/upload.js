@@ -41,6 +41,7 @@ export const UploadGroupsCsv = (props) => {
           } else if (info.file.status === 'error') {
             message.error(info.file.response.detail);
           }
+          
         },
 
         

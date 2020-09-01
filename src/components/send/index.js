@@ -25,7 +25,7 @@ const messageHistoryStyle = {
 
     /* Primary color - clients Dash */
 
-    background: '#1B7EC2',
+    background: '#00A0D3',
     borderRadius: '5px',
     paddingTop: "5px",
     color: "white",

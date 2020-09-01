@@ -66,21 +66,16 @@ const GroupSection = props => {
     const [ form ] = Form.useForm();
     groups && groups.map(group => {group.memberNo = group.members.length});
 
-    const [filteredGroups, setGroups] = useState(groups);
+    const [filteredGroups, setGroups] = useState(null);
     const [addGroupVisible, showAddGroupModal] = useState(false);
-
     const filterGroups = (e) => {
+      const value = e.target.value;
       e.preventDefault();
-      
       const filteredGroups = groups.filter(
-          eachGroup => eachGroup.name.includes(e.target.value)
+          eachGroup => eachGroup.name.toLowerCase().includes(value.toLowerCase())
       );
-
-      if(e.target.value) {
-          setGroups(filteredGroups);
-      } else {
-        setGroups(groups);
-      }
+      
+      value? setGroups(filteredGroups): setGroups(null);
 
     };
 
@@ -137,7 +132,11 @@ const GroupSection = props => {
             <Search placeholder="search groups" onChange={filterGroups} />
           </Col>
           <Col span={6} offset={6}>
-            <Button type="primary" icon={<UsergroupAddOutlined />} size={'medium'}  onClick={() => showAddGroupModal(true)}>Add Group</Button>
+            <Button type="primary" 
+            style={{ backgroundColor: '#00A0D3', color: 'white'}} 
+            icon={<UsergroupAddOutlined />} 
+            size={'medium'}  onClick={() => showAddGroupModal(true)}>
+            Add Group</Button>
           </Col>
           
       </Row>
@@ -153,7 +152,7 @@ const GroupSection = props => {
                         <NewGroupForm onFinish={onFinish} form={form}/>
                     </Modal>
             <GroupsTable columns={columns} groups={groups}
-             filterGroups={filteredGroups} fetchGroupMembers={props.fetchGroupMembers}
+             filteredGroups={filteredGroups} fetchGroupMembers={props.fetchGroupMembers}
               parentComponentObject={parentComponentObject} mode={mode} />
           </Col>
       </Row>

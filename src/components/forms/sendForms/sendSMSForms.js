@@ -21,7 +21,7 @@ const SendSMSForm = (props) => {
 
   return (
     <Form {...layout} form={form} name="send-sms" onFinish={onFinish}>
-        <div className="form-header"><h5>Send SMS</h5></div>
+        <div style={{padding: '3% 4% 0% 4%'}}><h5 style={{margin: '0'}}>Send SMS</h5></div>
         <div className="form-container">
         <span>Select groups</span>
         <Form.Item name="groups" rules={[{ required: false }]}>
@@ -37,8 +37,8 @@ const SendSMSForm = (props) => {
             <TextArea rows={5}/>
         </Form.Item>
         <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
-          Submit
+            <Button type="primary" htmlType="submit" style={{ backgroundColor: '#00A0D3', color: 'white'}}>
+          Send
         </Button>
       </Form.Item>
       </div>

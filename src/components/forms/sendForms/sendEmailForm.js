@@ -41,8 +41,8 @@ const SendEmailForm = props => {
                 <TextArea rows={5}/>
             </Form.Item>
             <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
-            Submit
+                <Button style={{ backgroundColor: '#00A0D3', color: 'white'}} htmlType="submit">
+            Send
             </Button>
         </Form.Item>
         </div>

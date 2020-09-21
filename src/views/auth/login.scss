@@ -1,9 +1,16 @@
 
-form {
+form#login-form {
+    right: 50px;
+    width: 75%;
+
     .wrapper {
         display: flex;
         width: 100%;
         justify-content: center;
+
+        input{
+            z-index: 10;
+        }
 
         button {
             width: 100%;

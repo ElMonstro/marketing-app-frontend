@@ -1,6 +1,10 @@
+import { v4 as uuidv4 } from 'uuid';
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-import PaymentService from '../../services/paymentServices';
+import IntaSend from 'intasend-inlinejs-sdk';
+
+import paymentServices from '../../services/paymentServices';
+
 
 
 const layout = {
@@ -10,17 +14,50 @@ const tailLayout = {
     wrapperCol: { span: 16 },
   };
 
+let amount;
+let refNo;
+
+function bindEvent(element, eventName, eventHandler) {
+    if (element.addEventListener) {
+        element.addEventListener(eventName, eventHandler, false);
+    } else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, eventHandler);
+    }
+}
+
+bindEvent(window, 'message', function (e) {
+if (e.data) {
+    if (e.data.message) {
+if (e.data.message.identitier === 'intasend-status-update-cdrtl') {
+    if (e.data.message.state === "COMPLETE") {
+        const payload = { ref_no: refNo, amount, payment_action: 'sms_topup' }
+        amount && paymentServices.pay(payload);
+    }
+}
+    }
+}
+});
 
 const RechargeForm = (props) => {
 
+    IntaSend.setup({
+        publicAPIKey: "ISPubKey_test_592ad4eb-e5cb-4fe4-abea-719c011b7337",
+        redirectURL: '',
+        live: false
+    });
     const { setAmount } = props;
     const [form] = Form.useForm();
-    
     const onFinish = (values) => {
-        values.transaction_desc = 'sms_topup';
-        const response = PaymentService.payMpesa(values);
-        response && form.resetFields();
-    }
+        refNo = uuidv4();
+        amount = values.amount;
+        amount && IntaSend.run({
+            amount: amount, 
+            currency: "KES",
+            email: 'jratcher@gmail.com',
+            api_ref: refNo
+        });
+
+    };
     
     
 
@@ -31,15 +68,7 @@ const RechargeForm = (props) => {
         initialValues={{ remember: false }}
         onFinish={onFinish}
         form={form}
-        >   
-            <span>Enter Mpesa phone No.</span>
-            <Form.Item
-                name="customer_number"
-                rules={[{ required: true, message: 'Please input mpesa phone No.' }]}
-            >
-                    <Input />
-            </Form.Item>
-
+        >
             <span>Enter amount</span>
             <Form.Item
                 name="amount"
@@ -49,7 +78,7 @@ const RechargeForm = (props) => {
             </Form.Item>
 
             <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit" style={{ backgroundColor: '#00A0D3', color: 'white'}}>
+                <Button className="tp_button" data-api_ref="payment-link" type="primary" htmlType="submit" style={{ backgroundColor: '#00A0D3', color: 'white'}}>
                 Purchase SMS
                 </Button>
             </Form.Item>

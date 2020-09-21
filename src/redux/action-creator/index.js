@@ -14,7 +14,9 @@ import {
     FETCH_EMAIL_HISTORY,
     FETCH_SMS_HISTORY_SUCCESS,
     FETCH_EMAIL_HISTORY_SUCCESS,
-    CHANGE_CURRENT_MESSAGES
+    CHANGE_CURRENT_MESSAGES,
+    FETCH_PROFILE,
+    FETCH_PROFILE_SUCCESS
 
     
 } from './../constant/actionTypes';
@@ -100,4 +102,14 @@ export const fetchEmailHistorySuccess = (emails) => ({
 export const changeCurrentMessages = currentMessages => ({
     type: CHANGE_CURRENT_MESSAGES,
     currentMessages,
+});
+
+export const fetchProfile = () => ({
+    type: FETCH_PROFILE,
+
+});
+
+export const fetchProfileSuccess = profile => ({
+    type: FETCH_PROFILE_SUCCESS,
+    profile,
 });

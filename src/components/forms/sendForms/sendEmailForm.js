@@ -28,7 +28,16 @@ const SendEmailForm = props => {
             <Select children={groups} mode="multiple" placeholder='Select groups'/>
             </Form.Item>
             <span>Add recipients</span>
-            <Form.Item name="recipients" rules={[{ required: false }]}>
+            <Form.Item name="recipients" rules={[
+                { required: false },
+                () => ({
+                        validator(rule, value) {
+                        if (value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+                            return Promise.resolve();
+                        }
+                        return Promise.reject('Enter correct email');
+                        },
+                    })]}>
                 <Input />
             </Form.Item>
             <span>Subject</span>

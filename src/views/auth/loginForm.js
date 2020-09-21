@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
 import { useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
-
 import AuthService from '../../services/authServices';
 import { yupLoginObj } from './../../components/forms/validation';
+import { fetchProfile } from './../../redux/action-creator/';
 import './login.scss';
 
 
 const LoginForm = (props) => {
 
-    const {changeAuthActiveState} = props;
+    const {changeAuthActiveState, fetchProfile} = props;
     const [loaderVisibility, changeLoaderVisibility] = useState('hidden');
     let history = useHistory();
 
@@ -30,6 +31,8 @@ const LoginForm = (props) => {
                 
                 window.localStorage.setItem('tokens',JSON.stringify(response.data));
                 changeLoaderVisibility('hidden');
+
+                fetchProfile()
                 if (response.status === 200){
                     return  Swal.fire({
                                     title: 'Success!',
@@ -57,7 +60,7 @@ const LoginForm = (props) => {
         });
 
     return(
-        <form className="form" autoComplete="off" onSubmit={formik.handleSubmit}>
+        <form className="form" id="login-form" autoComplete="off" onSubmit={formik.handleSubmit}>
             <div className="wrapper">
                 <span className="form-title">LOGIN</span>
             </div>
@@ -98,7 +101,7 @@ const LoginForm = (props) => {
                 <div style={{ position: 'relative', zIndex: '1', visibility: loaderVisibility }} className="wrapper">
                 <Loader
                     type="Bars"
-                    color="#1B7EC2"
+                    color="#61DAFB"
                     height={50}
                     width={50}
                 />
@@ -107,4 +110,11 @@ const LoginForm = (props) => {
     );
     }
 
-    export default LoginForm;
+
+    const mapDispatchToProps = {
+        fetchProfile
+    }
+
+    export default connect(null, mapDispatchToProps)(LoginForm)
+
+    

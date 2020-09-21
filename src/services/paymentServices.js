@@ -1,5 +1,4 @@
 import axios from 'axios';
-import baseUrl from './baseURL';
 import { ratesUrl, payMpesaUrl } from './urls';
 import { requestHeaderDetails, notificationHandler } from './utils';
 
@@ -17,16 +16,16 @@ export default class PaymentService {
         }
     }
 
-    static async payMpesa (payload) {
+    static async pay (payload) {
         
         try {
             const url = payMpesaUrl;
             const response = await axios.post(url, payload, requestHeaderDetails());
-            notificationHandler(response, 'You will receive a prompt on your phone shortly');
+            notificationHandler(response, response.data.message);
             return response;
 
         } catch (error) {
-            console.log('error in mpesa ayment', error);
+            console.log('error in mpesa payment', error);
         }
     }
 

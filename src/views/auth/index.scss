@@ -1,20 +1,60 @@
 .auth-page {
     height: 97%;
-    background: #edf3f7;
+  
+    
+    img {
+        position: absolute;
+        
+      }
+    #auth-flower {
+        top: 300px;
+        z-index: -1;
+    }
+
+    #auth-person {
+        top: 0px;
+        left: 300px
+    }
 }
 
-.auth-container {
+#login-container {
         position: relative;
-        height: 70%;
+        height: 80%;
         left: 40%;
-        width: 50%;
+        width: 53%;
         background: #ffffff;
         top: 45%;
-        transform: translate(0, -50%);
-        padding-top: 5%;
+        padding-top: 3%;
 
         form{
             position: relative;
             width: 100%;
         }
     }
+
+
+@media screen and (max-width: 768px) {
+ 
+    
+
+    form#login-form {
+        width: 100%;
+
+        .input-container {
+            width: 60%;
+        }
+    }
+
+    form#register-form {
+        width: 100%;
+    }
+
+   .auth-page {
+    background-position: 1% 40%!important;
+    
+    #auth-flower {
+        top: 275px;
+    }
+
+    }
+}

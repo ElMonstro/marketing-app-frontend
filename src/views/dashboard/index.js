@@ -14,7 +14,7 @@ const { Content, Sider } = Layout;
 
 class Dashboard extends Component {
     state = {
-        activeNavItem: 'Send',
+        activeNavItem: this.props.defaultSelectedKey,
     }
 
     componentDidMount (){
@@ -24,7 +24,6 @@ class Dashboard extends Component {
 
     handleClickedNavItem = (e) => {
         const itemClickedKey = e.key;
-        console.log(e)
         if (itemClickedKey){
             this.setState({activeNavItem: itemClickedKey});
         }
@@ -45,24 +44,19 @@ class Dashboard extends Component {
         }
     }
 
+    createAvatar = () => {
+        const { profile } = this.props;
+    }
+
     render(){
-        const navItems = [
-            { title: 'Dashboard', icon:"fa fa-bar-chart" }, 
-            { title: 'Send', icon: "fa fa-paper-plane" }, 
-            { title: 'Recharge', icon: "fa fa-money" }, 
-            { title: 'Schedule', icon: "fa fa-clock-o" }, 
-            { title: 'Groups', icon: "fa fa-users" }, 
-            { title: 'Settings', icon: "fa fa-cog" }
-        ];
+        const { defaultSelectedKey } = this.props;
         const CurrentComponent = this.returnDynamicSection();
-        console.log(CurrentComponent)
         return(
             <Layout style={{height: '100vh'}}>
             <Sider
                 breakpoint="lg"
                 collapsedWidth="0"
                 onBreakpoint={broken => {
-                  console.log(broken);
                 }}
                 onCollapse={(collapsed, type) => {
                 }}
@@ -70,7 +64,7 @@ class Dashboard extends Component {
                 >
 
                 <div className="logo" />
-                <Menu mode="inline" defaultSelectedKeys={['1']} style={{ marginTop: '200px', backgroundColor: '#00A0D3', color: 'white' }}>
+                <Menu mode="inline" defaultSelectedKeys={[defaultSelectedKey]} style={{ marginTop: '200px', backgroundColor: '#00A0D3', color: 'white' }}>
                   <Menu.Item onClick={this.handleClickedNavItem} key="1" icon={<i class="fa fa-paper-plane"></i>}>
                         <span style={{marginLeft: '20px', fontWeight: 600}}>Send</span>
                   </Menu.Item>  
@@ -106,13 +100,13 @@ class Dashboard extends Component {
     }
 }
 
-const mapDispatchToProps = {
-}
 
-const mapStateToProps = (state) => ({
-})
+const mapStateToProps = ({dashBoardStoreState}) => {
+    const { profile } = dashBoardStoreState;
+    return profile;
+}
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    
 )(Dashboard)

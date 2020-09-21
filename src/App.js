@@ -19,7 +19,22 @@ const App = () => {
             </Route>
             <Route path="/dashboard">
                 <div>
-                    <Dashboard />
+                    <Dashboard defaultSelectedKey='3' />
+                </div>
+            </Route>
+            <Route path="/send">
+                <div>
+                    <Dashboard defaultSelectedKey='1'/>
+                </div>
+            </Route>
+            <Route path="/groups">
+                <div>
+                    <Dashboard defaultSelectedKey='2'/>
+                </div>
+            </Route>
+            <Route path="/recharge">
+                <div>
+                    <Dashboard defaultSelectedKey='3'/>
                 </div>
             </Route>
         </Switch>

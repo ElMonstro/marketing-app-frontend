@@ -21,7 +21,9 @@ const rateColorStyle = {
 const ratesStyle = {
     backgroundColor: 'white',
     borderRadius: '5px',
-    padding: '10px'
+    padding: '10px',
+    marginLeft: '20px',
+    width: "60%"
 }
 
 const smsCalculatorStyle = {
@@ -69,21 +71,26 @@ const ratez = [
 const Rates = props => {
 
     const { rates } = props;
-
-    const RateComponents = ratez.map((rate, index) => {
+    const newRates = [...ratez];
+    newRates.sort((a, b) => ( Number(a.rate) - Number(b.rate)));
+    const RateComponents = newRates.map((rate, index) => {
         let priceRange;
         let previousIndex = null;
         (index === 0)? priceRange = `${rate.price_limit} and above`: previousIndex = index - 1;
         if (previousIndex !== null) {
-            priceRange = `${ratez[previousIndex].price_limit} - ${rate.price_limit}`;
+            priceRange = `${newRates[previousIndex].price_limit} - ${rate.price_limit} `;
+        }
+        if (index === newRates.length-1) {
+            console.log( rates.length, newRates)
+            priceRange = `0 - ${newRates[index].price_limit}`;
         }
 
         return (<Row gutter={15} style={rateRowStyle} index={rate.id}>
             <Col span={2}><img style={rateColorStyle} src={rateColors[index]} alt={'rate color'}/></Col>
             <Col span={4} >{rate.name}</Col>
-            <Col span={9} style={{fontWeight: '600'}}>{priceRange}</Col>
-            <Col span={3} style={{fontWeight: '600'}}>{rate.rate}</Col>
-            <Col span={2} style={{fontWeight: '700'}}>&nbsp;Kes</Col>
+            <Col span={10} style={{fontWeight: '600'}}>{priceRange}</Col>
+            <Col span={2} style={{fontWeight: '600'}}>{rate.rate}</Col>
+            <Col span={2} style={{fontWeight: '700'}}>&nbsp;&nbsp;&nbsp;Kes</Col>
         </Row>
         )
         })
@@ -99,7 +106,8 @@ const Rates = props => {
 const SmsCalculator = props => {
     const { rates, mpesaAmount } = props;
     let calculatedRate = ratez[0].rate;
-    ratez.sort((a, b) => (Number(b.rate) - Number(a.rate)));
+    const sortedRates = ratez
+    sortedRates.sort((a, b) => (Number(b.rate) - Number(a.rate)));
     ratez.map((rate) => {
         
         if (mpesaAmount >= rate.price_limit) {
@@ -153,7 +161,7 @@ const Recharge = props => {
             <Col  span={8}>
                 <Row style={smsCalculatorStyle}><SmsCalculator  rates={rates} mpesaAmount={mpesaAmount}/></Row>       
             </Col>
-            <Col offset={11} span={9} style={ratesStyle}><Rates rates={rates}/></Col>
+            <Col style={ratesStyle}><span ><h6 style={{paddingLeft: '15px'}}>Rates</h6></span><Rates rates={rates}/></Col>
         </Row>
     )
 }

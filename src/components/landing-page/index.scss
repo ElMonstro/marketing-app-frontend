@@ -70,9 +70,11 @@
             font-size: 30px;
         }
     }
+
+  
 }
 
-.card-title {
+.title {
     width: 100%;
     font-size: 1.5em;
     padding-top: 2%;
@@ -125,7 +127,7 @@
     }
 }
 
-.what-we-do-sect {
+#what-we-do-sect {
     width: 100%;
     background: #eff3fa;
 
@@ -221,7 +223,7 @@
     }
 }
 
-.about-sect{
+#about-sect{
     width: 100%;
     height: fit-content ;
     padding-bottom: 40px;
@@ -271,6 +273,68 @@
 }
 
 
+#pricing-sect {
+    position: relative;
+    text-align: center;
+    
+    #pricing-content {
+        position: relative;
+        width: 80%;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding: 5px 0px 5px 2px;
+        background-color: #bde2fc;
+        box-shadow: 0 5px 20px rgba(#2c6777,.3);
+
+        #pricing {
+            width: 100%;
+            height: 180px;
+
+        
+   
+        }
+        th{
+            font-weight: 200;
+        }
+
+        tr:nth-child(even) {
+            background-color: white;
+        }
+       
+
+        .values {
+            font-weight: bold;
+        }
+
+        .plan {
+    
+            color: #f86769;
+        }
+        .central-row {
+            background-color: None;
+        }
+
+        .title-row {
+            background-color: #bde2fc;
+            font-weight: bold;
+
+        }
+
+        
+
+        
+    }
+
+
+    
+}
+
+.centering-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+
 // Responsiveness
 
 @media screen and (max-width: 1170px) {
@@ -307,7 +371,7 @@
         }
     }
 
-    .about-sect {
+    #about-sect {
         .intro-sect {
             width: 90%;
             
@@ -322,7 +386,7 @@
         }
     }
     
-    .what-we-do-sect {
+    #what-we-do-sect {
     
     
         .card {

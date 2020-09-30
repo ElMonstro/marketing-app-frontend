@@ -2,8 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import IntaSend from 'intasend-inlinejs-sdk';
+import {connect} from 'react-redux';
 
 import paymentServices from '../../services/paymentServices';
+import { getProfile } from '../../services/utils';
 
 
 
@@ -45,16 +47,22 @@ const RechargeForm = (props) => {
         redirectURL: '',
         live: false
     });
+
+    const profile = getProfile();
+    const { email } = profile;
+
     const { setAmount } = props;
     const [form] = Form.useForm();
+
     const onFinish = (values) => {
         refNo = uuidv4();
         amount = values.amount;
         amount && IntaSend.run({
             amount: amount, 
             currency: "KES",
-            email: 'jratcher@gmail.com',
-            api_ref: refNo
+            email: email,
+            api_ref: refNo,
+            
         });
 
     };

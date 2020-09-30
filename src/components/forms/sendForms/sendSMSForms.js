@@ -29,31 +29,7 @@ const SendSMSForm = (props) => {
         </Form.Item>
         <span>Add recipients</span>
         <Form.Item name="recipients" 
-        rules={[
-          { required: false },
-          () => ({
-                  validator(rule, value) {
-                  const numbers = value.split(',');
-                  let message;
-                  for (var i = 0; i < numbers.length; i++) {
-                   
-                      if (message) {
-                        break;
-                      }
-                      if (numbers[i].match(/^\d{9}$/g)) {
-                      message = `Error on item no. ${i+1}. Please use this format: e.g +254723456897`
-                      }
-                      let promise
-                      message ? promise = Promise.reject(message): promise = Promise.resolve();
-
-                      return promise;
-            
-                  }
-                  
-                  }
-              })
-          
-          ]}
+        rules={[{ required: false },]}
 
         >
             <Input />

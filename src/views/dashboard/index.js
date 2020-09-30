@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
 import { Layout, Menu, PageHeader } from 'antd';
 
 
@@ -45,7 +44,7 @@ class Dashboard extends Component {
     }
 
     createAvatar = () => {
-        const { profile } = this.props;
+        const { profile } = this.state;
     }
 
     render(){
@@ -101,12 +100,4 @@ class Dashboard extends Component {
 }
 
 
-const mapStateToProps = ({dashBoardStoreState}) => {
-    const { profile } = dashBoardStoreState;
-    return profile;
-}
-
-export default connect(
-    mapStateToProps,
-    
-)(Dashboard)
+export default Dashboard;

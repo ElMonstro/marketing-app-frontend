@@ -24,7 +24,7 @@ const SendForm = (props) => {
     async function getGroups(){
         
         const response = await GroupsService.fetchGroups(mode)
-        setGroups(response.data.results.map(group => <Option key={group.name + ',' + group.id}>{group.name}</Option>))
+        setGroups(response.data.map(group => <Option key={group.name + ',' + group.id}>{group.name}</Option>))
     }
     getGroups();
     

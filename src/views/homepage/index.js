@@ -7,14 +7,16 @@ import LandingPage from '../../components/landing-page';
 import Auth from '../auth';
 import logo from '../../assets/logo.svg';
 import './index.scss';
-import hHmberger from '../../components/hamberger';
 import Hamberger from '../../components/hamberger';
+import { HashLink as Link } from 'react-router-hash-link';
 
 const navItemStyle = {
-        color: '#1B7EC2', 
+        color: '#1B7EC2',
         fontWeight: 600,
-        cursor: 'pointer'
+        cursor: 'pointer',
+        borderRadius: '5px',
     }
+
 
 export default class Homepage extends Component {
     state = {
@@ -42,6 +44,14 @@ export default class Homepage extends Component {
         }
     }
 
+    onhover = e => {
+    }
+
+    onMouseLeave = e => {
+        e.target.style.background = '#ffffff'; 
+        e.target.style.color = '#1B7EC2';
+    }
+
     render() {
         return(
             <div class="mdl-layout__container home-page"> 
@@ -54,7 +64,8 @@ export default class Homepage extends Component {
                 <div class="mdl-layout-spacer"></div>
                 {/* <!-- Navigation --> */}
                     <nav class="mdl-navigation">
-                    <span style={navItemStyle} className="nav-link mdl-navigation__link navigation-link" onClick={() => this.setState({activeComponent: 'landing-page'})}>Home</span>
+                    <span style={navItemStyle} className="nav-link mdl-navigation__link navigation-link" onMouseOver={this.onhover} onMouseLeave={this.onMouseLeave} onClick={() => this.setState({activeComponent: 'landing-page'})}>Home</span>
+                    <Link smooth to="/#about-sect"><span style={navItemStyle} onMouseOver={this.onhover} onMouseLeave={this.onMouseLeave} className="nav-link mdl-navigation__link ">About</span></Link>
                         <span style={navItemStyle} className="nav-link mdl-navigation__link navigation-link"> 
                             <button id="demo-menu-lower-left" class="mdl-button mdl-js-button" style={{color: '#1B7EC2', fontWeight: 550, textTransform: 'capitalize'}} >Products</button>
                             <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
@@ -63,9 +74,8 @@ export default class Homepage extends Component {
                                 <li><span  style={{color: '#1B7EC2'}} className="mdl-menu__item" onClick={() => this.setState({activeComponent: 'bulk-sms-product-page'})}>Bulk SMS </span> </li>
                             </ul>
                         </span>
-                        <span style={navItemStyle} className="nav-link mdl-navigation__link ">Pricing</span>
-                        <span style={navItemStyle} className="nav-link mdl-navigation__link ">About</span>
-                        <span style={navItemStyle} className="nav-link mdl-navigation__link " onClick={() => this.setState({activeComponent: 'auth'})}>Login</span>
+                        <Link smooth to="/#pricing-sect"><span style={navItemStyle} onMouseOver={this.onhover} onMouseLeave={this.onMouseLeave} className="nav-link mdl-navigation__link ">Pricing</span></Link>
+                        <span style={navItemStyle} onMouseOver={this.onhover} onMouseLeave={this.onMouseLeave} className="nav-link mdl-navigation__link " onClick={() => this.setState({activeComponent: 'auth'})}>Login</span>
                     </nav>
                 <div><span style={navItemStyle} className="nav-link mdl-navigation__link navigation-link"> 
                             <button id="menu"  ><Hamberger className="hamberger" /></button>

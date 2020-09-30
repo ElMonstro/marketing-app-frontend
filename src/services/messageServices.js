@@ -10,12 +10,13 @@ export default class MessageService {
             let mode;
             subject? mode = 'email': mode = 'sms';
             const url = messageUrlMappingObject[mode]
-            const sent = await axios.post(url, {groups, recepients, message, subject}, requestHeaderDetails());
-            notificationHandler(sent, "The message has been sent");
+            const response = await axios.post(url, {groups, recepients, message, subject}, requestHeaderDetails());
+            
+            notificationHandler(response, "The message has been sent");
 
         } catch (error) {
-            if (error.response.detail) {
-                notificationHandler(error.response);
+            if (error.response.data.recepients) {
+                notificationHandler(error.response, error.response.data.recepients);
             } else {
                 return error.response.data
             }

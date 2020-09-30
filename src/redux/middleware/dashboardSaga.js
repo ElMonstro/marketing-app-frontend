@@ -18,7 +18,7 @@ export function* fetchSMSGroupsWatcher() {
 export function* fetchSMSGroupsSaga() {
     try {
         const {data} = yield call(groupsService.fetchGroups);
-        yield put(fetchSMSGroupsSuccess(data.results));
+        yield put(fetchSMSGroupsSuccess(data));
     } catch (error) {
         
     }
@@ -32,7 +32,7 @@ export function* fetchEmailGroupsWatcher() {
 export function* fetchEmailGroupsSaga() {
     try {
         const {data} = yield call(groupsService.fetchGroups, 'email');
-        yield put(fetchEmailGroupsSuccess(data.results));
+        yield put(fetchEmailGroupsSuccess(data));
     } catch (error) {
         
     }
@@ -52,16 +52,3 @@ export function* fetchGroupMembersSaga(action) {
     }
 }
 
-export function* fetchProfileWatcher() {
-    yield takeLatest(FETCH_PROFILE, fetchGroupMembersSaga)
-}
-
-export function* fetchProfileSaga() {
-    try {
-        const profile = yield call(AuthService.fetchProfile);
-        yield put(fetchProfileSuccess(profile));
-        
-    } catch (error) {
-        console.log('profile saga', error);
-    }
-}

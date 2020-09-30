@@ -23,13 +23,14 @@ const ratesStyle = {
     borderRadius: '5px',
     padding: '10px',
     marginLeft: '20px',
-    width: "60%"
+    width: "76%"
 }
 
 const smsCalculatorStyle = {
     backgroundColor: 'white',
     borderRadius: '5px',
-    padding: '10px'
+    padding: '10px',
+    width: '250px'
 }
 
 const rateRowStyle = {
@@ -45,44 +46,21 @@ const rechargeStyle = {
     padding: '40px'
 }
 
-const ratez = [
-    {
-        "id": 6,
-        "name": "Gold",
-        "price_limit": 1000,
-        "rate": "0.30"
-    },
-    {
-        "id": 6,
-        "name": "Silver",
-        "price_limit": 500,
-        "rate": "0.60"
-    },
-  
-    {
-        "id": 6,
-        "name": "Bronze",
-        "price_limit": 300,
-        "rate": "0.90"
-    },
-    
-]
 
 const Rates = props => {
 
     const { rates } = props;
-    const newRates = [...ratez];
-    newRates.sort((a, b) => ( Number(a.rate) - Number(b.rate)));
-    const RateComponents = newRates.map((rate, index) => {
+
+    rates.sort((a, b) => ( Number(a.rate) - Number(b.rate)));
+    const RateComponents = rates.map((rate, index) => {
         let priceRange;
         let previousIndex = null;
         (index === 0)? priceRange = `${rate.price_limit} and above`: previousIndex = index - 1;
         if (previousIndex !== null) {
-            priceRange = `${newRates[previousIndex].price_limit} - ${rate.price_limit} `;
+            priceRange = `${rate.price_limit} - ${rates[previousIndex].price_limit}`;
         }
-        if (index === newRates.length-1) {
-            console.log( rates.length, newRates)
-            priceRange = `0 - ${newRates[index].price_limit}`;
+        if (index === rates.length-1) {
+            priceRange = `0 - ${rates[index].price_limit}`;
         }
 
         return (<Row gutter={15} style={rateRowStyle} index={rate.id}>
@@ -105,24 +83,31 @@ const Rates = props => {
 
 const SmsCalculator = props => {
     const { rates, mpesaAmount } = props;
-    let calculatedRate = ratez[0].rate;
-    const sortedRates = ratez
-    sortedRates.sort((a, b) => (Number(b.rate) - Number(a.rate)));
-    ratez.map((rate) => {
-        
+    let calculatedRate; 
+    let smsNo = 0;
+    if (rates === []) {
+        console.log(rates)
+        calculatedRate = rates[0].rate;
+        const sortedRates = rates
+        sortedRates.sort((a, b) => (Number(b.rate) - Number(a.rate)));
+        sortedRates.map((rate) => {
+            
         if (mpesaAmount >= rate.price_limit) {
             calculatedRate = rate.rate
         } 
     });
 
-    const smsNo = Math.floor(mpesaAmount / calculatedRate);
+    smsNo = Math.floor(mpesaAmount / calculatedRate);
+
+    }
+    
 
     
     return (
-        <Col span={18}>
+        <Col span={24}>
             <Row>
     
-                <Col span={14}>Amount:&nbsp;Kes&nbsp;{mpesaAmount}</Col>
+                <Col span={24}>Amount:&nbsp;Kes&nbsp;{mpesaAmount}</Col>
                 
             </Row>
             <Row>
@@ -130,7 +115,7 @@ const SmsCalculator = props => {
 
             </Row>
             <Row>
-                <Col span={16}>Total SMS: &nbsp; {smsNo}</Col>
+                <Col span={24}>Total SMS: &nbsp; {smsNo}</Col>
             </Row>
                 
         </Col>
@@ -146,8 +131,7 @@ const Recharge = props => {
         async function getRates(){
             
         const response = await PaymentService.fetchRates();
-        const sortedRates = response.data.results.sort((a, b) => (Number(a.rate) - Number(b.rate)));
-        setRates(sortedRates);        }
+        setRates(response.data.results);        }
         getRates();
         
         }, []);

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {  Tabs, Row, Col, message} from 'antd';
 
-import index from './index.scss'
+import './index.scss'
 import SendForm from '../forms/sendForms/sendForm';
 import { truncate } from '../../services/utils';
 import { fetchSMSHistory, fetchEmailHistory, changeCurrentMessages } from './../../redux/action-creator';

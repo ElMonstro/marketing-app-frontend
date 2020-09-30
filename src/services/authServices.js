@@ -42,6 +42,18 @@ export default class AuthService {
         try{
             const url = `${baseUrl()}/auth/profile/`;
             const response = await axios.get(url, requestHeaderDetails());
+            console.log(response.data)
+            return response;
+        }catch (error) {
+            return error.response.data
+        }
+            
+    }
+
+    static async fetchPublicKey() {
+        try{
+            const url = `${baseUrl()}/auth/public-key/`;
+            const response = await axios.get(url, requestHeaderDetails());
             return response;
         }catch (error) {
             return error.response.data

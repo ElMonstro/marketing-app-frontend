@@ -103,13 +103,3 @@ export const changeCurrentMessages = currentMessages => ({
     type: CHANGE_CURRENT_MESSAGES,
     currentMessages,
 });
-
-export const fetchProfile = () => ({
-    type: FETCH_PROFILE,
-
-});
-
-export const fetchProfileSuccess = profile => ({
-    type: FETCH_PROFILE_SUCCESS,
-    profile,
-});

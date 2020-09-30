@@ -6,13 +6,12 @@ import { useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 import AuthService from '../../services/authServices';
 import { yupLoginObj } from './../../components/forms/validation';
-import { fetchProfile } from './../../redux/action-creator/';
 import './login.scss';
 
 
 const LoginForm = (props) => {
 
-    const {changeAuthActiveState, fetchProfile} = props;
+    const {changeAuthActiveState} = props;
     const [loaderVisibility, changeLoaderVisibility] = useState('hidden');
     let history = useHistory();
 
@@ -30,9 +29,11 @@ const LoginForm = (props) => {
                 // store access tokens in local storeage
                 
                 window.localStorage.setItem('tokens',JSON.stringify(response.data));
+                const res = await AuthService.fetchProfile();
+                window.localStorage.setItem('profile',JSON.stringify(res.data));
                 changeLoaderVisibility('hidden');
 
-                fetchProfile()
+            
                 if (response.status === 200){
                     return  Swal.fire({
                                     title: 'Success!',
@@ -101,7 +102,7 @@ const LoginForm = (props) => {
                 <div style={{ position: 'relative', zIndex: '1', visibility: loaderVisibility }} className="wrapper">
                 <Loader
                     type="Bars"
-                    color="#61DAFB"
+                    color="#1B7EC2"
                     height={50}
                     width={50}
                 />
@@ -110,11 +111,6 @@ const LoginForm = (props) => {
     );
     }
 
-
-    const mapDispatchToProps = {
-        fetchProfile
-    }
-
-    export default connect(null, mapDispatchToProps)(LoginForm)
+    export default LoginForm;
 
     

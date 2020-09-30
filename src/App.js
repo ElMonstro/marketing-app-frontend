@@ -19,7 +19,7 @@ const App = () => {
             </Route>
             <Route path="/dashboard">
                 <div>
-                    <Dashboard defaultSelectedKey='3' />
+                    <Dashboard defaultSelectedKey='1' />
                 </div>
             </Route>
             <Route path="/send">

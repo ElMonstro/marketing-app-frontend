@@ -1,4 +1,6 @@
 import { notification } from 'antd';
+import forge from 'node-forge';
+
 export const requestHeaderDetails = () => {
     const localStorage = window.localStorage;
     const accessToken = JSON.parse(localStorage.getItem('tokens')).access;
@@ -6,6 +8,14 @@ export const requestHeaderDetails = () => {
         headers: { Authorization: `Bearer ${accessToken}` }
     };
     return config;
+}
+
+
+export const getProfile = () => {
+    const localStorage = window.localStorage;
+    const profile = JSON.parse(localStorage.getItem('profile'));
+    
+    return profile;
 }
 
 export const fireNotification = (type, message, description) => {
@@ -61,4 +71,16 @@ export function truncate( str, n, useWordBoundary ){
         s = s.replace(reg, arguments[i + 1]);
     }
     return s;
+}
+
+
+export function encryptData( publicKey, string){
+    const pubKey = forge.pki.publicKeyFromPem(publicKey);
+    const encrypted = pubKey.encrypt(string, "RSA-OAEP", {
+        md: forge.md.sha256.create(),
+        mgf1: forge.mgf1.create()
+    });
+    const base64 = forge.util.encode64(encrypted);
+    return base64;
+
 }

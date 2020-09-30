@@ -2,15 +2,13 @@ import {
     FETCH_SMS_GROUPS_SUCCESS,
     FETCH_EMAIL_GROUPS_SUCCESS,
     FETCH_GROUP_MEMBERS_SUCCESS,
-    FETCH_PROFILE_SUCCESS
     
 } from './../constant/actionTypes';
 
 const initialState = {
     emailGroups: null,
     smsGroups: null,
-    activeGroupMembers: null,
-    profile: null
+    activeGroupMembers: null
 }
 
 const dashBoardStoreState = ( state=initialState, action ) => {
@@ -26,10 +24,6 @@ const dashBoardStoreState = ( state=initialState, action ) => {
         case FETCH_GROUP_MEMBERS_SUCCESS:
             const {activeGroupMembers} = action;
             return {...state, activeGroupMembers}
-        
-        case FETCH_PROFILE_SUCCESS:
-            const {profile} = action;
-            return {...state, profile}
 
         default:
             return state;

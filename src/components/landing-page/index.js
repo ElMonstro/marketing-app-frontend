@@ -14,9 +14,46 @@ import sendIcon from '../../assets/send.svg';
 import messagesIcon from '../../assets/messages-icon.svg';
 import locationMap from '../../assets/location-map.svg';
 
+import { Row, Col } from 'antd';
+
 import './index.scss';
 
-const Homepage =() => {
+
+const dataSource = [
+    {
+      key: '1',
+      name: 'Mike',
+      age: 32,
+      address: '10 Downing Street',
+    },
+    {
+      key: '2',
+      name: 'John',
+      age: 42,
+      address: '10 Downing Street',
+    },
+  ];
+  
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+    },
+  ];
+
+
+const Homepage = () => {
 
     return(
     <>
@@ -35,26 +72,26 @@ const Homepage =() => {
     </Bounce>
     </div>
     <div className="choose-us-sect">
-        <div className="card-title">Why Choose Us</div>
+        <div className="title">Why Choose Us</div>
         <div className="cards-sect">
             <div  className="card">
                 <div className="card-img"><img src={bestRatesIcon} alt="Best Rates"/></div>
-                <div className="card-title">Best Rates</div>
+                <div className="title">Best Rates</div>
                 <div className="card-content">Choose from a wide variety of customized pocket friendly rates.</div>
             </div>
             <div  className="card">
                 <div className="card-img"><img src={flexibleRatesIcon} alt="Flexible"/></div>
-                <div className="card-title">Flexible & Fast</div>
+                <div className="title">Flexible & Fast</div>
                 <div className="card-content">Choose from a wide variety of customized pocket friendly rates.</div>
             </div>
             <div  className="card">
                 <div className="card-img"><img src={userExperienceIcon} alt="UX"/></div>
-                <div className="card-title">User Experience</div>
+                <div className="title">User Experience</div>
                 <div className="card-content">Choose from a wide variety of customized pocket friendly rates.</div>
             </div>
         </div>
     </div>
-    <div className="about-sect">
+    <div id="about-sect">
             <div className="blue-title">- About -</div>
         <div className="bg-image-div" style={{backgroundImage:`url(${aboutUsImage})`, 
         backgroundPosition: '100% 5%', backgroundRepeat: "no-repeat", backgroundSize: "380px"}}>
@@ -79,49 +116,86 @@ const Homepage =() => {
         </div>
         </div>
     </div>
-    <div className="what-we-do-sect">
+    <div id="what-we-do-sect">
     <div className="blue-title">- Features -</div>
 
-        <div className="card-title">What We Do</div>
+        <div className="title">What We Do</div>
         <div gutter={5} className="cards-sect">
 
                 <div  className="card">
                     <div className="card-img"><img src={phoneIcon} alt="Phone Icon"/></div>
-                    <div className="card-title">SMS Marketing Campaigns</div>
+                    <div className="title">SMS Marketing Campaigns</div>
                     <div className="card-content">How will customers be aware of your products if you do not market them? To keep your business in the game then marketing is key. 
                     Marketing can catapult your business from level 0 to 10 in such a short time.</div>
                 </div>
                 <div  className="card">
                     <div className="card-img"><img src={loudHornIcon} alt="Flexible"/></div>
-                    <div className="card-title">Promo SMS</div>
+                    <div className="title">Promo SMS</div>
                     <div className="card-content">Our system gives you a platform to send notifications for the promotions you have for your products.</div>
                 </div>
                 <div  className="card">
                     <div className="card-img"><img src={sendIcon} alt="send"/></div>
-                    <div className="card-title">Product Launch SMS</div>
+                    <div className="title">Product Launch SMS</div>
                     <div className="card-content">Your business products has a sole target for a particular group of people. Our Bulk SMS system is giving you the option of reaching your target market</div>
                 </div>
 
 
                 <div  className="card">
                     <div className="card-img"><img src={messagesIcon} alt="messages"/></div>
-                    <div className="card-title">SMS Alerts</div>
+                    <div className="title">SMS Alerts</div>
                     <div className="card-content">A matter may be of urgency and you need your notification to reach your esteemed customers or employees as soon as possible. Response to emails may not bring positive results as an SMS medium.</div>
                 </div>
                 <div  className="card">
                     <div className="card-img"><img src={likeButton} alt="Flexible"/></div>
-                    <div className="card-title">Greeting SMS</div>
+                    <div className="title">Greeting SMS</div>
                     <div className="card-content">It is worth it to break the ice and wish you esteemed customers season greetings. It will create a rapport and a safe haven.</div>
                 </div>
                 <div  className="card">
                     <div className="card-img"><img src={worldIcon} alt="UX"/></div>
-                    <div className="card-title">Targeted SMS Marketing</div>
-                    <div className="card-content">Your business products has a sole target for a particular group of people. Our Bulk SMS system is giving you the option of reaching your target market</div>
+                    <div className="title">Targeted SMS Marketing</div>
+                    <div className="card-content">
+                        Your business products has a sole target for a particular group of people.
+                        Our Bulk SMS system is giving you the option of reaching your target market
+                     </div>
                 </div>
 
         </div>
     </div>
-    <div className="pricing">
+    <div id="pricing-sect">
+        <div className="blue-title">- Pricing -</div>
+        <div className="title">SMS</div>
+        <div className="centering-wrapper">
+            <div id="pricing-content">
+                <table id="pricing">
+                    <tr>
+                        <th className="title-row" id="row-title">Telco</th>
+                        <th className="title-row plan">Gold</th>
+                        <th className="title-row plan">Silver</th>
+                        <th className="title-row plan">Bronze</th>       
+                    </tr>
+                    <tr>
+                        <th className="telcos">Safaricom</th>
+                        <th className="values">0.86&nbsp;Kes</th>
+                        <th className="values">0.87&nbsp;Kes</th>
+                        <th className="values">1.00&nbsp;Kes</th>
+
+                    </tr>
+                    <tr className="pricing-row central-row"  >
+                        <th className="telcos">Airtel</th>
+                        <th className=" first-th values">0.86&nbsp;Kes</th>
+                        <th className=" second-row values">0.87&nbsp;Kes</th>
+                        <th className=" third-row values">1.00&nbsp;Kes</th>
+
+                    </tr>
+                    <tr className="pricing-row" >
+                        <th className="telcos">Other</th>
+                        <th className="values">0.86&nbsp;Kes</th>
+                        <th className="values">0.87&nbsp;Kes</th>
+                        <th className="values">1.00&nbsp;Kes</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
 
     </div>
     <div id="contact-sect">

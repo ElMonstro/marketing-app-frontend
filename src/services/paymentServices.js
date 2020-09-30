@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { ratesUrl, payMpesaUrl } from './urls';
-import { requestHeaderDetails, notificationHandler } from './utils';
+import Swal from 'sweetalert2';
+import { ratesUrl, payMpesaUrl, publicKeyUrl } from './urls';
+import { requestHeaderDetails, notificationHandler, encryptData} from './utils';
+
 
 
 export default class PaymentService {
@@ -19,13 +21,25 @@ export default class PaymentService {
     static async pay (payload) {
         
         try {
-            const url = payMpesaUrl;
-            const response = await axios.post(url, payload, requestHeaderDetails());
-            notificationHandler(response, response.data.message);
-            return response;
+
+            const response = await axios.get(publicKeyUrl, requestHeaderDetails())
+            const publicKey = response.data.public_key;
+            payload.amount = encryptData(publicKey, payload.amount);
+            console.log(payload.amount);
+            const res = await axios.post(payMpesaUrl, payload, requestHeaderDetails());
+
+            Swal.fire({
+                title: 'Success!',
+                text: response.data.message,
+                icon: 'success',
+                confirmButtonText: 'ok',
+               
+            });
+            
+            return res;
 
         } catch (error) {
-            console.log('error in mpesa payment', error);
+            notificationHandler(error.response, 'Error in payment, Please contact the Admin for further clarification');
         }
     }
 

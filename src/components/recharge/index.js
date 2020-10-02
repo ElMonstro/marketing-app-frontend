@@ -85,8 +85,7 @@ const SmsCalculator = props => {
     const { rates, mpesaAmount } = props;
     let calculatedRate; 
     let smsNo = 0;
-    if (rates === []) {
-        console.log(rates)
+    if (rates.length > 0) {
         calculatedRate = rates[0].rate;
         const sortedRates = rates
         sortedRates.sort((a, b) => (Number(b.rate) - Number(a.rate)));
@@ -96,7 +95,6 @@ const SmsCalculator = props => {
             calculatedRate = rate.rate
         } 
     });
-
     smsNo = Math.floor(mpesaAmount / calculatedRate);
 
     }

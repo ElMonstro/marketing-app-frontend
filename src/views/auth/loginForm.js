@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
 import { useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
@@ -13,7 +12,7 @@ const LoginForm = (props) => {
 
     const {changeAuthActiveState} = props;
     const [loaderVisibility, changeLoaderVisibility] = useState('hidden');
-    let history = useHistory();
+    const history = useHistory();
 
     const formik = useFormik({
             initialValues: {
@@ -24,7 +23,6 @@ const LoginForm = (props) => {
             onSubmit: async (values) => {
                 changeLoaderVisibility('visible');
                 const response = await AuthService.loginUser(values);
-                console.log('LOGIN RESPONSE', response.data);
 
                 // store access tokens in local storeage
                 

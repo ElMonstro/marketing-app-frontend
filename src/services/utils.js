@@ -1,5 +1,8 @@
 import { notification } from 'antd';
 import forge from 'node-forge';
+import Swal from 'sweetalert2';
+import store from "../redux/store/store.js";
+import { changeSessionStatus } from "../redux/action-creator";
 
 export const requestHeaderDetails = () => {
     const localStorage = window.localStorage;
@@ -44,10 +47,10 @@ export const notificationHandler = (response, message) => {
             fireNotification('error', 'Error', 'Authentication Error');
             break;
         case 403:
-        fireNotification('error', 'Error', 'Authentication Error');
+        fireNotification('error', 'Error', 'You do not have permission to view resource');
             break;
         case 404:
-                fireNotification('error', 'Error', message);
+                fireNotification('error', 'Error', 'Resource not found');
                 break;
         default:
             
@@ -83,4 +86,20 @@ export function encryptData( publicKey, string){
     const base64 = forge.util.encode64(encrypted);
     return base64;
 
+}
+
+export function checkSessionStatus (response) {
+    if (response.status === 401) {
+
+        return Swal.fire({
+            title: 'Error!',
+            text: 'Session Expired,. Please login again',
+            icon: 'error',
+            confirmButtonText: 'Login',
+            onClose: () => {
+                store.dispatch(changeSessionStatus(true));
+            }
+        })
+
+    }
 }

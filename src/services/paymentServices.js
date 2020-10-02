@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ratesUrl, payMpesaUrl, publicKeyUrl } from './urls';
-import { requestHeaderDetails, notificationHandler, encryptData} from './utils';
+import { requestHeaderDetails, notificationHandler, encryptData, checkSessionStatus } from './utils';
 
 
 
@@ -13,6 +13,7 @@ export default class PaymentService {
             return rates;
 
         } catch (error) {
+            checkSessionStatus(error.response);
             notificationHandler(error.response, 'error in fetching rates')
             console.log('error in fetching rates', error);
         }
@@ -39,6 +40,7 @@ export default class PaymentService {
             return res;
 
         } catch (error) {
+            checkSessionStatus(error.response);
             notificationHandler(error.response, 'Error in payment, Please contact the Admin for further clarification');
         }
     }

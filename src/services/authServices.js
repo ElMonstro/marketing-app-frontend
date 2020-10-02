@@ -1,6 +1,6 @@
 import axios from 'axios';
 import baseUrl from './baseURL';
-import { requestHeaderDetails, notificationHandler } from './utils';
+import { requestHeaderDetails, checkSessionStatus } from './utils';
 
 export default class AuthService {
 
@@ -45,6 +45,7 @@ export default class AuthService {
             console.log(response.data)
             return response;
         }catch (error) {
+            checkSessionStatus(error.response);
             return error.response.data
         }
             
@@ -56,6 +57,7 @@ export default class AuthService {
             const response = await axios.get(url, requestHeaderDetails());
             return response;
         }catch (error) {
+            checkSessionStatus(error.response);
             return error.response.data
         }
             

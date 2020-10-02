@@ -20,7 +20,7 @@ const navItemStyle = {
 
 export default class Homepage extends Component {
     state = {
-        activeComponent: null,
+        activeComponent: this.props.activeComponent,
     }
 
     componentDidMount() {
@@ -29,6 +29,8 @@ export default class Homepage extends Component {
     }
     
     renderActiveComponent = () => {
+        let loginActive = true;
+        (this.props.loginActive == null) ? loginActive = true: loginActive = this.props.loginActive;
         const { activeComponent } = this.state;
         switch (activeComponent) {
             case 'ussd-product-page':
@@ -38,7 +40,7 @@ export default class Homepage extends Component {
             case 'landing-page':
                 return <LandingPage />;
             case 'auth':
-                return <Auth />;
+                return <Auth loginActive={loginActive}/>;
             default:
                 return <LandingPage />;
         }

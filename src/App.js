@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
 import AOS from 'aos';
-
 import Homepage from './views/homepage';
 import Dashboard from './views/dashboard';
 import './App.css';
@@ -15,7 +14,13 @@ const App = () => {
         <div>
         <Switch>
             <Route exact path="/">
-                    <Homepage />
+                <Homepage />
+            </Route>
+            <Route path="/login">
+                <Homepage activeComponent="auth" />
+            </Route>
+            <Route path="/register">
+                <Homepage activeComponent="auth" loginActive={false}/>
             </Route>
             <Route path="/dashboard">
                 <div>

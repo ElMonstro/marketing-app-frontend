@@ -15,7 +15,7 @@ export function* fetchSMSHistoryWatcher() {
 
 export function* fetchSMSSaga() {
     try {
-        const { data } = yield call(messageServices.fetchMessages);
+        const data = yield call(messageServices.fetchMessages);
         yield put(fetchSMSHistorySuccess(data.results))
     } catch (error) {
         console.log(`sms fetch error sagas: ${error}`)
@@ -28,7 +28,7 @@ export function* fetchEmailHistoryWatcher() {
 
 export function* fetchEmailSaga() {
     try {
-        const { data } = yield call(messageServices.fetchMessages, 'email');
+        const data = yield call(messageServices.fetchMessages, 'email');
         yield put(fetchEmailHistorySuccess(data.results))
     } catch (error) {
         console.log(`email fetch error sagas: ${error}`)

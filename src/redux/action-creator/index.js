@@ -15,8 +15,7 @@ import {
     FETCH_SMS_HISTORY_SUCCESS,
     FETCH_EMAIL_HISTORY_SUCCESS,
     CHANGE_CURRENT_MESSAGES,
-    FETCH_PROFILE,
-    FETCH_PROFILE_SUCCESS
+    SET_SESSION_STATE
 
     
 } from './../constant/actionTypes';
@@ -102,4 +101,9 @@ export const fetchEmailHistorySuccess = (emails) => ({
 export const changeCurrentMessages = currentMessages => ({
     type: CHANGE_CURRENT_MESSAGES,
     currentMessages,
+});
+
+export const changeSessionStatus = isSessionExpired => ({
+    type: SET_SESSION_STATE,
+    isSessionExpired,
 });

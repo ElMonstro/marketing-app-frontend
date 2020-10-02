@@ -10,7 +10,7 @@ import homePicture from '../../assets/home-picture.svg';
 export default class Auth extends Component {
 
     state = {
-        loginActive: true,
+        loginActive: this.props.loginActive,
     }
 
     changeAuthActiveState = () => {

@@ -36,9 +36,9 @@ const TemplateButtons = (props) => {
     useEffect( () => {
     async function fetchTemplates(){
         
-        const response = await MessageService.fetchTemplates();
+        const data = await MessageService.fetchTemplates();
         
-        setTemplates(response.data.results.map(template => <Option value={template.message} key={template.id}>{template.name}</Option>))
+        data && setTemplates(data.results.map(template => <Option value={template.message} key={template.id}>{template.name}</Option>))
     }
     fetchTemplates();
     

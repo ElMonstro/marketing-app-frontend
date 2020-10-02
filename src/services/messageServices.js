@@ -15,11 +15,17 @@ export default class MessageService {
             notificationHandler(response, "The message has been sent");
 
         } catch (error) {
+
             if (error.response.data.recepients) {
                 notificationHandler(error.response, error.response.data.recepients);
+            } else if (error.response.data.detail){
+                notificationHandler(error.response, error.response.data.detail);
+
             } else {
                 checkSessionStatus(error.response);
             }
+
+            return error.response.status
         }
     }
 

@@ -42,7 +42,6 @@ export default class AuthService {
         try{
             const url = `${baseUrl()}/auth/profile/`;
             const response = await axios.get(url, requestHeaderDetails());
-            console.log(response.data)
             return response;
         }catch (error) {
             checkSessionStatus(error.response);

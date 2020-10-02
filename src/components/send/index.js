@@ -34,6 +34,7 @@ const messageHistoryStyle = {
 
 const timeSpanStyle = {
     fontSize: "10px",
+    display: "none"
 }
 
 
@@ -45,10 +46,10 @@ const MessagesColumn = props => {
         return (<Col style={messageHistoryStyle} key={message.id}>
             <Row><Col offset={15} style={timeSpanStyle}>33 min ago</Col></Row>
             <Row>
-                <span><i class="fa fa-comments-o" aria-hidden="true"></i> Message: &nbsp; </span>
+                <span><i className="fa fa-comments-o" aria-hidden="true"></i> Message: &nbsp; </span>
                 {message.message}
             </Row>
-            <Row><span><i class="fa fa-users" aria-hidden="true"></i> Recipients: &nbsp; </span>
+            <Row><span><i className="fa fa-users" aria-hidden="true"></i> Recipients: &nbsp; </span>
                 {message.recepients.length}
             </Row>
         </Col>);

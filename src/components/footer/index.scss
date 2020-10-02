@@ -1,0 +1,33 @@
+.mdl-mega-footer {
+    .social-media {
+        font-size: 15px;
+    }
+    #company-content {
+        color: #ffffff;
+        width: 180px;
+        font-size: 10px;
+    }
+
+    .mdl-mega-footer__link-list {
+        color: #ffffff!important;
+        padding-top: 12px;
+
+        li {
+            font-size: 12px!important;
+        }
+       
+
+        h5 {
+            font-weight: 700;
+        }
+    }
+
+    .footer-content {
+        display: flex;
+        height: 170px;
+        width: 100%;
+        justify-content: space-around;
+
+    }
+
+}

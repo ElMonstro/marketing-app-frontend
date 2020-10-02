@@ -37,7 +37,7 @@ form#register-form {
         font-size: 13px;
         height: 30%;
         font-weight: 500;
-        color: #708090;
+        color: black;
         justify-content: space-between;
 
         .error-span {
@@ -53,6 +53,7 @@ form#register-form {
         border: 1px solid #708090;
         padding-left: 5px;
         color: rgb(107, 105, 105);
+        border-radius: 5px;
     }
 }
 
@@ -75,4 +76,5 @@ form#register-form {
     border: none;
     outline: none;
     cursor: pointer;
+    border-radius: 5px;
 }

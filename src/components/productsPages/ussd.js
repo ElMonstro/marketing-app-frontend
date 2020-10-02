@@ -37,7 +37,7 @@ const ussdProductPage = () => {
                         <Bounce right>
                             <div className="msg-sect">
                                 <div className="msg-title">USSD service codes</div>
-                                <div className="msg-content">Provide mobile financial services (MFS) on any phone, at low cost, without access to the SIM card or internet !</div>
+                                <div className="msg-content">Get a Customized USSD Service Code that meets your business needs.</div>
                             </div>
                         </Bounce>
                 </div>
@@ -78,7 +78,7 @@ const ussdProductPage = () => {
 
                         <div  className="feature">
                             <div className="feature-title">Customized Messages</div>
-                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
+                                    <div className="feature-content">Tailor your USSD menu to meet your end objective.</div>
                             </div>
 
                             <div  className="feature">
@@ -87,13 +87,13 @@ const ussdProductPage = () => {
                             </div>
 
                             <div className="feature">
-                            <div className="feature-title">SMS Surveys</div>
-                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
+                            <div className="feature-title">USSD Surveys</div>
+                                    <div className="feature-content">Set up,launch and collect feedback easily setting using a USSD survey.</div>
                             </div>
 
                             <div  className="feature">
                             <div className="feature-title">Reporting</div>
-                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
+                                    <div className="feature-content">Analyze performance with comprehensive reporting on USSD service delivery.</div>
                             </div>
 
                         </div>

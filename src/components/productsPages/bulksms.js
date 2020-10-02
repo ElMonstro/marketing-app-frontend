@@ -37,7 +37,7 @@ const bulkSmsProductPage = () => {
                     <Bounce right>
                         <div className="msg-sect">
                             <div className="msg-title">Bulk SMS Messaging</div>
-                            <div className="msg-content"> Increase customer engagement by sending the right SMS at the right time, at the right scale.Enhance customer support, sales and marketing by using our SMS product.</div>
+                            <div className="msg-content"> Increase customer interaction by crafting and sending an SMS to a multitude of individuals within your contact database with ease.</div>
                         </div>
                     </Bounce>
                     </div>
@@ -76,7 +76,7 @@ const bulkSmsProductPage = () => {
                         <div className="features-row">
                             <div style={styles.schedule} className="feature">
                                 <div className="feature-title">schedule SMS</div>
-                                    <div className="feature-content">Send sms at a specific time in the future.</div>
+                                    <div className="feature-content">Plan ahead with scheduled messages programmed to be sent at a specific time in the future.</div>
                             </div>
 
                             <div style={styles.autoResponse}  className="feature">
@@ -91,7 +91,7 @@ const bulkSmsProductPage = () => {
 
                             <div style={styles.realTime} className="feature">
                             <div className="feature-title">Real-time Analytics</div>
-                                    <div className="feature-content">get Real-time Analytics specific time in the future.</div>
+                                    <div className="feature-content">Measure your marketing outcomes with real-time analytics once your SMS have been delivered.</div>
                             </div>
 
                         </div>
@@ -99,7 +99,7 @@ const bulkSmsProductPage = () => {
 
                         <div  className="feature">
                             <div className="feature-title">Customized Messages</div>
-                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
+                                    <div className="feature-content">Measure your marketing outcomes with real-time analytics once your SMS have been delivered.</div>
                             </div>
 
                             <div  className="feature">
@@ -109,7 +109,7 @@ const bulkSmsProductPage = () => {
 
                             <div className="feature">
                             <div className="feature-title">SMS Surveys</div>
-                                    <div className="feature-content">View comprehensive reporting on sms delivery.</div>
+                                    <div className="feature-content">Collect feedback by easily setting up SMS surveys.</div>
                             </div>
 
                             <div  className="feature">

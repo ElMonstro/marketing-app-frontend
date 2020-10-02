@@ -14,46 +14,14 @@ import sendIcon from '../../assets/send.svg';
 import messagesIcon from '../../assets/messages-icon.svg';
 import locationMap from '../../assets/location-map.svg';
 
-import { Row, Col } from 'antd';
+
 
 import './index.scss';
 
 
-const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
-    },
-  ];
-  
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-  ];
+const LandingPage = props => {
 
-
-const Homepage = () => {
+    const { routeToRegister } = props;
 
     return(
     <>
@@ -61,11 +29,10 @@ const Homepage = () => {
     <Bounce right>
         <div className="action-sect">
             <div className="message-sect">
-                Reach more customers with fast & 
-                realiable SMS messaging
+            Stay Ahead With Effective Bulk SMS Solutions!
             </div>
             <div className="buttons-sect">
-                <div className="reg-button">GET STARTED</div>
+            <div className="reg-button" onClick={routeToRegister}>GET STARTED</div>
                 <div className="vid-button"><img src={videoIcon} alt="Video Icon" />&nbsp;WATCH VIDEO</div>
             </div>
         </div>
@@ -77,17 +44,17 @@ const Homepage = () => {
             <div  className="card">
                 <div className="card-img"><img src={bestRatesIcon} alt="Best Rates"/></div>
                 <div className="title">Best Rates</div>
-                <div className="card-content">Choose from a wide variety of customized pocket friendly rates.</div>
+                <div className="card-content">Effective Solutions, affordable rates.</div>
             </div>
             <div  className="card">
                 <div className="card-img"><img src={flexibleRatesIcon} alt="Flexible"/></div>
                 <div className="title">Flexible & Fast</div>
-                <div className="card-content">Choose from a wide variety of customized pocket friendly rates.</div>
+                <div className="card-content">Tailored Solutions, quick delivery turnaround.</div>
             </div>
             <div  className="card">
                 <div className="card-img"><img src={userExperienceIcon} alt="UX"/></div>
                 <div className="title">User Experience</div>
-                <div className="card-content">Choose from a wide variety of customized pocket friendly rates.</div>
+                <div className="card-content">Satisfactory experience, ease of use.</div>
             </div>
         </div>
     </div>
@@ -101,18 +68,16 @@ const Homepage = () => {
         
         <div className="intro-sect">
             <div className="intro-sect-title">soft search limited</div>
-            <div className="intro-sect-content">Our Bulk SMS system ensures that you can reach your customers
-                    instantly with a quick and simple integration. Not only can you send
-                    relevant, targeted messages with only one API request, but also to a
-                    particular group. Brand your messages with your company or service name
-                    by using sender ID. After sending, you are notified of the delivery.
-                    Our Bulk SMS system ensures that you can reach your customers
-                    instantly with a quick and simple integration. Not only can you send
-                    relevant, targeted messages with only one API request, but also to a
-                    particular group. Brand your messages with your company or service name
-                    by using sender ID. After sending, you are notified of the delivery.</div>
+            <div className="intro-sect-content">In a world where an average person spends at least 5 hours on their mobile devices, there is no better way to reach out to your target audience than through their mobile device.
+                As Soft Search Limited, we developed Jambo SMS to enable enterprises to stay ahead of the pack by effectively reaching out to their potential customers, using the right mobile communication products. 
+                Jambo SMS is a handy service that will enable you to reach, interact, engage and transact with your customers at an almost personal level. 
+                Whats more, we are true to our promise and guarantee quality products that will substantially improve your customer engagement leading onto an improved brand perception among your customers.
+                Our Bulk SMS system ensures that you can reach your customers instantly with a quick and simple integration. Not only can you send relevant, targeted messages with only one API request,
+                but also to a larger group. Even more,you can brand each message with your company or service name.
+                Indeed, Jambo SMS is nothing short of what your enterprise needs for all its Bulk SMS needs.
+            </div>
 
-        <div className="action-btn">sign up now</div>
+            <div className="action-btn" onClick={routeToRegister}>sign up now</div>
         </div>
         </div>
     </div>
@@ -125,37 +90,36 @@ const Homepage = () => {
                 <div  className="card">
                     <div className="card-img"><img src={phoneIcon} alt="Phone Icon"/></div>
                     <div className="title">SMS Marketing Campaigns</div>
-                    <div className="card-content">How will customers be aware of your products if you do not market them? To keep your business in the game then marketing is key. 
-                    Marketing can catapult your business from level 0 to 10 in such a short time.</div>
+                    <div className="card-content">Nothing speaks directly to your customers than an SMS sent to them right on the palm of their hands.
+                     Our SMS Marketing solution will enable your business to target your customers directly thereby increasing your chances of realizing sales on the products or services you wish to market.</div>
                 </div>
                 <div  className="card">
                     <div className="card-img"><img src={loudHornIcon} alt="Flexible"/></div>
                     <div className="title">Promo SMS</div>
-                    <div className="card-content">Our system gives you a platform to send notifications for the promotions you have for your products.</div>
+                    <div className="card-content">For those looking to run a marketing promotion to a wide audience, then Promo SMS is the solution for you. This solution allows you to craft promotional messages that are disseminated in Bulk to all customers.</div>
                 </div>
                 <div  className="card">
                     <div className="card-img"><img src={sendIcon} alt="send"/></div>
                     <div className="title">Product Launch SMS</div>
-                    <div className="card-content">Your business products has a sole target for a particular group of people. Our Bulk SMS system is giving you the option of reaching your target market</div>
+                    <div className="card-content">What better way to inform your clients of a new product that by an SMS direct to their phone. Our Product Launch SMS is the key to effectively informing your customers of new products.</div>
                 </div>
 
 
                 <div  className="card">
                     <div className="card-img"><img src={messagesIcon} alt="messages"/></div>
                     <div className="title">SMS Alerts</div>
-                    <div className="card-content">A matter may be of urgency and you need your notification to reach your esteemed customers or employees as soon as possible. Response to emails may not bring positive results as an SMS medium.</div>
+                    <div className="card-content">Do you need to keep your customers informed consistently? If so, then SMS Alerts is the solution for you. This solution allows you to craft SMS alerts which can be sent to all your customers in a timely manner.</div>
                 </div>
                 <div  className="card">
                     <div className="card-img"><img src={likeButton} alt="Flexible"/></div>
                     <div className="title">Greeting SMS</div>
-                    <div className="card-content">It is worth it to break the ice and wish you esteemed customers season greetings. It will create a rapport and a safe haven.</div>
+                    <div className="card-content">Say hello or pass any general greeting to all your customers with our Greeting SMS solution. This solution will enable you to craft greeting messages that will be sent directly to your clients mobile phone.</div>
                 </div>
                 <div  className="card">
                     <div className="card-img"><img src={worldIcon} alt="UX"/></div>
                     <div className="title">Targeted SMS Marketing</div>
                     <div className="card-content">
-                        Your business products has a sole target for a particular group of people.
-                        Our Bulk SMS system is giving you the option of reaching your target market
+                    Are you looking to target a specific group from your customer database? If yes, then Targeted SMS Marketing is the solution for you. This solution allows you to craft marketing messages which are sent to a select group of customers. 
                      </div>
                 </div>
 
@@ -169,28 +133,28 @@ const Homepage = () => {
                 <table id="pricing">
                     <tr>
                         <th className="title-row" id="row-title">Telco</th>
-                        <th className="title-row plan">Gold</th>
-                        <th className="title-row plan">Silver</th>
-                        <th className="title-row plan">Bronze</th>       
+                        <th className="title-row plan">Gold (KES 10,000 - 399,999)</th>
+                        <th className="title-row plan">Silver (KES 10,000 - 99,999)</th>
+                        <th className="title-row plan">Bronze (KES 0 - 9999)</th>      
                     </tr>
                     <tr>
                         <th className="telcos">Safaricom</th>
-                        <th className="values">0.86&nbsp;Kes</th>
-                        <th className="values">0.87&nbsp;Kes</th>
+                        <th className="values">0.6&nbsp;Kes</th>
+                        <th className="values">0.7&nbsp;Kes</th>
                         <th className="values">1.00&nbsp;Kes</th>
 
                     </tr>
                     <tr className="pricing-row central-row"  >
                         <th className="telcos">Airtel</th>
-                        <th className=" first-th values">0.86&nbsp;Kes</th>
-                        <th className=" second-row values">0.87&nbsp;Kes</th>
-                        <th className=" third-row values">1.00&nbsp;Kes</th>
+                        <th className="values">0.6&nbsp;Kes</th>
+                        <th className="values">0.7&nbsp;Kes</th>
+                        <th className="values">1.00&nbsp;Kes</th>
 
                     </tr>
                     <tr className="pricing-row" >
                         <th className="telcos">Other</th>
-                        <th className="values">0.86&nbsp;Kes</th>
-                        <th className="values">0.87&nbsp;Kes</th>
+                        <th className="values">0.6&nbsp;Kes</th>
+                        <th className="values">0.7&nbsp;Kes</th>
                         <th className="values">1.00&nbsp;Kes</th>
                     </tr>
                 </table>
@@ -218,20 +182,18 @@ const Homepage = () => {
                     </div>
                     <div className="contact">
                         <div className="contact-name">Email</div>
-                        <div className="contact-info">Hello@softsearch.co.ke</div>
+                        <div className="contact-info">info@softsearch.co.ke</div>
                     </div>
                     <div className="contact">
                         <div className="contact-name">Phone</div>
-                        <div className="contact-info">+254725101001</div>
+                        <div className="contact-info">+254777101005</div>
                     </div>
-                    <div id="social-media">
-                    <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
-                    <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
-                    <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i>
-
+                    <div className="social-media">
+                    <a href="https://www.facebook.com/jambosms/" target="_blank"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a>
+                    <a href="https://twitter.com/Jambo_sms?s=08" target="_blank"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a>
+                    <a href="https://www.linkedin.com/company/softsearch/" target="_blank"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -240,4 +202,4 @@ const Homepage = () => {
 
 }
 
-export default Homepage;
+export default LandingPage;

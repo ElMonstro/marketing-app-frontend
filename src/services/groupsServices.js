@@ -12,7 +12,6 @@ export default class GroupsService {
         try {
             const url = groupsUrlMappingObject[mode];
             const response = await axios.get(url, requestHeaderDetails());
-            console.log(response)
             return response;
 
         } catch (error) {

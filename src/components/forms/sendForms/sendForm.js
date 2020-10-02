@@ -49,17 +49,11 @@ const SendForm = (props) => {
         } ): groups = [];
         let recepients;
         recipients ? recepients = recipients.split(','): recepients = [];
-        const fieldErrors = await MessageService.sendMessage({groups, recepients, message, subject});
-        if (!fieldErrors){ 
-            form.resetFields()
-        } else {
-            let errors;
-            errors = fieldErrors.detail;
-            !errors? errors = fieldErrors.recepients:
 
-            fireNotification('error', 'Error', `${errors}`)
-            
-        }
+        const status = await MessageService.sendMessage({groups, recepients, message, subject});
+
+        (status !== 200) && form.resetFields();
+        
         
     };
 

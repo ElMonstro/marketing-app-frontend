@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import { useHistory } from "react-router-dom";
 import Loader from 'react-loader-spinner';
-
 import AuthService from '../../services/authServices';
 import { yupLoginObj } from './../../components/forms/validation';
 import './login.scss';
@@ -13,7 +12,7 @@ const LoginForm = (props) => {
 
     const {changeAuthActiveState} = props;
     const [loaderVisibility, changeLoaderVisibility] = useState('hidden');
-    let history = useHistory();
+    const history = useHistory();
 
     const formik = useFormik({
             initialValues: {
@@ -24,12 +23,15 @@ const LoginForm = (props) => {
             onSubmit: async (values) => {
                 changeLoaderVisibility('visible');
                 const response = await AuthService.loginUser(values);
-                console.log('LOGIN RESPONSE', response.data);
 
                 // store access tokens in local storeage
                 
                 window.localStorage.setItem('tokens',JSON.stringify(response.data));
+                const res = await AuthService.fetchProfile();
+                window.localStorage.setItem('profile',JSON.stringify(res.data));
                 changeLoaderVisibility('hidden');
+
+            
                 if (response.status === 200){
                     return  Swal.fire({
                                     title: 'Success!',
@@ -57,7 +59,7 @@ const LoginForm = (props) => {
         });
 
     return(
-        <form className="form" autoComplete="off" onSubmit={formik.handleSubmit}>
+        <form className="form" id="login-form" autoComplete="off" onSubmit={formik.handleSubmit}>
             <div className="wrapper">
                 <span className="form-title">LOGIN</span>
             </div>
@@ -108,3 +110,5 @@ const LoginForm = (props) => {
     }
 
     export default LoginForm;
+
+    

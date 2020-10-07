@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {requestHeaderDetails, notificationHandler} from './utils';
+import {requestHeaderDetails, notificationHandler, checkSessionStatus } from './utils';
 import { messageUrlMappingObject, templatesURL } from './urls';
 
 
@@ -10,24 +10,32 @@ export default class MessageService {
             let mode;
             subject? mode = 'email': mode = 'sms';
             const url = messageUrlMappingObject[mode]
-            const sent = await axios.post(url, {groups, recepients, message, subject}, requestHeaderDetails());
-            notificationHandler(sent, "The message has been sent");
+            const response = await axios.post(url, {groups, recepients, message, subject}, requestHeaderDetails());
+            
+            notificationHandler(response, "The message has been sent");
 
         } catch (error) {
-            if (error.response.detail) {
-                notificationHandler(error.response);
+
+            if (error.response.data.recepients) {
+                notificationHandler(error.response, error.response.data.recepients);
+            } else if (error.response.data.detail){
+                notificationHandler(error.response, error.response.data.detail);
+
             } else {
-                return error.response.data
+                checkSessionStatus(error.response);
             }
+
+            return error.response.status
         }
     }
 
     static async fetchTemplates(){
         try {
-            const templates = await axios.get(templatesURL, requestHeaderDetails());
-            return templates;
-
+            const response = await axios.get(templatesURL, requestHeaderDetails());
+            return response.data;
+ 
         } catch (error) {
+            checkSessionStatus(error.response);
             console.log(error.response);
         }
     }
@@ -39,6 +47,7 @@ export default class MessageService {
             notificationHandler(sent, 'The template has been created');
             return true;
         } catch (error) {
+            checkSessionStatus(error.response);
             notificationHandler(error.response);
             return false;
         }
@@ -47,10 +56,11 @@ export default class MessageService {
         
         try {
             const url = messageUrlMappingObject[mode];
-            const messages = await axios.get(url, requestHeaderDetails());
-            return messages;
+            const response = await axios.get(url, requestHeaderDetails());
+            return response.data;
 
         } catch (error) {
+            checkSessionStatus(error.response);
             console.log('error in fetching messages', error);
         }
     }

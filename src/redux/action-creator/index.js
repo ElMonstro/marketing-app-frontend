@@ -15,8 +15,7 @@ import {
     FETCH_SMS_HISTORY_SUCCESS,
     FETCH_EMAIL_HISTORY_SUCCESS,
     CHANGE_CURRENT_MESSAGES,
-    UPDATE_GROUPS_AFTER_DELETION,
-    UPDATE_MEMBERS_AFTER_DELETION
+    SET_SESSION_STATE
 
     
 } from './../constant/actionTypes';
@@ -68,7 +67,6 @@ export const postNewGroupSuccess = () => ({
 
 export const fetchGroupMembers = (group, mode) => {
     const params = {group, mode};
-    console.log(group, 'members')
     return {
         type: FETCH_GROUP_MEMBERS,
         params,
@@ -103,4 +101,9 @@ export const fetchEmailHistorySuccess = (emails) => ({
 export const changeCurrentMessages = currentMessages => ({
     type: CHANGE_CURRENT_MESSAGES,
     currentMessages,
+});
+
+export const changeSessionStatus = isSessionExpired => ({
+    type: SET_SESSION_STATE,
+    isSessionExpired,
 });

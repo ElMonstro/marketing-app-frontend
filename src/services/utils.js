@@ -1,4 +1,9 @@
 import { notification } from 'antd';
+import forge from 'node-forge';
+import Swal from 'sweetalert2';
+import store from "../redux/store/store.js";
+import { changeSessionStatus } from "../redux/action-creator";
+
 export const requestHeaderDetails = () => {
     const localStorage = window.localStorage;
     const accessToken = JSON.parse(localStorage.getItem('tokens')).access;
@@ -6,6 +11,14 @@ export const requestHeaderDetails = () => {
         headers: { Authorization: `Bearer ${accessToken}` }
     };
     return config;
+}
+
+
+export const getProfile = () => {
+    const localStorage = window.localStorage;
+    const profile = JSON.parse(localStorage.getItem('profile'));
+    
+    return profile;
 }
 
 export const fireNotification = (type, message, description) => {
@@ -34,10 +47,10 @@ export const notificationHandler = (response, message) => {
             fireNotification('error', 'Error', 'Authentication Error');
             break;
         case 403:
-        fireNotification('error', 'Error', 'Authentication Error');
+        fireNotification('error', 'Error', 'You do not have permission to view resource');
             break;
         case 404:
-                fireNotification('error', 'Error', message);
+                fireNotification('error', 'Error', 'Resource not found');
                 break;
         default:
             
@@ -61,4 +74,32 @@ export function truncate( str, n, useWordBoundary ){
         s = s.replace(reg, arguments[i + 1]);
     }
     return s;
+}
+
+
+export function encryptData( publicKey, string){
+    const pubKey = forge.pki.publicKeyFromPem(publicKey);
+    const encrypted = pubKey.encrypt(string, "RSA-OAEP", {
+        md: forge.md.sha256.create(),
+        mgf1: forge.mgf1.create()
+    });
+    const base64 = forge.util.encode64(encrypted);
+    return base64;
+
+}
+
+export function checkSessionStatus (response) {
+    if (response.status === 401) {
+
+        return Swal.fire({
+            title: 'Error!',
+            text: 'Session Expired,. Please login again',
+            icon: 'error',
+            confirmButtonText: 'Login',
+            onClose: () => {
+                store.dispatch(changeSessionStatus(true));
+            }
+        })
+
+    }
 }

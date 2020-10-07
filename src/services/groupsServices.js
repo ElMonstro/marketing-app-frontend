@@ -1,19 +1,22 @@
 import axios from 'axios';
 import baseUrl from './baseURL';
 import { groupsUrlMappingObject, singleGroupURL, groupMembersCsvUrlMappingObject, newgroupMemberMappingObject } from './urls';
-import { requestHeaderDetails, notificationHandler } from './utils';
+import { requestHeaderDetails, notificationHandler, checkSessionStatus } from './utils';
 
 
 export default class GroupsService {
+
+
     static async fetchGroups (mode="sms") {
         
         try {
             const url = groupsUrlMappingObject[mode];
-            const groups = await axios.get(url, requestHeaderDetails());
-            return groups;
+            const response = await axios.get(url, requestHeaderDetails());
+            return response;
 
         } catch (error) {
             console.log('error in fetching groups', error);
+            checkSessionStatus(error.response);
         }
     }
 
@@ -22,10 +25,11 @@ export default class GroupsService {
         try {
             const url = groupsUrlMappingObject[mode];
             const groups = await axios.post(url, {name, description}, requestHeaderDetails());
-            notificationHandler(groups, 'Group created successfully')
+            notificationHandler(groups, 'Group created successfully');
             return groups;
 
         } catch (error) {
+            checkSessionStatus(error.response);
             notificationHandler(error.response, error.response.data.name);
             console.log('error in posting groups', error);
         }
@@ -56,6 +60,7 @@ export default class GroupsService {
             return response;
 
         } catch (error) {
+            checkSessionStatus(error.response);
             notificationHandler(error.response, error.response.data.phone?error.response.data.phone: error.response.data.email);
         }
     }
@@ -70,6 +75,7 @@ export default class GroupsService {
             return response;
 
         } catch (error) {
+            checkSessionStatus(error.response);
             notificationHandler(error.response, 'Error uploading csv');
             return console.log(error.response);
         }
@@ -83,6 +89,8 @@ export default class GroupsService {
             const { member_list } = response.data;
             return member_list
         } catch (error) {
+            checkSessionStatus(error.response);
+            checkSessionStatus(error.response);
             console.log('error in fetching member', params);
         }
     }
@@ -93,6 +101,8 @@ export default class GroupsService {
             const groupMember = await axios.delete(url, requestHeaderDetails());
             return groupMember;
         } catch (error) {
+            checkSessionStatus(error.response);
+            checkSessionStatus(error.response);
             console.log('error in fetching member', error);
         }
     }
@@ -106,6 +116,7 @@ export default class GroupsService {
             return edittedMember;
             
         } catch (error) {
+            checkSessionStatus(error.response);
             console.log('error in fetching member', error);
         }
     }
@@ -116,6 +127,7 @@ export default class GroupsService {
             const response = await axios.delete(url, requestHeaderDetails());
             notificationHandler(response, 'Group deleted');
         } catch (error) {
+            checkSessionStatus(error.response);
             notificationHandler(error.response, 'Error deleting group');
         }
     }
@@ -128,7 +140,7 @@ export default class GroupsService {
             notificationHandler(groupMember, 'Members removed');
             console.log(url, groupMember)
         } catch (error) {
-            console.log(error.response)
+            checkSessionStatus(error.response);
             notificationHandler(error.response, 'Errors removing members');
         }
     }

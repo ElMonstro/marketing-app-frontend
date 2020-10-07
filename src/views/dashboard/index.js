@@ -1,114 +1,123 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { Layout, Menu, PageHeader, Row, Col, Avatar, Tabs, Table, Tag, Space} from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
-
-
-import DashboardSection from '../../components/dashboardSection';
-import Settings from './../../components/settings';
+import { Layout, Menu, PageHeader } from 'antd';
+import { connect } from 'react-redux';
+import { changeSessionStatus } from './../../redux/action-creator';
+import { useHistory } from "react-router-dom";
 import Groups from './../../components/groups';
 import Send from './../../components/send';
+import Recharge from '../../components/recharge';
+import logo from '../../assets/logo.svg';
+
 import './index.scss';
 
-const { Header, Content, Footer, Sider } = Layout;
-const { TabPane } = Tabs;
+const { Content, Sider } = Layout;
+
+const RouterComponent = props => {
+
+    const history = useHistory();
+    const { isSessionExpired, changeSessionStatus } = props;
+    isSessionExpired && history.push('/login');
+    changeSessionStatus(false);
+
+
+    return (<></>)
+}
+
+const mapDispatchToProps = {
+    changeSessionStatus,
+}
+
+const mapStateToProps = ({dashboardStoreState}) => {
+    const { isSessionExpired } = dashboardStoreState;
+    return { isSessionExpired };
+
+};
+
+const RoutingComponent = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+) (RouterComponent);
 
 class Dashboard extends Component {
     state = {
-        activeNavItem: 'Send',
+        activeNavItem: this.props.defaultSelectedKey,
     }
 
     componentDidMount (){
         // eslint-disable-next-line no-undef
-        componentHandler.upgradeDom()
+        componentHandler.upgradeDom();
     }
 
     handleClickedNavItem = (e) => {
-        const itemClickedId = e.target.id;
-        if (itemClickedId){
-            this.setState({activeNavItem: itemClickedId});
+        const itemClickedKey = e.key;
+        if (itemClickedKey){
+            this.setState({activeNavItem: itemClickedKey});
         }
     }
 
-    returnDynamicSection = (activeNavItem) => {
+    returnDynamicSection = () => {
+        const { activeNavItem } = this.state
         switch (activeNavItem) {
-            case 'Dashboard':
-                return <DashboardSection />
-            case 'Groups':
-                return <Groups />
-            case 'Settings':
-                return <Settings />
-            case 'Send':
-                return <Send />
+            case '2':
+                return Groups
+
+            case '1':
+                return Send
+            case '3':
+                return Recharge
             default:
-                return <DashboardSection />
+                return Send 
         }
     }
+
 
     render(){
-        const { activeNavItem}  = this.state;
-        const navItems = [
-            { title: 'Dashboard', icon:"fa fa-bar-chart" }, 
-            { title: 'Send', icon: "fa fa-paper-plane" }, 
-            { title: 'Recharge', icon: "fa fa-money" }, 
-            { title: 'Schedule', icon: "fa fa-clock-o" }, 
-            { title: 'Groups', icon: "fa fa-users" }, 
-            { title: 'Settings', icon: "fa fa-cog" }
-        ];
+        const { defaultSelectedKey } = this.props;
+        const CurrentComponent = this.returnDynamicSection();
 
         return(
             <Layout style={{height: '100vh'}}>
+            <RoutingComponent />
             <Sider
                 breakpoint="lg"
                 collapsedWidth="0"
                 onBreakpoint={broken => {
-                  console.log(broken);
                 }}
                 onCollapse={(collapsed, type) => {
-                  console.log(collapsed, type);
                 }}
-                theme='light'>
+                style={{ backgroundColor: '#00A0D3', color: 'white', borderTopRightRadius: '20px', borderBottomRightRadius: '20px'}}
+                >
 
                 <div className="logo" />
-                <Menu theme="light" mode="inline" defaultSelectedKeys={['4']} style={{marginTop: '200px'}}>
-                  <Menu.Item key="1" icon={<i class="fa fa-bar-chart"></i>}>
-                        <span style={{marginLeft: '20px', fontWeight: 600}}>Dashboard</span>
-                  </Menu.Item>
-                  <Menu.Item key="2" icon={<i class="fa fa-paper-plane"></i>}>
+                <Menu mode="inline" defaultSelectedKeys={[defaultSelectedKey]} style={{ marginTop: '200px', backgroundColor: '#00A0D3', color: 'white' }}>
+                  <Menu.Item onClick={this.handleClickedNavItem} key="1" icon={<i className="fa fa-paper-plane"></i>}>
                         <span style={{marginLeft: '20px', fontWeight: 600}}>Send</span>
-                  </Menu.Item>
-                  <Menu.Item key="3" icon={<i class="fa fa-money"></i>}>
-                        <span style={{marginLeft: '20px', fontWeight: 600}}>Recharge</span>
-                  </Menu.Item>
-                  <Menu.Item key="4" icon={<i class="fa fa-clock-o"></i>}>
-                        <span style={{marginLeft: '20px', fontWeight: 600}}>Schedule</span>
-                  </Menu.Item>
-                  <Menu.Item key="5" icon={<i class="fa fa-users"></i>}>
+                  </Menu.Item>  
+                  <Menu.Item onClick={this.handleClickedNavItem} key="2" icon={<i className="fa fa-users"></i>}>
                         <span style={{marginLeft: '20px', fontWeight: 600}}>Groups</span>
                   </Menu.Item>
-                  <Menu.Item key="6" icon={<i class="fa fa-cog"></i>}>
-                        <span style={{marginLeft: '20px', fontWeight: 600}}>Settings</span>
+    
+                  <Menu.Item onClick={this.handleClickedNavItem} key="3" icon={<i className="fa fa-money"></i>}>
+                        <span style={{marginLeft: '20px', fontWeight: 600}}>Recharge</span>
                   </Menu.Item>
+
                 </Menu>
 
               </Sider>
             
               <Layout>
                 <PageHeader
-                  title="Jambo  SMS"
+                  theme="dark"
                   ghost={false}
                   onBack={() => window.history.back()}
                   className="site-page-header"
-                  extra={[
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
-                  ]}
-                  avatar={{ src: '.a/src/assets/app-icon.png' }}
+                  style={{ paddingTop: '0'}}
                 >
+                <img src={logo} alt="Jambo SMS"/>
                 </PageHeader>
 
                 <Content style={{ margin: '24px 16px 0', overflow: 'scroll', background: 'white', padding: '20px' }}>
-                    <Groups />
+                   <CurrentComponent />
                 </Content>
               </Layout>
           </Layout>
@@ -116,13 +125,6 @@ class Dashboard extends Component {
     }
 }
 
-const mapDispatchToProps = {
-}
 
-const mapStateToProps = (state) => ({
-})
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Dashboard)
+export default Dashboard;

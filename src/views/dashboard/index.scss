@@ -4,6 +4,10 @@
     color: #1B7EC2;
     height: 80px;
     box-shadow: none !important;
+
+    #menu {
+        display: none;
+    }
 }
 
 .mdl-layout__drawer {
@@ -62,5 +66,31 @@
     i{
         font-size: 130%;
         margin-right: 100px;
+    }
+}
+
+
+@media screen and (max-width: 664px) {
+    .mdl-layout__header .mdl-layout__header-row {
+        // background: #ffffff;
+        color: #1B7EC2;
+        height: 80px;
+        box-shadow: none !important;
+        padding-left: 40px;
+    }
+
+    #menu {
+        display: block!important;
+        background-color: #ffffff;
+        border: none;
+        
+
+    }
+    #menu:focus {
+        outline: 0;
+    }
+
+    .mdl-navigation {
+        display: none;
     }
 }

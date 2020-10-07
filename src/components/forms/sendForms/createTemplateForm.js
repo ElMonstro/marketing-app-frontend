@@ -30,7 +30,7 @@ const CreateTemplateForm  = (props) => {
             </Form.Item>
             </div>
                 <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{ backgroundColor: '#00A0D3', color: 'white'}}>
                     Submit
                 </Button>
             </Form.Item>

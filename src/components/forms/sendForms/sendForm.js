@@ -24,7 +24,7 @@ const SendForm = (props) => {
     async function getGroups(){
         
         const response = await GroupsService.fetchGroups(mode)
-        setGroups(response.data.results.map(group => <Option key={group.name + ',' + group.id}>{group.name}</Option>))
+        response && setGroups(response.data.map(group => <Option key={group.name + ',' + group.id}>{group.name}</Option>))
     }
     getGroups();
     
@@ -49,15 +49,11 @@ const SendForm = (props) => {
         } ): groups = [];
         let recepients;
         recipients ? recepients = recipients.split(','): recepients = [];
-        const fieldErrors = await MessageService.sendMessage({groups, recepients, message, subject});
-        if (!fieldErrors){ 
-            form.resetFields()
-        } else {
-            
-            const errors = fieldErrors.recepients.join('; ');
-            fireNotification('Error', 'error', `Receipient: ${errors}`)
-            
-        }
+
+        const status = await MessageService.sendMessage({groups, recepients, message, subject});
+
+        (status !== 200) && form.resetFields();
+        
         
     };
 

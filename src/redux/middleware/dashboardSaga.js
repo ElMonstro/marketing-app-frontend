@@ -7,6 +7,7 @@ import {
         FETCH_SMS_GROUPS,
         FETCH_EMAIL_GROUPS,
         FETCH_GROUP_MEMBERS,
+
     } from './../constant/actionTypes';
 
 export function* fetchSMSGroupsWatcher() {
@@ -16,7 +17,7 @@ export function* fetchSMSGroupsWatcher() {
 export function* fetchSMSGroupsSaga() {
     try {
         const {data} = yield call(groupsService.fetchGroups);
-        yield put(fetchSMSGroupsSuccess(data.results));
+        yield put(fetchSMSGroupsSuccess(data));
     } catch (error) {
         
     }
@@ -30,7 +31,8 @@ export function* fetchEmailGroupsWatcher() {
 export function* fetchEmailGroupsSaga() {
     try {
         const {data} = yield call(groupsService.fetchGroups, 'email');
-        yield put(fetchEmailGroupsSuccess(data.results));
+        console.log(data)
+        yield put(fetchEmailGroupsSuccess(data));
     } catch (error) {
         
     }
@@ -49,3 +51,4 @@ export function* fetchGroupMembersSaga(action) {
         console.log('members saga', error);
     }
 }
+

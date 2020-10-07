@@ -1,5 +1,6 @@
 import axios from 'axios';
 import baseUrl from './baseURL';
+import { requestHeaderDetails, checkSessionStatus } from './utils';
 
 export default class AuthService {
 
@@ -32,6 +33,30 @@ export default class AuthService {
             return response;
             
         }catch (error) {
+            return error.response.data
+        }
+            
+    }
+
+    static async fetchProfile() {
+        try{
+            const url = `${baseUrl()}/auth/profile/`;
+            const response = await axios.get(url, requestHeaderDetails());
+            return response;
+        }catch (error) {
+            checkSessionStatus(error.response);
+            return error.response.data
+        }
+            
+    }
+
+    static async fetchPublicKey() {
+        try{
+            const url = `${baseUrl()}/auth/public-key/`;
+            const response = await axios.get(url, requestHeaderDetails());
+            return response;
+        }catch (error) {
+            checkSessionStatus(error.response);
             return error.response.data
         }
             
